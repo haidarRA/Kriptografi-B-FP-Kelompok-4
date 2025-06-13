@@ -1,0 +1,9 @@
+2025-06-13 23:17:59,535 - INFO - Enhanced Server berjalan di 0.0.0.0:8443
+2025-06-13 23:17:59,535 - INFO - 🚀 Enhanced TLS Chat Server dimulai...
+2025-06-13 23:17:59,535 - INFO - 📊 Fitur tambahan: Commands, History, Better Logging, Error Handling
+2025-06-13 23:18:09,467 - INFO - Klien terhubung: client dari ('127.0.0.1', 60209)
+2025-06-13 23:18:09,467 - INFO - [JOIN] 📢 client telah bergabung ke chat
+2025-06-13 23:18:49,109 - ERROR - Error handling message dari client: [Errno 9] Bad file descriptor
+2025-06-13 23:18:49,109 - INFO - Klien client terhubung selama 0:00:39.642261
+2025-06-13 23:18:49,110 - INFO - [LEAVE] 📢 client telah meninggalkan chat
+2025-06-13 23:18:49,110 - INFO - Klien terputus: client
