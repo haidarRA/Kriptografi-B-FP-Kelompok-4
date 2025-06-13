@@ -4,6 +4,7 @@ import threading
 import logging
 import json
 import time
+import sys
 from typing import Dict, List
 from datetime import datetime
 
@@ -12,8 +13,8 @@ logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.FileHandler('chat_server.log'),
-        logging.StreamHandler()
+        logging.FileHandler('chat_server.log', encoding='utf-8'),
+        logging.StreamHandler(sys.stdout)  
     ]
 )
 logger = logging.getLogger(__name__)

@@ -7,3 +7,35 @@
 2025-06-13 23:18:49,109 - INFO - Klien client terhubung selama 0:00:39.642261
 2025-06-13 23:18:49,110 - INFO - [LEAVE] 📢 client telah meninggalkan chat
 2025-06-13 23:18:49,110 - INFO - Klien terputus: client
+2025-06-13 23:41:29,530 - INFO - Enhanced Server berjalan di 0.0.0.0:8443
+2025-06-13 23:43:43,657 - INFO - Enhanced Server berjalan di 0.0.0.0:8443
+2025-06-13 23:43:43,657 - INFO - 🚀 Enhanced TLS Chat Server dimulai...
+2025-06-13 23:43:43,657 - INFO - 📊 Fitur tambahan: Commands, History, Better Logging, Error Handling
+2025-06-13 23:43:55,559 - INFO - Klien terhubung: client dari ('127.0.0.1', 32380)
+2025-06-13 23:43:55,559 - INFO - [JOIN] 📢 client telah bergabung ke chat
+2025-06-13 23:44:39,028 - ERROR - Error handling message dari client: [WinError 10038] An operation was attempted on something that is not a socket
+2025-06-13 23:44:39,028 - INFO - Klien client terhubung selama 0:00:43.469107
+2025-06-13 23:44:39,028 - INFO - [LEAVE] 📢 client telah meninggalkan chat
+2025-06-13 23:44:39,028 - INFO - Klien terputus: client
+2025-06-13 23:48:15,341 - INFO - Enhanced Server berjalan di 0.0.0.0:8443
+2025-06-13 23:48:15,341 - INFO - 🚀 Enhanced TLS Chat Server dimulai...
+2025-06-13 23:48:15,341 - INFO - 📊 Fitur tambahan: Commands, History, Better Logging, Error Handling
+2025-06-13 23:48:16,523 - INFO - Klien terhubung: client dari ('127.0.0.1', 32531)
+2025-06-13 23:48:16,523 - INFO - [JOIN] 📢 client telah bergabung ke chat
+2025-06-13 23:50:51,716 - WARNING - Klien sudah terhubung: client
+2025-06-13 23:50:51,716 - INFO - Klien client terhubung selama 0:02:35.192605
+2025-06-13 23:50:51,716 - INFO - [LEAVE] 📢 client telah meninggalkan chat
+2025-06-13 23:50:51,717 - INFO - Klien terputus: client
+2025-06-13 23:53:26,196 - INFO - [LEAVE] 📢 client telah meninggalkan chat
+2025-06-13 23:53:26,196 - INFO - Klien terputus: client
+2025-06-13 23:53:38,399 - INFO - 🛑 Server dihentikan oleh pengguna
+2025-06-13 23:53:38,399 - INFO - 🧹 Membersihkan resources...
+2025-06-13 23:53:38,400 - INFO - ✅ Server cleanup selesai
+2025-06-13 23:53:47,750 - INFO - Enhanced Server berjalan di 0.0.0.0:8443
+2025-06-13 23:53:47,750 - INFO - 🚀 Enhanced TLS Chat Server dimulai...
+2025-06-13 23:53:47,750 - INFO - 📊 Fitur tambahan: Commands, History, Better Logging, Error Handling
+2025-06-13 23:53:50,511 - INFO - Klien terhubung: client dari ('127.0.0.1', 32789)
+2025-06-13 23:53:50,511 - INFO - [JOIN] 📢 client telah bergabung ke chat
+2025-06-13 23:53:53,836 - INFO - [MESSAGE] client: halo
+2025-06-13 23:53:55,220 - INFO - [MESSAGE] client: tes
+2025-06-13 23:53:56,941 - INFO - [MESSAGE] client: masuk
