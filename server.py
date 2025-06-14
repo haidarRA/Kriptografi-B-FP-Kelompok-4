@@ -7,6 +7,7 @@ import time
 import sys
 from typing import Dict, List
 from datetime import datetime
+from concurrent.futures import ThreadPoolExecutor, Executor
 
 # Konfigurasi logging yang lebih komprehensif
 logging.basicConfig(
@@ -29,6 +30,9 @@ class EnhancedTLSChatServer:
         self.message_history: List[Dict] = []
         self.max_history = 100
         self.banned_clients: List[str] = []
+        
+        # ThreadPoolExecutor untuk mengirim pesan broadcast secara asynchronous
+        self.send_executor: Executor = ThreadPoolExecutor(max_workers=10, thread_name_prefix='BroadcastSender') # Ditambahkan
         
         # Konfigurasi SSL Context
         self.ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
@@ -165,7 +169,8 @@ class EnhancedTLSChatServer:
     def handle_command(self, client_socket: ssl.SSLSocket, client_id: str, command: str):
         """Handle special commands dari klien"""
         try:
-            cmd = command.lower().split()[0]
+            cmd_parts = command.lower().split()
+            cmd = cmd_parts[0]
             
             if cmd == '/help':
                 help_msg = """
@@ -193,17 +198,41 @@ class EnhancedTLSChatServer:
                 
             elif cmd == '/quit':
                 client_socket.send("👋 Sampai jumpa!".encode('utf-8'))
-                client_socket.close()
-                
+                # client_socket.close() # Penutupan akan ditangani oleh finally di handle_client
+                # Tidak perlu memanggil remove_client di sini, akan ditangani oleh finally di handle_client
+                # setelah loop utama di handle_client berakhir karena socket ditutup oleh client atau recv gagal.
+                # Cukup pastikan client loop berhenti.
+                # Untuk memaksa client loop berhenti, kita bisa mengirim sinyal shutdown atau biarkan recv gagal.
+                # Cara paling sederhana adalah membiarkan client menutup koneksi setelah menerima pesan /quit.
+                # Atau, server bisa menutupnya setelah mengirim pesan.
+                # Jika server menutupnya di sini, pastikan handle_client menangani error dengan baik.
+                # Untuk saat ini, kita biarkan client yang menutup setelah menerima pesan.
+                # Jika ingin server yang menutup:
+                # try:
+                #     client_socket.shutdown(socket.SHUT_RDWR)
+                # except OSError:
+                #     pass # Socket mungkin sudah ditutup
+                # client_socket.close()
+
             else:
                 client_socket.send(f"❌ Perintah tidak dikenal: {cmd}".encode('utf-8'))
                 
         except Exception as e:
             logger.error(f"Error handling command {command} dari {client_id}: {e}")
 
+    def _send_message_to_client(self, client_socket: ssl.SSLSocket, recipient_id: str, message: str):
+        """Mengirim pesan ke satu klien; digunakan oleh executor."""
+        try:
+            client_socket.sendall(message.encode('utf-8')) # Menggunakan sendall
+        except Exception as e:
+            logger.error(f"Error broadcasting (async) ke {recipient_id}: {e}")
+            # Jika pengiriman gagal, klien mungkin terputus. Hapus klien.
+            # Pastikan remove_client aman dipanggil dari berbagai thread (sudah menggunakan lock).
+            self.remove_client(client_socket, recipient_id)
+
     def broadcast_and_log(self, message: str, exclude: ssl.SSLSocket = None, 
                          msg_type: str = "BROADCAST", sender: str = "SYSTEM"):
-        """Broadcast pesan dan simpan ke history"""
+        """Broadcast pesan dan simpan ke history, menggunakan executor untuk pengiriman."""
         # Log message
         logger.info(f"[{msg_type}] {message}")
         
@@ -220,22 +249,21 @@ class EnhancedTLSChatServer:
             if len(self.message_history) > self.max_history:
                 self.message_history.pop(0)
         
-        # Broadcast to all clients
+        # Broadcast to all clients using ThreadPoolExecutor
         with self.clients_lock:
-            disconnected_clients = []
-            for client_id, client_socket in self.clients.items():
-                if client_socket != exclude:
-                    try:
-                        client_socket.send(message.encode('utf-8'))
-                    except Exception as e:
-                        logger.error(f"Error broadcasting ke {client_id}: {e}")
-                        disconnected_clients.append(client_id)
+            # Buat salinan daftar klien untuk diiterasi, jika self.clients bisa berubah saat iterasi
+            # karena remove_client dipanggil oleh _send_message_to_client
+            # Namun, karena kita mengambil client_socket dan client_id sebelum submit, ini aman.
             
-            # Remove disconnected clients
-            for client_id in disconnected_clients:
-                if client_id in self.clients:
-                    socket_to_remove = self.clients[client_id]
-                    self.remove_client(socket_to_remove, client_id)
+            clients_to_send = []
+            for r_id, r_socket in self.clients.items():
+                if r_socket != exclude:
+                    clients_to_send.append((r_socket, r_id))
+
+        for client_sock, recipient_id_val in clients_to_send:
+            self.send_executor.submit(self._send_message_to_client, client_sock, recipient_id_val, message)
+            
+            # Logika disconnected_clients yang lama dihapus karena penanganan error ada di _send_message_to_client
 
     def remove_client(self, client_socket: ssl.SSLSocket, client_id: str):
         """Remove client dengan error handling yang lebih baik"""
@@ -311,6 +339,11 @@ class EnhancedTLSChatServer:
         """Cleanup resources saat server shutdown"""
         logger.info("🧹 Membersihkan resources...")
         
+        # Shutdown executor
+        logger.info("Shutting down send executor...")
+        self.send_executor.shutdown(wait=True) # Menunggu task yang ada selesai
+        logger.info("Send executor shutdown complete.")
+
         with self.clients_lock:
             for client_id, client_socket in self.clients.items():
                 try:

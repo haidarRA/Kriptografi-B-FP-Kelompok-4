@@ -4,8 +4,11 @@ import threading
 import logging
 import sys
 import os
+import time # Ditambahkan untuk mengatasi error linting
 from datetime import datetime
 from typing import Optional
+import queue # Ditambahkan
+from concurrent.futures import ThreadPoolExecutor, Executor # Ditambahkan
 
 # Konfigurasi logging
 logging.basicConfig(
@@ -25,6 +28,11 @@ class TLSChatClient:
         self.connected = False
         self.client_id = None
         self.cert_info = None
+        
+        # Antrian untuk pesan keluar, untuk sinkronisasi pengiriman
+        self.send_queue = queue.Queue() # Ditambahkan
+        # Executor untuk mengirim pesan dari antrian secara asynchronous
+        self.send_executor: Executor = ThreadPoolExecutor(max_workers=1, thread_name_prefix='ClientSender') # Ditambahkan
         
         # Konfigurasi SSL Context
         self.ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
@@ -111,11 +119,16 @@ class TLSChatClient:
             self.print_connection_status()
             
             # Memulai thread untuk menerima pesan
-            receive_thread = threading.Thread(target=self.receive_messages)
+            receive_thread = threading.Thread(target=self.receive_messages, name="ClientReceiveThread")
             receive_thread.daemon = True
             receive_thread.start()
             
-            # Loop utama untuk mengirim pesan
+            # Memulai thread untuk mengirim pesan dari antrian
+            send_processor_thread = threading.Thread(target=self.process_send_queue, name="ClientSendProcessorThread")
+            send_processor_thread.daemon = True
+            send_processor_thread.start()
+            
+            # Loop utama untuk input pengguna
             self.message_loop()
                 
         except Exception as e:
@@ -137,16 +150,18 @@ class TLSChatClient:
         print("="*50 + "\n")
 
     def message_loop(self):
-        """Loop utama untuk mengirim pesan"""
+        """Loop utama untuk input pengguna dan menambahkan pesan ke antrian kirim."""
         while self.connected:
             try:
-                message = input()
+                message = input() # Ini adalah blocking I/O, yang baik untuk input pengguna
                 if not message:
                     continue
                     
                 if message.lower() == '/quit':
-                    self.send_message('/quit')
-                    break
+                    self.send_queue.put('/quit') # Kirim melalui antrian
+                    # Beri waktu send_processor_thread untuk mengirim pesan /quit
+                    time.sleep(0.5) # Sedikit penundaan untuk memastikan pesan terkirim
+                    break # Keluar dari loop input pengguna
                 elif message.lower() == '/status':
                     self.print_connection_status()
                 elif message.lower() == '/cert':
@@ -157,7 +172,7 @@ class TLSChatClient:
                     else:
                         print("Tidak dapat mendapatkan info sertifikat")
                 else:
-                    self.send_message(message)
+                    self.send_queue.put(message) # Tambahkan ke antrian, jangan langsung kirim
                     
             except KeyboardInterrupt:
                 print("\nMengakhiri koneksi...")
@@ -167,12 +182,13 @@ class TLSChatClient:
                 break
 
     def receive_messages(self):
-        """Thread untuk menerima pesan"""
+        """Thread untuk menerima pesan dari server (blocking I/O di sini tidak apa-apa karena di thread terpisah)."""
         try:
             while self.connected:
                 try:
                     message = self.ssl_socket.recv(1024).decode('utf-8')
                     if not message:
+                        logger.info("Server menutup koneksi atau tidak ada data.")
                         break
                     print(message)
                 except ssl.SSLError as e:
@@ -185,19 +201,75 @@ class TLSChatClient:
                     break
         finally:
             self.connected = False
+            logger.info("Receive thread terminated.")
+            # Mungkin perlu memberi tahu loop utama untuk berhenti jika belum
+            # Namun, biasanya input() akan error atau KeyboardInterrupt akan menangani ini.
 
-    def send_message(self, message: str):
-        """Mengirim pesan ke server"""
+    def _actual_send(self, message: str):
+        """Fungsi pengiriman aktual yang akan dijalankan oleh executor."""
         try:
             if not self.connected:
-                raise Exception("Tidak terhubung ke server")
-            self.ssl_socket.send(message.encode('utf-8'))
+                # Tidak perlu raise exception, cukup log dan return jika tidak terhubung
+                logger.warning("Attempted to send while not connected.")
+                return
+            self.ssl_socket.sendall(message.encode('utf-8')) # Menggunakan sendall
+            if message.lower() == '/quit':
+                # Setelah mengirim /quit, klien harusnya berhenti
+                self.connected = False # Set connected ke False untuk menghentikan loop lain
         except Exception as e:
-            logger.error(f"Error mengirim pesan: {e}")
-            self.connected = False
+            logger.error(f"Error mengirim pesan (async): {e}")
+            self.connected = False # Jika ada error pengiriman, anggap koneksi terputus
+
+    def process_send_queue(self):
+        """Memproses antrian pesan keluar dan mengirimkannya menggunakan executor."""
+        while self.connected or not self.send_queue.empty(): # Proses hingga antrian kosong bahkan jika disconnected
+            try:
+                message = self.send_queue.get(timeout=1) # Timeout agar thread bisa berhenti jika connected=False
+                if message:
+                    # self.send_executor.submit(self._actual_send, message)
+                    # Langsung panggil saja karena send_executor hanya punya 1 worker
+                    # dan kita ingin pengiriman berurutan.
+                    # Jika kita submit, urutan tidak dijamin jika ada banyak submit cepat.
+                    # Untuk pengiriman berurutan dari queue oleh satu worker, lebih baik panggil langsung.
+                    self._actual_send(message)
+                    if message.lower() == '/quit':
+                        break # Keluar dari loop pemrosesan antrian setelah mengirim /quit
+                self.send_queue.task_done()
+            except queue.Empty:
+                if not self.connected:
+                    break # Keluar jika tidak terhubung dan antrian kosong
+                continue
+            except Exception as e:
+                logger.error(f"Error processing send queue: {e}")
+                # Jika ada error di sini, mungkin perlu menghentikan koneksi
+                self.connected = False
+                break
+        logger.info("Send processor thread terminated.")
+
+    def send_message(self, message: str):
+        """Menambahkan pesan ke antrian kirim (deprecated, gunakan self.send_queue.put)."""
+        # Fungsi ini sekarang digantikan dengan langsung .put() ke self.send_queue
+        # Bisa dihapus atau ditandai deprecated
+        if not self.connected:
+            logger.warning("Tidak terhubung ke server, pesan tidak dimasukkan ke antrian.")
+            return
+        self.send_queue.put(message)
 
     def cleanup(self):
         """Membersihkan resources"""
+        logger.info("Cleaning up client resources...")
+        self.connected = False # Pastikan semua loop berhenti
+
+        # Beri tahu send_processor_thread untuk berhenti jika masih berjalan
+        # (misalnya jika loop input pengguna berhenti karena KeyboardInterrupt)
+        # Ini bisa dilakukan dengan menambahkan item khusus ke antrian atau hanya mengandalkan self.connected
+        # Jika send_queue.get() memiliki timeout, itu akan berhenti ketika self.connected menjadi False.
+
+        # Shutdown executor
+        logger.info("Shutting down send executor...")
+        self.send_executor.shutdown(wait=True) # Menunggu task pengiriman selesai
+        logger.info("Send executor shutdown complete.")
+
         try:
             if self.ssl_socket:
                 self.ssl_socket.close()
@@ -215,4 +287,5 @@ if __name__ == "__main__":
         host = 'localhost'
         
     client = TLSChatClient(host=host)
-    client.connect() 
+    client.connect() # Ini akan memblokir hingga message_loop selesai atau error
+    logger.info("Client program finished.")
