@@ -1,0 +1,245 @@
+2025-06-14 21:52:51,008 - WARNING - ⚠️  File server fingerprint tidak ditemukan - akan melakukan verifikasi manual
+2025-06-14 21:52:51,015 - INFO - 🔐 Connecting to enhanced secure server localhost:8443
+2025-06-14 21:52:51,045 - INFO - 🔍 Performing enhanced security verification...
+2025-06-14 21:52:51,045 - ERROR - ❌ Error verifying server certificate: 'SSLSocket' object has no attribute 'getpeercert_chain'
+2025-06-14 21:52:51,045 - ERROR - ❌ Server certificate verification failed
+2025-06-14 21:52:51,046 - INFO - 🔌 Disconnected from server
+2025-06-14 21:53:05,454 - WARNING - ⚠️  File server fingerprint tidak ditemukan - akan melakukan verifikasi manual
+2025-06-14 21:53:05,460 - INFO - 🔐 Connecting to enhanced secure server localhost:8443
+2025-06-14 21:53:05,472 - INFO - 🔍 Performing enhanced security verification...
+2025-06-14 21:53:05,472 - ERROR - ❌ Error verifying server certificate: 'SSLSocket' object has no attribute 'getpeercert_chain'
+2025-06-14 21:53:05,472 - ERROR - ❌ Server certificate verification failed
+2025-06-14 21:53:05,472 - INFO - 🔌 Disconnected from server
+2025-06-14 21:59:47,106 - WARNING - ⚠️  File server fingerprint tidak ditemukan - akan melakukan verifikasi manual
+2025-06-14 21:59:47,112 - INFO - 🔐 Connecting to enhanced secure server localhost:8443
+2025-06-14 21:59:47,153 - ERROR - ❌ Connection error: [WinError 10054] An existing connection was forcibly closed by the remote host
+2025-06-14 22:00:19,378 - WARNING - ⚠️  File server fingerprint tidak ditemukan - akan melakukan verifikasi manual
+2025-06-14 22:00:19,383 - INFO - 🔐 Connecting to enhanced secure server localhost:8443
+2025-06-14 22:00:19,398 - INFO - 🔍 Performing enhanced security verification...
+2025-06-14 22:00:19,399 - INFO - 🔍 Server Certificate Fingerprint: C1BE79C4D32D4298C600B3B1F50849C196D30C4101BFB0FA50CD036358E2A37D
+2025-06-14 22:00:19,399 - INFO - 📝 First time connection - menyimpan fingerprint server
+2025-06-14 22:00:19,400 - INFO - 💾 Server fingerprint disimpan ke file
+2025-06-14 22:00:19,401 - INFO - Certificate validity: Jun 14 14:51:49 2025 GMT to Jun 14 14:51:49 2026 GMT
+2025-06-14 22:00:19,402 - INFO - 🔐 TLS Version: TLSv1.3
+2025-06-14 22:00:19,402 - INFO - 🔐 Cipher: TLS_AES_256_GCM_SHA384
+2025-06-14 22:00:19,402 - INFO - 🔐 Server Fingerprint: C1BE79C4D32D4298C600B3B1F50849C196D30C4101BFB0FA50CD036358E2A37D
+2025-06-14 22:00:19,402 - INFO - ✅ Enhanced secure connection established!
+2025-06-14 22:00:19,405 - INFO - 🔌 Disconnected from server
+2025-06-14 22:16:57,379 - INFO - ✅ Server fingerprint dimuat dari file
+2025-06-14 22:16:57,385 - INFO - 🔐 Connecting to enhanced secure server localhost:8443
+2025-06-14 22:16:57,405 - INFO - 🔍 Performing enhanced security verification...
+2025-06-14 22:16:57,405 - INFO - 🔍 Server Certificate Fingerprint: C1BE79C4D32D4298C600B3B1F50849C196D30C4101BFB0FA50CD036358E2A37D
+2025-06-14 22:16:57,405 - INFO - ✅ Server certificate fingerprint VALID
+2025-06-14 22:16:57,405 - INFO - Certificate validity: Jun 14 14:51:49 2025 GMT to Jun 14 14:51:49 2026 GMT
+2025-06-14 22:16:57,406 - INFO - 🔐 TLS Version: TLSv1.3
+2025-06-14 22:16:57,406 - INFO - 🔐 Cipher: TLS_AES_256_GCM_SHA384
+2025-06-14 22:16:57,406 - INFO - 🔐 Server Fingerprint: C1BE79C4D32D4298C600B3B1F50849C196D30C4101BFB0FA50CD036358E2A37D
+2025-06-14 22:16:57,407 - INFO - ✅ Enhanced secure connection established!
+2025-06-14 22:17:25,402 - ERROR - Error receiving message: [WinError 10053] An established connection was aborted by the software in your host machine
+2025-06-14 22:17:25,402 - INFO - 🔌 Disconnected from server
+2025-06-14 22:20:03,005 - WARNING - ⚠️  File server fingerprint tidak ditemukan - akan melakukan verifikasi manual
+2025-06-14 22:20:03,010 - INFO - 🔐 Connecting to enhanced secure server localhost:8443
+2025-06-14 22:20:03,022 - INFO - 🔍 Performing enhanced security verification...
+2025-06-14 22:20:03,023 - INFO - 🔍 Server Certificate Fingerprint: C1BE79C4D32D4298C600B3B1F50849C196D30C4101BFB0FA50CD036358E2A37D
+2025-06-14 22:20:03,023 - INFO - 📝 First time connection - menyimpan fingerprint server
+2025-06-14 22:20:03,024 - INFO - 💾 Server fingerprint disimpan ke file
+2025-06-14 22:20:03,024 - INFO - Certificate validity: Jun 14 14:51:49 2025 GMT to Jun 14 14:51:49 2026 GMT
+2025-06-14 22:20:03,024 - INFO - 🔐 TLS Version: TLSv1.3
+2025-06-14 22:20:03,024 - INFO - 🔐 Cipher: TLS_AES_256_GCM_SHA384
+2025-06-14 22:20:03,024 - INFO - 🔐 Server Fingerprint: C1BE79C4D32D4298C600B3B1F50849C196D30C4101BFB0FA50CD036358E2A37D
+2025-06-14 22:20:03,025 - INFO - ✅ Enhanced secure connection established!
+2025-06-14 22:20:30,306 - ERROR - Error receiving message: [WinError 10053] An established connection was aborted by the software in your host machine
+2025-06-14 22:20:30,306 - INFO - 🔌 Disconnected from server
+2025-06-14 22:20:45,861 - INFO - ✅ Server fingerprint dimuat dari file
+2025-06-14 22:20:45,867 - INFO - 🔐 Connecting to enhanced secure server localhost:8443
+2025-06-14 22:20:45,879 - INFO - 🔍 Performing enhanced security verification...
+2025-06-14 22:20:45,880 - INFO - 🔍 Server Certificate Fingerprint: C1BE79C4D32D4298C600B3B1F50849C196D30C4101BFB0FA50CD036358E2A37D
+2025-06-14 22:20:45,881 - ERROR - ❌ MITM DETECTION: Server certificate fingerprint MISMATCH!
+2025-06-14 22:20:45,881 - ERROR - Expected: FAKE1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890ABCD
+2025-06-14 22:20:45,882 - ERROR - Received: C1BE79C4D32D4298C600B3B1F50849C196D30C4101BFB0FA50CD036358E2A37D
+2025-06-14 22:20:51,633 - INFO - 🛡️  Koneksi dibatalkan demi keamanan
+2025-06-14 22:20:51,634 - ERROR - ❌ Server certificate verification failed
+2025-06-14 22:20:51,634 - INFO - 🔌 Disconnected from server
+2025-06-14 22:21:00,331 - INFO - ✅ Server fingerprint dimuat dari file
+2025-06-14 22:21:00,335 - INFO - 🔐 Connecting to enhanced secure server localhost:8443
+2025-06-14 22:21:00,347 - INFO - 🔍 Performing enhanced security verification...
+2025-06-14 22:21:00,347 - INFO - 🔍 Server Certificate Fingerprint: C1BE79C4D32D4298C600B3B1F50849C196D30C4101BFB0FA50CD036358E2A37D
+2025-06-14 22:21:00,348 - ERROR - ❌ MITM DETECTION: Server certificate fingerprint MISMATCH!
+2025-06-14 22:21:00,348 - ERROR - Expected: FAKE1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890ABCD
+2025-06-14 22:21:00,349 - ERROR - Received: C1BE79C4D32D4298C600B3B1F50849C196D30C4101BFB0FA50CD036358E2A37D
+2025-06-14 22:21:01,636 - WARNING - ⚠️  User memilih melanjutkan koneksi meskipun fingerprint berbeda
+2025-06-14 22:21:01,637 - INFO - Certificate validity: Jun 14 14:51:49 2025 GMT to Jun 14 14:51:49 2026 GMT
+2025-06-14 22:21:01,637 - INFO - 🔐 TLS Version: TLSv1.3
+2025-06-14 22:21:01,638 - INFO - 🔐 Cipher: TLS_AES_256_GCM_SHA384
+2025-06-14 22:21:01,638 - INFO - 🔐 Server Fingerprint: C1BE79C4D32D4298C600B3B1F50849C196D30C4101BFB0FA50CD036358E2A37D
+2025-06-14 22:21:01,639 - INFO - ✅ Enhanced secure connection established!
+2025-06-14 22:21:18,862 - ERROR - Error receiving message: [WinError 10053] An established connection was aborted by the software in your host machine
+2025-06-14 22:21:18,862 - INFO - 🔌 Disconnected from server
+2025-06-14 22:22:32,876 - WARNING - ⚠️  File server fingerprint tidak ditemukan - akan melakukan verifikasi manual
+2025-06-14 22:22:32,880 - INFO - 🔐 Connecting to enhanced secure server localhost:8443
+2025-06-14 22:22:32,893 - INFO - 🔍 Performing enhanced security verification...
+2025-06-14 22:22:32,894 - INFO - 🔍 Server Certificate Fingerprint: C1BE79C4D32D4298C600B3B1F50849C196D30C4101BFB0FA50CD036358E2A37D
+2025-06-14 22:22:32,894 - INFO - 📝 First time connection - menyimpan fingerprint server
+2025-06-14 22:22:32,896 - INFO - 💾 Server fingerprint disimpan ke file
+2025-06-14 22:22:32,897 - INFO - Certificate validity: Jun 14 14:51:49 2025 GMT to Jun 14 14:51:49 2026 GMT
+2025-06-14 22:22:32,903 - INFO - 🔐 TLS Version: TLSv1.3
+2025-06-14 22:22:32,904 - INFO - 🔐 Cipher: TLS_AES_256_GCM_SHA384
+2025-06-14 22:22:32,904 - INFO - 🔐 Server Fingerprint: C1BE79C4D32D4298C600B3B1F50849C196D30C4101BFB0FA50CD036358E2A37D
+2025-06-14 22:22:32,906 - INFO - ✅ Enhanced secure connection established!
+2025-06-14 22:22:44,631 - INFO - Chat interrupted by user
+2025-06-14 22:22:44,631 - INFO - 🔌 Disconnected from server
+2025-06-14 22:22:44,632 - ERROR - Error receiving message: [WinError 10053] An established connection was aborted by the software in your host machine
+2025-06-14 22:23:22,173 - INFO - ✅ Server fingerprint dimuat dari file
+2025-06-14 22:23:22,178 - INFO - 🔐 Connecting to enhanced secure server localhost:8443
+2025-06-14 22:23:22,188 - INFO - 🔍 Performing enhanced security verification...
+2025-06-14 22:23:22,189 - INFO - 🔍 Server Certificate Fingerprint: C1BE79C4D32D4298C600B3B1F50849C196D30C4101BFB0FA50CD036358E2A37D
+2025-06-14 22:23:22,189 - INFO - ✅ Server certificate fingerprint VALID
+2025-06-14 22:23:22,190 - INFO - Certificate validity: Jun 14 14:51:49 2025 GMT to Jun 14 14:51:49 2026 GMT
+2025-06-14 22:23:22,190 - INFO - 🔐 TLS Version: TLSv1.3
+2025-06-14 22:23:22,191 - INFO - 🔐 Cipher: TLS_AES_256_GCM_SHA384
+2025-06-14 22:23:22,191 - INFO - 🔐 Server Fingerprint: C1BE79C4D32D4298C600B3B1F50849C196D30C4101BFB0FA50CD036358E2A37D
+2025-06-14 22:23:22,192 - INFO - ✅ Enhanced secure connection established!
+2025-06-14 22:24:32,569 - ERROR - Error receiving message: [WinError 10053] An established connection was aborted by the software in your host machine
+2025-06-14 22:24:32,570 - INFO - 🔌 Disconnected from server
+2025-06-14 22:26:38,898 - INFO - ✅ Server fingerprint dimuat dari file
+2025-06-14 22:26:38,903 - INFO - 🔐 Connecting to enhanced secure server localhost:8443
+2025-06-14 22:26:38,914 - INFO - 🔍 Performing enhanced security verification...
+2025-06-14 22:26:38,914 - INFO - 🔍 Server Certificate Fingerprint: C1BE79C4D32D4298C600B3B1F50849C196D30C4101BFB0FA50CD036358E2A37D
+2025-06-14 22:26:38,915 - INFO - ✅ Server certificate fingerprint VALID
+2025-06-14 22:26:38,915 - INFO - Certificate validity: Jun 14 14:51:49 2025 GMT to Jun 14 14:51:49 2026 GMT
+2025-06-14 22:26:38,916 - INFO - 🔐 TLS Version: TLSv1.3
+2025-06-14 22:26:38,916 - INFO - 🔐 Cipher: TLS_AES_256_GCM_SHA384
+2025-06-14 22:26:38,917 - INFO - 🔐 Server Fingerprint: C1BE79C4D32D4298C600B3B1F50849C196D30C4101BFB0FA50CD036358E2A37D
+2025-06-14 22:26:38,917 - INFO - ✅ Enhanced secure connection established!
+2025-06-14 22:27:38,157 - INFO - 🔌 Disconnected from server
+2025-06-14 22:27:38,158 - ERROR - Error receiving message: [WinError 10053] An established connection was aborted by the software in your host machine
+2025-06-14 22:27:40,249 - INFO - ✅ Server fingerprint dimuat dari file
+2025-06-14 22:27:40,254 - INFO - 🔐 Connecting to enhanced secure server localhost:8443
+2025-06-14 22:27:40,264 - INFO - 🔍 Performing enhanced security verification...
+2025-06-14 22:27:40,265 - INFO - 🔍 Server Certificate Fingerprint: C1BE79C4D32D4298C600B3B1F50849C196D30C4101BFB0FA50CD036358E2A37D
+2025-06-14 22:27:40,266 - INFO - ✅ Server certificate fingerprint VALID
+2025-06-14 22:27:40,266 - INFO - Certificate validity: Jun 14 14:51:49 2025 GMT to Jun 14 14:51:49 2026 GMT
+2025-06-14 22:27:40,267 - INFO - 🔐 TLS Version: TLSv1.3
+2025-06-14 22:27:40,267 - INFO - 🔐 Cipher: TLS_AES_256_GCM_SHA384
+2025-06-14 22:27:40,268 - INFO - 🔐 Server Fingerprint: C1BE79C4D32D4298C600B3B1F50849C196D30C4101BFB0FA50CD036358E2A37D
+2025-06-14 22:27:40,268 - INFO - ✅ Enhanced secure connection established!
+2025-06-14 22:27:40,270 - WARNING - ❌ Message integrity FAILED: 
+📜 Recent Secure Messages:
+───────────────────────...
+2025-06-14 22:27:46,543 - ERROR - Error receiving message: [WinError 10053] An established connection was aborted by the software in your host machine
+2025-06-14 22:27:46,543 - INFO - 🔌 Disconnected from server
+2025-06-14 22:27:57,024 - WARNING - ⚠️  File server fingerprint tidak ditemukan - akan melakukan verifikasi manual
+2025-06-14 22:27:57,032 - INFO - 🔐 Connecting to enhanced secure server localhost:8443
+2025-06-14 22:27:57,044 - INFO - 🔍 Performing enhanced security verification...
+2025-06-14 22:27:57,044 - INFO - 🔍 Server Certificate Fingerprint: C1BE79C4D32D4298C600B3B1F50849C196D30C4101BFB0FA50CD036358E2A37D
+2025-06-14 22:27:57,045 - INFO - 📝 First time connection - menyimpan fingerprint server
+2025-06-14 22:27:57,046 - INFO - 💾 Server fingerprint disimpan ke file
+2025-06-14 22:27:57,046 - INFO - Certificate validity: Jun 14 14:51:49 2025 GMT to Jun 14 14:51:49 2026 GMT
+2025-06-14 22:27:57,046 - INFO - 🔐 TLS Version: TLSv1.3
+2025-06-14 22:27:57,047 - INFO - 🔐 Cipher: TLS_AES_256_GCM_SHA384
+2025-06-14 22:27:57,047 - INFO - 🔐 Server Fingerprint: C1BE79C4D32D4298C600B3B1F50849C196D30C4101BFB0FA50CD036358E2A37D
+2025-06-14 22:27:57,047 - INFO - ✅ Enhanced secure connection established!
+2025-06-14 22:27:57,049 - WARNING - ❌ Message integrity FAILED: 
+📜 Recent Secure Messages:
+───────────────────────...
+2025-06-14 22:27:57,051 - WARNING - ❌ Message integrity FAILED: 7071c7a9115c
+──────────────────────────────
+...
+2025-06-14 22:28:15,867 - INFO - 🔌 Disconnected from server
+2025-06-14 22:28:15,868 - ERROR - Error receiving message: [WinError 10053] An established connection was aborted by the software in your host machine
+2025-06-14 22:32:26,769 - INFO - ✅ Server fingerprint dimuat dari file
+2025-06-14 22:32:26,774 - INFO - 🔐 Connecting to enhanced secure server localhost:8443
+2025-06-14 22:32:28,823 - ERROR - ❌ Connection error: [WinError 10061] No connection could be made because the target machine actively refused it
+2025-06-14 22:33:02,842 - INFO - ✅ Server fingerprint dimuat dari file
+2025-06-14 22:40:48,518 - WARNING - ⚠️  File server fingerprint tidak ditemukan - akan melakukan verifikasi manual
+2025-06-14 22:40:48,525 - INFO - 🔐 Connecting to enhanced secure server localhost:8443
+2025-06-14 22:40:48,550 - INFO - 🔍 Performing enhanced security verification...
+2025-06-14 22:40:48,551 - INFO - 🔍 Server Certificate Fingerprint: C1BE79C4D32D4298C600B3B1F50849C196D30C4101BFB0FA50CD036358E2A37D
+2025-06-14 22:40:48,551 - INFO - 📝 First time connection - menyimpan fingerprint server
+2025-06-14 22:40:48,552 - INFO - 💾 Server fingerprint disimpan ke file
+2025-06-14 22:40:48,553 - INFO - Certificate validity: Jun 14 14:51:49 2025 GMT to Jun 14 14:51:49 2026 GMT
+2025-06-14 22:40:48,554 - INFO - 🔐 TLS Version: TLSv1.3
+2025-06-14 22:40:48,554 - INFO - 🔐 Cipher: TLS_AES_256_GCM_SHA384
+2025-06-14 22:40:48,555 - INFO - 🔐 Server Fingerprint: C1BE79C4D32D4298C600B3B1F50849C196D30C4101BFB0FA50CD036358E2A37D
+2025-06-14 22:40:48,555 - INFO - ✅ Enhanced secure connection established!
+2025-06-14 22:41:49,790 - INFO - ✅ Server fingerprint dimuat dari file
+2025-06-14 22:41:49,795 - INFO - 🔐 Connecting to enhanced secure server localhost:8443
+2025-06-14 22:41:49,805 - INFO - 🔍 Performing enhanced security verification...
+2025-06-14 22:41:49,806 - INFO - 🔍 Server Certificate Fingerprint: C1BE79C4D32D4298C600B3B1F50849C196D30C4101BFB0FA50CD036358E2A37D
+2025-06-14 22:41:49,806 - INFO - ✅ Server certificate fingerprint VALID
+2025-06-14 22:41:49,806 - INFO - Certificate validity: Jun 14 14:51:49 2025 GMT to Jun 14 14:51:49 2026 GMT
+2025-06-14 22:41:49,807 - INFO - 🔐 TLS Version: TLSv1.3
+2025-06-14 22:41:49,807 - INFO - 🔐 Cipher: TLS_AES_256_GCM_SHA384
+2025-06-14 22:41:49,808 - INFO - 🔐 Server Fingerprint: C1BE79C4D32D4298C600B3B1F50849C196D30C4101BFB0FA50CD036358E2A37D
+2025-06-14 22:41:49,808 - INFO - ✅ Enhanced secure connection established!
+2025-06-14 22:41:49,810 - INFO - 🔌 Disconnected from server
+2025-06-14 22:42:40,792 - INFO - 🔌 Disconnected from server
+2025-06-14 22:42:40,801 - ERROR - Error receiving message: [WinError 10053] An established connection was aborted by the software in your host machine
+2025-06-14 22:43:52,211 - INFO - ✅ Server fingerprint dimuat dari file
+2025-06-14 22:43:52,216 - INFO - 🔐 Connecting to enhanced secure server localhost:8443
+2025-06-14 22:43:52,230 - INFO - 🔍 Performing enhanced security verification...
+2025-06-14 22:43:52,230 - INFO - 🔍 Server Certificate Fingerprint: C1BE79C4D32D4298C600B3B1F50849C196D30C4101BFB0FA50CD036358E2A37D
+2025-06-14 22:43:52,231 - ERROR - ❌ MITM DETECTION: Server certificate fingerprint MISMATCH!
+2025-06-14 22:43:52,231 - ERROR - Expected: FAKE79C4D32D4298C600B3B1F50849C196D30C4101BFB0FA50CD036358E2A37D
+2025-06-14 22:43:52,231 - ERROR - Received: C1BE79C4D32D4298C600B3B1F50849C196D30C4101BFB0FA50CD036358E2A37D
+2025-06-14 22:43:59,611 - WARNING - ⚠️  User memilih melanjutkan koneksi meskipun fingerprint berbeda
+2025-06-14 22:43:59,611 - INFO - Certificate validity: Jun 14 14:51:49 2025 GMT to Jun 14 14:51:49 2026 GMT
+2025-06-14 22:43:59,612 - INFO - 🔐 TLS Version: TLSv1.3
+2025-06-14 22:43:59,612 - INFO - 🔐 Cipher: TLS_AES_256_GCM_SHA384
+2025-06-14 22:43:59,612 - INFO - 🔐 Server Fingerprint: C1BE79C4D32D4298C600B3B1F50849C196D30C4101BFB0FA50CD036358E2A37D
+2025-06-14 22:43:59,612 - INFO - ✅ Enhanced secure connection established!
+2025-06-14 22:44:32,169 - ERROR - Error receiving message: [WinError 10053] An established connection was aborted by the software in your host machine
+2025-06-14 22:44:32,169 - INFO - 🔌 Disconnected from server
+2025-06-14 22:47:48,609 - WARNING - ⚠️  File server fingerprint tidak ditemukan - akan melakukan verifikasi manual
+2025-06-14 22:47:48,614 - INFO - 🔐 Connecting to enhanced secure server localhost:8443
+2025-06-14 22:47:48,629 - INFO - 🔍 Performing enhanced security verification...
+2025-06-14 22:47:48,629 - INFO - 🔍 Server Certificate Fingerprint: C1BE79C4D32D4298C600B3B1F50849C196D30C4101BFB0FA50CD036358E2A37D
+2025-06-14 22:47:48,630 - INFO - 📝 First time connection - menyimpan fingerprint server
+2025-06-14 22:47:48,631 - INFO - 💾 Server fingerprint disimpan ke file
+2025-06-14 22:47:48,632 - INFO - Certificate validity: Jun 14 14:51:49 2025 GMT to Jun 14 14:51:49 2026 GMT
+2025-06-14 22:47:48,633 - INFO - 🔐 TLS Version: TLSv1.3
+2025-06-14 22:47:48,633 - INFO - 🔐 Cipher: TLS_AES_256_GCM_SHA384
+2025-06-14 22:47:48,634 - INFO - 🔐 Server Fingerprint: C1BE79C4D32D4298C600B3B1F50849C196D30C4101BFB0FA50CD036358E2A37D
+2025-06-14 22:47:48,634 - INFO - ✅ Enhanced secure connection established!
+2025-06-14 22:50:11,874 - INFO - Chat interrupted by user
+2025-06-14 22:50:11,875 - INFO - 🔌 Disconnected from server
+2025-06-14 22:50:11,875 - ERROR - Error receiving message: [WinError 10053] An established connection was aborted by the software in your host machine
+2025-06-14 22:50:14,555 - WARNING - ⚠️  File server fingerprint tidak ditemukan - akan melakukan verifikasi manual
+2025-06-14 22:50:14,560 - INFO - 🔐 Connecting to enhanced secure server localhost:8443
+2025-06-14 22:50:14,572 - INFO - 🔍 Performing enhanced security verification...
+2025-06-14 22:50:14,573 - INFO - 🔍 Server Certificate Fingerprint: C1BE79C4D32D4298C600B3B1F50849C196D30C4101BFB0FA50CD036358E2A37D
+2025-06-14 22:50:14,573 - INFO - 📝 First time connection - menyimpan fingerprint server
+2025-06-14 22:50:14,574 - INFO - 💾 Server fingerprint disimpan ke file
+2025-06-14 22:50:14,574 - INFO - Certificate validity: Jun 14 14:51:49 2025 GMT to Jun 14 14:51:49 2026 GMT
+2025-06-14 22:50:14,575 - INFO - 🔐 TLS Version: TLSv1.3
+2025-06-14 22:50:14,575 - INFO - 🔐 Cipher: TLS_AES_256_GCM_SHA384
+2025-06-14 22:50:14,576 - INFO - 🔐 Server Fingerprint: C1BE79C4D32D4298C600B3B1F50849C196D30C4101BFB0FA50CD036358E2A37D
+2025-06-14 22:50:14,576 - INFO - ✅ Enhanced secure connection established!
+2025-06-14 22:50:25,841 - ERROR - Error receiving message: [WinError 10053] An established connection was aborted by the software in your host machine
+2025-06-14 22:50:25,841 - INFO - 🔌 Disconnected from server
+2025-06-14 22:50:34,419 - INFO - ✅ Server fingerprint dimuat dari file
+2025-06-14 22:50:34,424 - INFO - 🔐 Connecting to enhanced secure server localhost:8443
+2025-06-14 22:50:34,437 - INFO - 🔍 Performing enhanced security verification...
+2025-06-14 22:50:34,437 - INFO - 🔍 Server Certificate Fingerprint: C1BE79C4D32D4298C600B3B1F50849C196D30C4101BFB0FA50CD036358E2A37D
+2025-06-14 22:50:34,438 - INFO - ✅ Server certificate fingerprint VALID
+2025-06-14 22:50:34,438 - INFO - Certificate validity: Jun 14 14:51:49 2025 GMT to Jun 14 14:51:49 2026 GMT
+2025-06-14 22:50:34,438 - INFO - 🔐 TLS Version: TLSv1.3
+2025-06-14 22:50:34,438 - INFO - 🔐 Cipher: TLS_AES_256_GCM_SHA384
+2025-06-14 22:50:34,442 - INFO - 🔐 Server Fingerprint: C1BE79C4D32D4298C600B3B1F50849C196D30C4101BFB0FA50CD036358E2A37D
+2025-06-14 22:50:34,442 - INFO - ✅ Enhanced secure connection established!
+2025-06-14 22:53:49,100 - ERROR - Error receiving message: [WinError 10053] An established connection was aborted by the software in your host machine
+2025-06-14 22:53:49,101 - INFO - 🔌 Disconnected from server
+2025-06-14 22:57:32,479 - WARNING - ⚠️  File server fingerprint tidak ditemukan - akan melakukan verifikasi manual
+2025-06-14 22:57:32,485 - INFO - 🔄 Reset message counter for new connection
+2025-06-14 22:57:32,485 - INFO - 🔐 Connecting to enhanced secure server localhost:8443
+2025-06-14 22:57:32,501 - INFO - 🔍 Performing enhanced security verification...
+2025-06-14 22:57:32,502 - INFO - 🔍 Server Certificate Fingerprint: C1BE79C4D32D4298C600B3B1F50849C196D30C4101BFB0FA50CD036358E2A37D
+2025-06-14 22:57:32,502 - INFO - 📝 First time connection - menyimpan fingerprint server
+2025-06-14 22:57:32,503 - INFO - 💾 Server fingerprint disimpan ke file
+2025-06-14 22:57:32,504 - INFO - Certificate validity: Jun 14 14:51:49 2025 GMT to Jun 14 14:51:49 2026 GMT
+2025-06-14 22:57:32,504 - INFO - 🔐 TLS Version: TLSv1.3
+2025-06-14 22:57:32,505 - INFO - 🔐 Cipher: TLS_AES_256_GCM_SHA384
+2025-06-14 22:57:32,506 - INFO - 🔐 Server Fingerprint: C1BE79C4D32D4298C600B3B1F50849C196D30C4101BFB0FA50CD036358E2A37D
+2025-06-14 22:57:32,507 - INFO - ✅ Enhanced secure connection established!
+2025-06-14 23:00:06,926 - INFO - Chat interrupted by user
+2025-06-14 23:00:06,927 - INFO - 🔌 Disconnected from server

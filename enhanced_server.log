@@ -1,0 +1,231 @@
+2025-06-14 21:52:39,654 - INFO - Whitelist loaded: 1 users allowed
+2025-06-14 21:52:39,669 - INFO - 🛡️  Enhanced Secure Server running on 0.0.0.0:8443
+2025-06-14 21:52:39,670 - INFO - 🚀 Enhanced Secure TLS Chat Server starting...
+2025-06-14 21:52:39,670 - INFO - 🛡️  Security Features: Fingerprint verification, Message integrity, MITM detection
+2025-06-14 21:52:51,047 - ERROR - Error accepting connection: [WinError 10053] An established connection was aborted by the software in your host machine
+2025-06-14 21:53:05,473 - ERROR - Error accepting connection: [WinError 10053] An established connection was aborted by the software in your host machine
+2025-06-14 21:59:47,125 - INFO - 🛑 Server stopped by user
+2025-06-14 21:59:47,126 - INFO - 🧹 Cleaning up enhanced server resources...
+2025-06-14 21:59:47,126 - INFO - 📊 Final Security Stats: {'active_clients': 0, 'stored_fingerprints': 0, 'suspicious_activities': 0, 'clients_with_suspicious_activity': 0}
+2025-06-14 21:59:47,127 - INFO - ✅ Enhanced server cleanup complete
+2025-06-14 22:00:13,671 - INFO - Whitelist loaded: 1 users allowed
+2025-06-14 22:00:13,677 - INFO - 🛡️  Enhanced Secure Server running on 0.0.0.0:8443
+2025-06-14 22:00:13,677 - INFO - 🚀 Enhanced Secure TLS Chat Server starting...
+2025-06-14 22:00:13,677 - INFO - 🛡️  Security Features: Fingerprint verification, Message integrity, MITM detection
+2025-06-14 22:00:19,401 - ERROR - Error verifying client certificate: 'SSLSocket' object has no attribute 'getpeercert_chain'
+2025-06-14 22:00:19,402 - ERROR - Certificate verification failed for client
+2025-06-14 22:00:19,403 - INFO - [LEAVE] 🔐 client left the secure chat|1749913219|1749913219402|68df7c7829f758cd6d2c3e9fbabac9640b23fbbf47b022bde4723ee94c8b90f2
+2025-06-14 22:00:19,403 - INFO - 🔌 Secure client disconnected: client
+2025-06-14 22:16:53,463 - INFO - Whitelist loaded: 1 users allowed
+2025-06-14 22:16:53,470 - INFO - 🛡️  Enhanced Secure Server running on 0.0.0.0:8443
+2025-06-14 22:16:53,470 - INFO - 🚀 Enhanced Secure TLS Chat Server starting...
+2025-06-14 22:16:53,470 - INFO - 🛡️  Security Features: Fingerprint verification, Message integrity, MITM detection
+2025-06-14 22:16:53,470 - INFO - 💡 Press Ctrl+C for graceful shutdown
+2025-06-14 22:16:57,407 - INFO - 🔍 Stored fingerprint for client: F49C9D453D2715B088D3B5A393ED3B401423AD75815A4172CB3C3ABDDA2492FD
+2025-06-14 22:16:57,408 - INFO - ✅ Client certificate verified: client
+2025-06-14 22:16:57,408 - INFO - Client 'client' accepted from whitelist
+2025-06-14 22:16:57,408 - INFO - 🔐 Secure client connected: client from ('127.0.0.1', 64694)
+2025-06-14 22:16:57,409 - INFO - [JOIN] 🔐 client joined the secure chat
+2025-06-14 22:17:01,116 - INFO - [MESSAGE] client: halo|1749914221|1749914221116|a48a8e2092b44a46f7c024a2bdae4a7731178b553a040ae6069a736b134ef0dc
+2025-06-14 22:17:02,043 - INFO - [MESSAGE] client: halo|1749914222|1749914222043|c4abf809ad1a92f37493ad65b8a85430f4f5f7076a4391e85ce2c1b8f08a3482
+2025-06-14 22:17:03,171 - INFO - [MESSAGE] client: tes|1749914223|1749914223171|58ce72085f2f99f126af98a85a90658e75b0066547229a4e66ab8c2f26bb4a26
+2025-06-14 22:17:16,938 - INFO - [MESSAGE] client: nice|1749914236|1749914236938|7e99dd02649a7c5e468424e85146c93969490aebba7f0b8f01d8ca07b516b2cb
+2025-06-14 22:17:25,402 - ERROR - Error handling message from client: [WinError 10054] An existing connection was forcibly closed by the remote host
+2025-06-14 22:17:25,402 - INFO - Client client was connected for 0:00:27.993934
+2025-06-14 22:17:25,403 - INFO - [LEAVE] 🔐 client left the secure chat|1749914245|1749914245403|941ffee5711c1d8611196a35d7dd6ccbdca97f0a931872e014c90a1fde19a1e8
+2025-06-14 22:17:25,403 - INFO - 🔌 Secure client disconnected: client
+2025-06-14 22:17:30,693 - INFO - 📡 Received signal 2, initiating graceful shutdown...
+2025-06-14 22:17:30,694 - INFO - 🧹 Starting graceful shutdown...
+2025-06-14 22:17:30,694 - INFO - 📊 Final Security Stats: {'active_clients': 0, 'stored_fingerprints': 1, 'suspicious_activities': 0, 'clients_with_suspicious_activity': 0}
+2025-06-14 22:17:30,694 - INFO - 🔌 Closing client connections...
+2025-06-14 22:17:30,695 - INFO - 🧵 Shutting down thread pool...
+2025-06-14 22:19:49,811 - INFO - Whitelist loaded: 1 users allowed
+2025-06-14 22:19:49,817 - INFO - 🛡️  Enhanced Secure Server running on 0.0.0.0:8443
+2025-06-14 22:19:49,818 - INFO - 🚀 Enhanced Secure TLS Chat Server starting...
+2025-06-14 22:19:49,818 - INFO - 🛡️  Security Features: Fingerprint verification, Message integrity, MITM detection
+2025-06-14 22:19:49,818 - INFO - 💡 Press Ctrl+C for graceful shutdown
+2025-06-14 22:20:03,025 - INFO - 🔍 Stored fingerprint for client: F49C9D453D2715B088D3B5A393ED3B401423AD75815A4172CB3C3ABDDA2492FD
+2025-06-14 22:20:03,025 - INFO - ✅ Client certificate verified: client
+2025-06-14 22:20:03,026 - INFO - Client 'client' accepted from whitelist
+2025-06-14 22:20:03,026 - INFO - 🔐 Secure client connected: client from ('127.0.0.1', 64891)
+2025-06-14 22:20:03,027 - INFO - [JOIN] 🔐 client joined the secure chat
+2025-06-14 22:20:30,306 - ERROR - Error handling message from client: [WinError 10054] An existing connection was forcibly closed by the remote host
+2025-06-14 22:20:30,306 - INFO - Client client was connected for 0:00:27.279890
+2025-06-14 22:20:30,307 - INFO - [LEAVE] 🔐 client left the secure chat|1749914430|1749914430307|b113adc41e1580f0d090c7384b45b37e5193e482852733d5bbd48209ff6254d8
+2025-06-14 22:20:30,307 - INFO - 🔌 Secure client disconnected: client
+2025-06-14 22:20:45,882 - INFO - ✅ Client certificate verified: client
+2025-06-14 22:20:45,882 - INFO - Client 'client' accepted from whitelist
+2025-06-14 22:20:45,883 - INFO - 🔐 Secure client connected: client from ('127.0.0.1', 64936)
+2025-06-14 22:20:45,883 - INFO - [JOIN] 🔐 client joined the secure chat
+2025-06-14 22:20:51,634 - ERROR - Error handling message from client: [WinError 10054] An existing connection was forcibly closed by the remote host
+2025-06-14 22:20:51,635 - INFO - Client client was connected for 0:00:05.751980
+2025-06-14 22:20:51,635 - INFO - [LEAVE] 🔐 client left the secure chat|1749914451|1749914451635|9292e53a359dccc0a5c04c19f706c7436aaf94a6254f2b002a8e36f1cb36f28f
+2025-06-14 22:20:51,636 - INFO - 🔌 Secure client disconnected: client
+2025-06-14 22:21:00,348 - INFO - ✅ Client certificate verified: client
+2025-06-14 22:21:00,349 - INFO - Client 'client' accepted from whitelist
+2025-06-14 22:21:00,349 - INFO - 🔐 Secure client connected: client from ('127.0.0.1', 64954)
+2025-06-14 22:21:00,350 - INFO - [JOIN] 🔐 client joined the secure chat
+2025-06-14 22:21:18,862 - ERROR - Error handling message from client: [WinError 10054] An existing connection was forcibly closed by the remote host
+2025-06-14 22:21:18,862 - INFO - Client client was connected for 0:00:18.512885
+2025-06-14 22:21:18,863 - INFO - [LEAVE] 🔐 client left the secure chat|1749914478|1749914478863|4229aa835f1eef21a51367d6c3100c9b51aa2a1e235672732f9a072ed1aaa02b
+2025-06-14 22:21:18,863 - INFO - 🔌 Secure client disconnected: client
+2025-06-14 22:22:16,048 - INFO - 📡 Received signal 2, initiating graceful shutdown...
+2025-06-14 22:22:16,049 - INFO - 🧹 Starting graceful shutdown...
+2025-06-14 22:22:16,049 - INFO - 📊 Final Security Stats: {'active_clients': 0, 'stored_fingerprints': 1, 'suspicious_activities': 0, 'clients_with_suspicious_activity': 0}
+2025-06-14 22:22:16,050 - INFO - 🔌 Closing client connections...
+2025-06-14 22:22:16,050 - INFO - 🧵 Shutting down thread pool...
+2025-06-14 22:22:27,074 - INFO - Whitelist loaded: 1 users allowed
+2025-06-14 22:22:27,081 - INFO - 🛡️  Enhanced Secure Server running on 0.0.0.0:8443
+2025-06-14 22:22:27,081 - INFO - 🚀 Enhanced Secure TLS Chat Server starting...
+2025-06-14 22:22:27,081 - INFO - 🛡️  Security Features: Fingerprint verification, Message integrity, MITM detection
+2025-06-14 22:22:27,082 - INFO - 💡 Press Ctrl+C for graceful shutdown
+2025-06-14 22:22:32,905 - INFO - 🔍 Stored fingerprint for client: F49C9D453D2715B088D3B5A393ED3B401423AD75815A4172CB3C3ABDDA2492FD
+2025-06-14 22:22:32,907 - INFO - ✅ Client certificate verified: client
+2025-06-14 22:22:32,907 - INFO - Client 'client' accepted from whitelist
+2025-06-14 22:22:32,908 - INFO - 🔐 Secure client connected: client from ('127.0.0.1', 65056)
+2025-06-14 22:22:32,908 - INFO - [JOIN] 🔐 client joined the secure chat
+2025-06-14 22:22:44,632 - ERROR - Error handling message from client: [WinError 10054] An existing connection was forcibly closed by the remote host
+2025-06-14 22:22:44,632 - INFO - Client client was connected for 0:00:11.724462
+2025-06-14 22:22:44,632 - INFO - [LEAVE] 🔐 client left the secure chat|1749914564|1749914564632|763fd29c8c4a0e99aa8e77bff14b85499212202cd3a13c2b23d72f45abf791af
+2025-06-14 22:22:44,633 - INFO - 🔌 Secure client disconnected: client
+2025-06-14 22:23:22,190 - INFO - ✅ Client certificate verified: client
+2025-06-14 22:23:22,191 - INFO - Client 'client' accepted from whitelist
+2025-06-14 22:23:22,191 - INFO - 🔐 Secure client connected: client from ('127.0.0.1', 65107)
+2025-06-14 22:23:22,192 - INFO - [JOIN] 🔐 client joined the secure chat
+2025-06-14 22:23:29,830 - INFO - [MESSAGE] client: tes|1749914609|1749914609830|34490b50cabd6367423ec1ddf302a2f5d57a72e54d5105e1e0cce39abe04b6bc
+2025-06-14 22:23:30,649 - INFO - [MESSAGE] client: tes|1749914610|1749914610649|5e81d1493257f89ea7b0e4535ae7d718f8469461970738ffab0bb04c99dd5e65
+2025-06-14 22:24:32,569 - ERROR - Error handling message from client: [WinError 10054] An existing connection was forcibly closed by the remote host
+2025-06-14 22:24:32,570 - INFO - Client client was connected for 0:01:10.378527
+2025-06-14 22:24:32,570 - INFO - [LEAVE] 🔐 client left the secure chat|1749914672|1749914672570|b5afcfc9399b196acef53c022131ef1c83ed14af0446099658a3659dcbdfead1
+2025-06-14 22:24:32,571 - INFO - 🔌 Secure client disconnected: client
+2025-06-14 22:26:38,916 - INFO - ✅ Client certificate verified: client
+2025-06-14 22:26:38,916 - INFO - Client 'client' accepted from whitelist
+2025-06-14 22:26:38,916 - INFO - 🔐 Secure client connected: client from ('127.0.0.1', 65345)
+2025-06-14 22:26:38,917 - INFO - [JOIN] 🔐 client joined the secure chat
+2025-06-14 22:27:04,649 - WARNING - ⚠️  Message counter reuse from client (possible replay attack)
+2025-06-14 22:27:04,649 - WARNING - ⚠️  Invalid message from client, ignoring
+2025-06-14 22:27:38,157 - ERROR - Error handling message from client: [WinError 10054] An existing connection was forcibly closed by the remote host
+2025-06-14 22:27:38,158 - INFO - Client client was connected for 0:00:59.241166
+2025-06-14 22:27:38,158 - INFO - [LEAVE] 🔐 client left the secure chat|1749914858|1749914858158|bd3d98a1fce83f4b6e56da64c9f7994fdcf6fed2e39aa5ea125e6f297e7b9efe
+2025-06-14 22:27:38,159 - INFO - 🔌 Secure client disconnected: client
+2025-06-14 22:27:40,267 - INFO - ✅ Client certificate verified: client
+2025-06-14 22:27:40,267 - INFO - Client 'client' accepted from whitelist
+2025-06-14 22:27:40,268 - INFO - 🔐 Secure client connected: client from ('127.0.0.1', 65406)
+2025-06-14 22:27:40,268 - INFO - [JOIN] 🔐 client joined the secure chat
+2025-06-14 22:27:46,543 - ERROR - Error handling message from client: [WinError 10054] An existing connection was forcibly closed by the remote host
+2025-06-14 22:27:46,543 - INFO - Client client was connected for 0:00:06.275490
+2025-06-14 22:27:46,544 - INFO - [LEAVE] 🔐 client left the secure chat|1749914866|1749914866544|0633a0802e9123af31c56804c4cda40e26804f101673979fcc3a7071c7a9115c
+2025-06-14 22:27:46,544 - INFO - 🔌 Secure client disconnected: client
+2025-06-14 22:27:57,046 - INFO - ✅ Client certificate verified: client
+2025-06-14 22:27:57,047 - INFO - Client 'client' accepted from whitelist
+2025-06-14 22:27:57,047 - INFO - 🔐 Secure client connected: client from ('127.0.0.1', 65422)
+2025-06-14 22:27:57,048 - INFO - [JOIN] 🔐 client joined the secure chat
+2025-06-14 22:28:15,867 - ERROR - Error handling message from client: [WinError 10054] An existing connection was forcibly closed by the remote host
+2025-06-14 22:28:15,868 - INFO - Client client was connected for 0:00:18.820794
+2025-06-14 22:28:15,868 - INFO - [LEAVE] 🔐 client left the secure chat|1749914895|1749914895868|0d13025d7b5653be07b20c6322c791b9b512606d70e464d96e64df3bcfb1647d
+2025-06-14 22:28:15,868 - INFO - 🔌 Secure client disconnected: client
+2025-06-14 22:32:17,232 - INFO - 📡 Received signal 2, initiating graceful shutdown...
+2025-06-14 22:32:17,238 - INFO - 🧹 Starting graceful shutdown...
+2025-06-14 22:32:17,239 - INFO - 📊 Final Security Stats: {'active_clients': 0, 'stored_fingerprints': 1, 'suspicious_activities': 0, 'clients_with_suspicious_activity': 0}
+2025-06-14 22:32:17,239 - INFO - 🔌 Closing client connections...
+2025-06-14 22:32:17,240 - INFO - 🧵 Shutting down thread pool...
+2025-06-14 22:32:53,554 - INFO - Whitelist loaded: 1 users allowed
+2025-06-14 22:32:53,560 - INFO - 🛡️  Enhanced Secure Server running on 0.0.0.0:8443
+2025-06-14 22:32:53,561 - INFO - 🚀 Enhanced Secure TLS Chat Server starting...
+2025-06-14 22:32:53,561 - INFO - 🛡️  Security Features: Fingerprint verification, Message integrity, MITM detection
+2025-06-14 22:32:53,562 - INFO - 💡 Press Ctrl+C for graceful shutdown
+2025-06-14 22:33:10,709 - INFO - 📡 Received signal 2, initiating graceful shutdown...
+2025-06-14 22:33:10,710 - INFO - 🧹 Starting graceful shutdown...
+2025-06-14 22:33:10,710 - INFO - 📊 Final Security Stats: {'active_clients': 0, 'stored_fingerprints': 0, 'suspicious_activities': 0, 'clients_with_suspicious_activity': 0}
+2025-06-14 22:33:10,710 - INFO - 🔌 Closing client connections...
+2025-06-14 22:33:10,711 - INFO - 🧵 Shutting down thread pool...
+2025-06-14 22:40:38,243 - INFO - Whitelist loaded: 1 users allowed
+2025-06-14 22:40:38,272 - INFO - 🛡️  Enhanced Secure Server running on 0.0.0.0:8443
+2025-06-14 22:40:38,273 - INFO - 🚀 Enhanced Secure TLS Chat Server starting...
+2025-06-14 22:40:38,273 - INFO - 🛡️  Security Features: Fingerprint verification, Message integrity, MITM detection
+2025-06-14 22:40:38,273 - INFO - 💡 Press Ctrl+C for graceful shutdown
+2025-06-14 22:40:48,553 - INFO - 🔍 Stored fingerprint for client: F49C9D453D2715B088D3B5A393ED3B401423AD75815A4172CB3C3ABDDA2492FD
+2025-06-14 22:40:48,554 - INFO - ✅ Client certificate verified: client
+2025-06-14 22:40:48,554 - INFO - Client 'client' accepted from whitelist
+2025-06-14 22:40:48,555 - INFO - 🔐 Secure client connected: client from ('127.0.0.1', 49874)
+2025-06-14 22:40:48,556 - INFO - [JOIN] 🔐 client joined the secure chat
+2025-06-14 22:41:22,458 - INFO - [MESSAGE] client: This is a normal message|1749915682|1749915682458|e585663668214cb66f71d196dc6e7845dc55a230e485d6eadfb97632de618425
+2025-06-14 22:41:22,475 - WARNING - 🚨 Suspicious content from client: script
+2025-06-14 22:41:22,476 - INFO - [MESSAGE] client: I'm testing script functionality|1749915682|1749915682476|e129b0c843ce384b551c643cd931875cb5d0a6ba0be8c94b5436ca73f28075eb
+2025-06-14 22:41:22,476 - WARNING - 🚨 Suspicious content from client: script
+2025-06-14 22:41:22,477 - INFO - [MESSAGE] client: Let me try some javascript: code|1749915682|1749915682477|c4f54086b2f5e27cee7c21ba7a485a4e493a578107de52d33c97ccada4a8b473
+2025-06-14 22:41:23,598 - WARNING - 🚨 Suspicious content from client: script
+2025-06-14 22:41:23,599 - INFO - [MESSAGE] client: <script>alert('test')</script>|1749915683|1749915683599|bb14a4fa89aa624ba0b9242197b2b01f6ab5ed345cd596e3be58d7b8f75f101b
+2025-06-14 22:41:49,807 - INFO - ✅ Client certificate verified: client
+2025-06-14 22:41:49,807 - INFO - Client 'client' accepted from whitelist
+2025-06-14 22:41:49,808 - WARNING - Client already connected: client
+2025-06-14 22:41:49,808 - INFO - Client client was connected for 0:01:01.253598
+2025-06-14 22:41:49,809 - INFO - [LEAVE] 🔐 client left the secure chat|1749915709|1749915709809|5bb260094971adf9bc1f497d2ea17c148088bfa993c08b622f76a6e78bfe2be0
+2025-06-14 22:41:49,809 - INFO - 🔌 Secure client disconnected: client
+2025-06-14 22:42:40,801 - ERROR - Error handling message from client: [WinError 10054] An existing connection was forcibly closed by the remote host
+2025-06-14 22:42:40,801 - INFO - [LEAVE] 🔐 client left the secure chat|1749915760|1749915760801|0cda733317999f99370d875c948d4f587aa4b91d017fd0f4b76962d4bd3d981d
+2025-06-14 22:42:40,802 - INFO - 🔌 Secure client disconnected: client
+2025-06-14 22:43:52,231 - INFO - ✅ Client certificate verified: client
+2025-06-14 22:43:52,231 - INFO - Client 'client' accepted from whitelist
+2025-06-14 22:43:52,232 - INFO - 🔐 Secure client connected: client from ('127.0.0.1', 50116)
+2025-06-14 22:43:52,232 - INFO - [JOIN] 🔐 client joined the secure chat
+2025-06-14 22:44:32,169 - ERROR - Error handling message from client: [WinError 10054] An existing connection was forcibly closed by the remote host
+2025-06-14 22:44:32,169 - INFO - Client client was connected for 0:00:39.937296
+2025-06-14 22:44:32,169 - INFO - [LEAVE] 🔐 client left the secure chat|1749915872|1749915872169|a7a7e8fcef4d4064157cb65ba5e8316268eba09a7358af0192d86e4d92085683
+2025-06-14 22:44:32,170 - INFO - 🔌 Secure client disconnected: client
+2025-06-14 22:47:48,631 - INFO - ✅ Client certificate verified: client
+2025-06-14 22:47:48,631 - INFO - Client 'client' accepted from whitelist
+2025-06-14 22:47:48,632 - INFO - 🔐 Secure client connected: client from ('127.0.0.1', 50364)
+2025-06-14 22:47:48,632 - INFO - [JOIN] 🔐 client joined the secure chat
+2025-06-14 22:50:11,875 - ERROR - Error handling message from client: [WinError 10054] An existing connection was forcibly closed by the remote host
+2025-06-14 22:50:11,875 - INFO - Client client was connected for 0:02:23.243538
+2025-06-14 22:50:11,876 - INFO - [LEAVE] 🔐 client left the secure chat|1749916211|1749916211876|44ee258c281edeb9d67eb94b6f86c3c8d8bd82ac67c4c0f98e0a0064b0a9b858
+2025-06-14 22:50:11,876 - INFO - 🔌 Secure client disconnected: client
+2025-06-14 22:50:14,574 - INFO - ✅ Client certificate verified: client
+2025-06-14 22:50:14,574 - INFO - Client 'client' accepted from whitelist
+2025-06-14 22:50:14,575 - INFO - 🔐 Secure client connected: client from ('127.0.0.1', 50529)
+2025-06-14 22:50:14,575 - INFO - [JOIN] 🔐 client joined the secure chat
+2025-06-14 22:50:20,083 - WARNING - ⚠️  Message counter reuse from client (possible replay attack)
+2025-06-14 22:50:20,084 - WARNING - ⚠️  Invalid message from client, ignoring
+2025-06-14 22:50:25,841 - ERROR - Error handling message from client: [WinError 10054] An existing connection was forcibly closed by the remote host
+2025-06-14 22:50:25,841 - INFO - Client client was connected for 0:00:11.266678
+2025-06-14 22:50:25,842 - INFO - [LEAVE] 🔐 client left the secure chat|1749916225|1749916225842|8310a6fba3a8e9d7c6cd7abf0a2e9f0989cf19b0a37731d67ee79f940deca97f
+2025-06-14 22:50:25,843 - INFO - 🔌 Secure client disconnected: client
+2025-06-14 22:50:34,439 - INFO - ✅ Client certificate verified: client
+2025-06-14 22:50:34,440 - INFO - Client 'client' accepted from whitelist
+2025-06-14 22:50:34,441 - INFO - 🔐 Secure client connected: client from ('127.0.0.1', 50549)
+2025-06-14 22:50:34,442 - INFO - [JOIN] 🔐 client joined the secure chat
+2025-06-14 22:50:37,908 - WARNING - ⚠️  Message counter reuse from client (possible replay attack)
+2025-06-14 22:50:37,908 - WARNING - ⚠️  Invalid message from client, ignoring
+2025-06-14 22:50:38,511 - WARNING - ⚠️  Message counter reuse from client (possible replay attack)
+2025-06-14 22:50:38,511 - WARNING - ⚠️  Invalid message from client, ignoring
+2025-06-14 22:50:39,063 - WARNING - ⚠️  Message counter reuse from client (possible replay attack)
+2025-06-14 22:50:39,064 - WARNING - ⚠️  Invalid message from client, ignoring
+2025-06-14 22:53:49,100 - ERROR - Error handling message from client: [WinError 10054] An existing connection was forcibly closed by the remote host
+2025-06-14 22:53:49,101 - INFO - Client client was connected for 0:03:14.659402
+2025-06-14 22:53:49,101 - INFO - [LEAVE] 🔐 client left the secure chat|1749916429|1749916429101|381c69d43f4511cd7da83e54af99f38350a44fcff11f681e3d952d19f614ec99
+2025-06-14 22:53:49,102 - INFO - 🔌 Secure client disconnected: client
+2025-06-14 22:57:17,986 - INFO - 📡 Received signal 2, initiating graceful shutdown...
+2025-06-14 22:57:17,987 - INFO - 🧹 Starting graceful shutdown...
+2025-06-14 22:57:17,987 - INFO - 📊 Final Security Stats: {'active_clients': 0, 'stored_fingerprints': 1, 'suspicious_activities': 3, 'clients_with_suspicious_activity': 1}
+2025-06-14 22:57:17,988 - INFO - 🔌 Closing client connections...
+2025-06-14 22:57:17,988 - INFO - 🧵 Shutting down thread pool...
+2025-06-14 22:57:17,988 - INFO - ✅ Enhanced server shutdown complete
+2025-06-14 22:57:23,032 - INFO - Whitelist loaded: 1 users allowed
+2025-06-14 22:57:23,038 - INFO - 🛡️  Enhanced Secure Server running on 0.0.0.0:8443
+2025-06-14 22:57:23,039 - INFO - 🚀 Enhanced Secure TLS Chat Server starting...
+2025-06-14 22:57:23,039 - INFO - 🛡️  Security Features: Fingerprint verification, Message integrity, MITM detection
+2025-06-14 22:57:23,039 - INFO - 💡 Press Ctrl+C for graceful shutdown
+2025-06-14 22:57:32,504 - INFO - 🔍 Stored fingerprint for client: F49C9D453D2715B088D3B5A393ED3B401423AD75815A4172CB3C3ABDDA2492FD
+2025-06-14 22:57:32,504 - INFO - ✅ Client certificate verified: client
+2025-06-14 22:57:32,505 - INFO - Client 'client' accepted from whitelist
+2025-06-14 22:57:32,506 - INFO - 🔐 Secure client connected: client from ('127.0.0.1', 51029)
+2025-06-14 22:57:32,507 - INFO - [JOIN] 🔐 client joined the secure chat
+2025-06-14 23:00:01,820 - INFO - 📡 Received signal 2, initiating graceful shutdown...
+2025-06-14 23:00:01,820 - INFO - 🧹 Starting graceful shutdown...
+2025-06-14 23:00:01,821 - INFO - 📊 Final Security Stats: {'active_clients': 1, 'stored_fingerprints': 1, 'suspicious_activities': 0, 'clients_with_suspicious_activity': 0}
+2025-06-14 23:00:01,821 - INFO - 🔌 Closing client connections...
+2025-06-14 23:00:01,822 - INFO - 🧵 Shutting down thread pool...
+2025-06-14 23:00:01,822 - INFO - Client client was connected for 0:02:29.316240
+2025-06-14 23:00:01,822 - INFO - ✅ Enhanced server shutdown complete
+2025-06-14 23:00:01,822 - INFO - 🔌 Secure client disconnected: client

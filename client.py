@@ -2,451 +2,379 @@ import ssl
 import socket
 import threading
 import logging
+import hashlib
+import hmac
+import json
+import time
 import sys
-import os
-import tkinter as tk
-from tkinter import ttk, scrolledtext, messagebox
+import base64
 from datetime import datetime
-from typing import Optional
-import queue
+from cryptography import x509
+from cryptography.hazmat.primitives import hashes, serialization
+import os
 
-# Konfigurasi logging
+# Enhanced logging
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.FileHandler('client.log', encoding='utf-8'),
+        logging.FileHandler('enhanced_client.log', encoding='utf-8'),
         logging.StreamHandler(sys.stdout)
     ]
 )
 logger = logging.getLogger(__name__)
 
-class TLSChatClient:
-    def __init__(self, host: str = 'localhost', port: int = 8443, gui_mode: bool = False):
+class SecurityEnhancedTLSClient:
+    def __init__(self, host: str = 'localhost', port: int = 8443):
         self.host = host
         self.port = port
-        self.connected = False
-        self.client_id = None
-        self.cert_info = None
-        self.gui_mode = gui_mode
-        self.gui = None
-        self.previous_connection_status = None
+        self.client_socket = None
+        self.ssl_socket = None
+        self.is_connected = False
+        self.receive_thread = None
         
-        # Queue untuk komunikasi antara threads
-        self.message_queue = queue.Queue()
-        self.log_queue = queue.Queue()
+        # Security enhancement attributes
+        self.expected_server_fingerprint = None
+        self.session_key = None
+        self.message_counter = 0
+        self.server_cert_fingerprint = None
         
-        # Konfigurasi SSL Context
+        # Message integrity secret (shared with server)
+        self.integrity_key = b'shared_secret_key_for_integrity_2024'
+        
+        # Load expected server fingerprint if exists
+        self.load_server_fingerprint()
+        
+        # SSL Context configuration
         self.ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
         self.ssl_context.verify_mode = ssl.CERT_REQUIRED
         self.ssl_context.check_hostname = False
-        
-        # Load sertifikat
+        self.ssl_context.load_cert_chain(
+            certfile='certs/client.crt',
+            keyfile='certs/client.key'
+        )
+        self.ssl_context.load_verify_locations('certs/ca.crt')
+
+    def load_server_fingerprint(self):
+        """Load expected server certificate fingerprint from file"""
         try:
-            self.ssl_context.load_verify_locations('certs/ca.crt')
-            self.ssl_context.load_cert_chain(
-                certfile='certs/client.crt',
-                keyfile='certs/client.key'
-            )
+            with open('server_fingerprint.txt', 'r') as f:
+                self.expected_server_fingerprint = f.read().strip()
+                logger.info("✅ Server fingerprint dimuat dari file")
+        except FileNotFoundError:
+            logger.warning("⚠️  File server fingerprint tidak ditemukan - akan melakukan verifikasi manual")
+
+    def save_server_fingerprint(self, fingerprint: str):
+        """Save server certificate fingerprint to file"""
+        try:
+            with open('server_fingerprint.txt', 'w') as f:
+                f.write(fingerprint)
+            logger.info("💾 Server fingerprint disimpan ke file")
         except Exception as e:
-            logger.error(f"Error loading sertifikat: {e}")
-            if not gui_mode:
-                sys.exit(1)
-        
-        # Membuat socket client
-        self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.ssl_socket = None
+            logger.error(f"❌ Gagal menyimpan fingerprint: {e}")
 
-    def set_gui(self, gui):
-        """Set GUI reference"""
-        self.gui = gui
-
-    def log_message(self, message: str, level: str = "INFO"):
-        """Log message ke console dan GUI"""
-        timestamp = datetime.now().strftime("%H:%M:%S")
-        formatted_message = f"[{timestamp}] {level}: {message}"
-        
-        if level == "ERROR":
-            logger.error(message)
-        elif level == "WARNING":
-            logger.warning(message)
-        else:
-            logger.info(message)
-        
-        # Kirim ke GUI jika ada
-        if self.gui_mode and self.gui:
-            self.log_queue.put(formatted_message)
+    def calculate_cert_fingerprint(self, cert_der: bytes) -> str:
+        """Calculate SHA-256 fingerprint of certificate"""
+        return hashlib.sha256(cert_der).hexdigest().upper()
 
     def verify_server_certificate(self) -> bool:
-        """Verifikasi sertifikat server"""
+        """Enhanced server certificate verification with fingerprint checking"""
         try:
-            cert = self.ssl_socket.getpeercert()
-            if not cert:
-                self.log_message("Server tidak memiliki sertifikat yang valid", "ERROR")
+            # Get server certificate
+            cert_der = self.ssl_socket.getpeercert(binary_form=True)
+            if not cert_der:
+                logger.error("❌ No certificate received from server")
                 return False
+            
+            # Calculate fingerprint
+            current_fingerprint = self.calculate_cert_fingerprint(cert_der)
+            self.server_cert_fingerprint = current_fingerprint
+            
+            logger.info(f"🔍 Server Certificate Fingerprint: {current_fingerprint}")
+            
+            # Check against expected fingerprint
+            if self.expected_server_fingerprint:
+                if current_fingerprint == self.expected_server_fingerprint:
+                    logger.info("✅ Server certificate fingerprint VALID")
+                    return True
+                else:
+                    logger.error("❌ MITM DETECTION: Server certificate fingerprint MISMATCH!")
+                    logger.error(f"Expected: {self.expected_server_fingerprint}")
+                    logger.error(f"Received: {current_fingerprint}")
+                    
+                    # Ask user decision
+                    response = input("⚠️  PERINGATAN KEAMANAN: Fingerprint sertifikat tidak cocok!\n"
+                                   "Ini bisa mengindikasikan serangan MITM.\n"
+                                   "Lanjutkan koneksi? (yes/no): ").lower()
+                    
+                    if response in ['yes', 'y']:
+                        logger.warning("⚠️  User memilih melanjutkan koneksi meskipun fingerprint berbeda")
+                        return True
+                    else:
+                        logger.info("🛡️  Koneksi dibatalkan demi keamanan")
+                        return False
+            else:
+                # First time connection - save fingerprint
+                logger.info("📝 First time connection - menyimpan fingerprint server")
+                self.save_server_fingerprint(current_fingerprint)
+                return True
                 
-            # Verifikasi fingerprint
-            fingerprint = self.ssl_socket.getpeercert(binary_form=True)
-            if not fingerprint:
-                self.log_message("Tidak dapat mendapatkan fingerprint sertifikat server", "ERROR")
-                return False
-                
-            self.log_message("Sertifikat server valid")
-            return True
         except Exception as e:
-            self.log_message(f"Error verifikasi sertifikat: {e}", "ERROR")
+            logger.error(f"❌ Error verifying server certificate: {e}")
             return False
 
-    def get_certificate_info(self) -> Optional[dict]:
-        """Mendapatkan informasi sertifikat client"""
+    def create_message_signature(self, message: str) -> str:
+        """Create HMAC signature for message integrity"""
+        timestamp = str(int(time.time()))
+        counter = str(self.message_counter)
+        data_to_sign = f"{message}|{timestamp}|{counter}"
+        
+        signature = hmac.new(
+            self.integrity_key,
+            data_to_sign.encode('utf-8'),
+            hashlib.sha256
+        ).hexdigest()
+        
+        self.message_counter += 1
+        return f"{message}|{timestamp}|{counter}|{signature}"
+
+    def verify_message_signature(self, signed_message: str) -> tuple:
+        """Verify message signature and return (is_valid, original_message)"""
+        try:
+            parts = signed_message.split('|')
+            if len(parts) < 4:
+                return True, signed_message  # Message without signature
+            
+            message = '|'.join(parts[:-3])
+            timestamp = parts[-3]
+            counter = parts[-2]
+            received_signature = parts[-1]
+            
+            data_to_verify = f"{message}|{timestamp}|{counter}"
+            expected_signature = hmac.new(
+                self.integrity_key,
+                data_to_verify.encode('utf-8'),
+                hashlib.sha256
+            ).hexdigest()
+            
+            is_valid = hmac.compare_digest(received_signature, expected_signature)
+            
+            if not is_valid:
+                logger.warning(f"❌ Message signature verification failed")
+                return False, message
+            
+            # FIXED: Check if this is a history message - skip timestamp validation
+            history_indicators = ["Recent Secure Messages", "Welcome to Enhanced", "[2", "📜", "─", "━"]
+            is_history = any(indicator in message for indicator in history_indicators)
+            
+            if not is_history:
+                # Check timestamp only for live messages (not history)
+                current_time = int(time.time())
+                msg_time = int(timestamp)
+                if current_time - msg_time > 300:  # 5 minutes
+                    logger.warning("⚠️  Pesan terlalu lama (possible replay attack)")
+                    return False, message
+            
+            if not is_history:
+                logger.debug(f"✅ Message integrity verified: {message[:50]}...")
+            
+            return True, message
+            
+        except Exception as e:
+            logger.error(f"Error verifying message signature: {e}")
+            return False, signed_message
+
+    def detect_mitm_indicators(self):
+        """Detect basic MITM indicators"""
+        indicators = []
+        
+        # Check certificate details
         try:
             cert = self.ssl_socket.getpeercert()
-            if not cert:
-                return None
+            if cert:
+                not_before = cert.get('notBefore', '')
+                not_after = cert.get('notAfter', '')
                 
-            return {
-                'subject': dict(x[0] for x in cert['subject']),
-                'issuer': dict(x[0] for x in cert['issuer']),
-                'version': cert['version'],
-                'notBefore': cert['notBefore'],
-                'notAfter': cert['notAfter']
-            }
+                if not_before and not_after:
+                    logger.info(f"Certificate validity: {not_before} to {not_after}")
+            
         except Exception as e:
-            self.log_message(f"Error mendapatkan info sertifikat: {e}", "ERROR")
-            return None
+            logger.error(f"Error checking certificate details: {e}")
+            indicators.append("Could not verify certificate details")
+        
+        # Check TLS version and cipher
+        try:
+            version = self.ssl_socket.version()
+            cipher = self.ssl_socket.cipher()
+            
+            if version not in ['TLSv1.2', 'TLSv1.3']:
+                indicators.append(f"Weak TLS version: {version}")
+            
+            if cipher and 'RC4' in cipher[0]:
+                indicators.append("Weak cipher detected")
+                
+        except Exception as e:
+            logger.error(f"Error checking TLS details: {e}")
+        
+        return indicators
 
     def connect(self):
-        """Melakukan koneksi ke server"""
+        """Enhanced connect with security checks"""
         try:
-            # Wrap socket dengan SSL
+            # FIXED: Reset message counter for new connection
+            self.message_counter = 0
+            logger.info("🔄 Reset message counter for new connection")
+            
+            logger.info(f"🔐 Connecting to enhanced secure server {self.host}:{self.port}")
+            
+            # Create socket
+            self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            
+            # Wrap with SSL
             self.ssl_socket = self.ssl_context.wrap_socket(
-                self.socket,
+                self.client_socket,
                 server_hostname=self.host
             )
             
-            # Koneksi ke server
+            # Connect
             self.ssl_socket.connect((self.host, self.port))
             
-            # Verifikasi sertifikat server
+            # Enhanced security verification
+            logger.info("🔍 Performing enhanced security verification...")
+            
+            # 1. Verify server certificate fingerprint
             if not self.verify_server_certificate():
-                raise Exception("Verifikasi sertifikat server gagal")
+                logger.error("❌ Server certificate verification failed")
+                self.disconnect()
+                return False
             
-            # Dapatkan info sertifikat
-            self.cert_info = self.get_certificate_info()
-            if self.cert_info:
-                self.client_id = self.cert_info['subject'].get('commonName', 'unknown')
-            
-            self.connected = True
-            self.log_message(f"Terhubung ke server sebagai {self.client_id}")
-            
-            # Tampilkan status koneksi hanya jika berubah (untuk CLI)
-            if not self.gui_mode and self.previous_connection_status != self.connected:
-                self.print_connection_status()
-                self.previous_connection_status = self.connected
-            
-            # Memulai thread untuk menerima pesan
-            receive_thread = threading.Thread(target=self.receive_messages)
-            receive_thread.daemon = True
-            receive_thread.start()
-            
-            # Jika CLI mode, mulai message loop
-            if not self.gui_mode:
-                self.message_loop()
+            # 2. Detect MITM indicators
+            mitm_indicators = self.detect_mitm_indicators()
+            if mitm_indicators:
+                logger.warning("⚠️  MITM indicators detected:")
+                for indicator in mitm_indicators:
+                    logger.warning(f"   - {indicator}")
                 
-        except Exception as e:
-            self.log_message(f"Error koneksi: {e}", "ERROR")
-            self.connected = False
-            if not self.gui_mode and self.previous_connection_status != self.connected:
-                self.previous_connection_status = self.connected
-        finally:
-            if not self.gui_mode:
-                self.cleanup()
-
-    def print_connection_status(self):
-        """Menampilkan status koneksi dan info sertifikat (hanya untuk CLI)"""
-        if self.gui_mode:
-            return
+                response = input("Lanjutkan koneksi meskipun ada indikator MITM? (yes/no): ").lower()
+                if response not in ['yes', 'y']:
+                    logger.info("🛡️  Koneksi dibatalkan karena indikator MITM")
+                    self.disconnect()
+                    return False
             
-        print("\n" + "="*50)
-        print(f"Status Koneksi: {'Terhubung' if self.connected else 'Terputus'}")
-        print(f"Server: {self.host}:{self.port}")
-        print(f"Client ID: {self.client_id}")
-        if self.cert_info:
-            print("\nInfo Sertifikat:")
-            print(f"  Subject: {self.cert_info['subject']}")
-            print(f"  Valid dari: {self.cert_info['notBefore']}")
-            print(f"  Valid sampai: {self.cert_info['notAfter']}")
-        print("="*50 + "\n")
-
-    def message_loop(self):
-        """Loop utama untuk mengirim pesan (CLI mode)"""
-        while self.connected:
-            try:
-                message = input()
-                if not message:
-                    continue
-                    
-                if message.lower() == '/quit':
-                    self.send_message('/quit')
-                    break
-                elif message.lower() == '/status':
-                    self.print_connection_status()
-                elif message.lower() == '/cert':
-                    if self.cert_info:
-                        print("\nInfo Sertifikat Client:")
-                        for key, value in self.cert_info.items():
-                            print(f"  {key}: {value}")
-                    else:
-                        print("Tidak dapat mendapatkan info sertifikat")
-                else:
-                    self.send_message(message)
-                    
-            except KeyboardInterrupt:
-                print("\nMengakhiri koneksi...")
-                break
-            except Exception as e:
-                self.log_message(f"Error dalam message loop: {e}", "ERROR")
-                break
+            # 3. Log connection details
+            cipher = self.ssl_socket.cipher()
+            version = self.ssl_socket.version()
+            logger.info(f"🔐 TLS Version: {version}")
+            logger.info(f"🔐 Cipher: {cipher[0] if cipher else 'Unknown'}")
+            logger.info(f"🔐 Server Fingerprint: {self.server_cert_fingerprint}")
+            
+            self.is_connected = True
+            logger.info("✅ Enhanced secure connection established!")
+            
+            # Start receive thread
+            self.receive_thread = threading.Thread(target=self.receive_messages, daemon=True)
+            self.receive_thread.start()
+            
+            return True
+            
+        except ssl.SSLError as e:
+            logger.error(f"❌ SSL Error: {e}")
+            return False
+        except Exception as e:
+            logger.error(f"❌ Connection error: {e}")
+            return False
 
     def receive_messages(self):
-        """Thread untuk menerima pesan"""
-        try:
-            while self.connected:
-                try:
-                    message = self.ssl_socket.recv(1024).decode('utf-8')
-                    if not message:
-                        break
-                    
-                    # Format pesan yang diterima
-                    formatted_message = f"Pesan baru diterima: {message}"
-                    
-                    if self.gui_mode:
-                        self.message_queue.put(formatted_message)
+        """Enhanced message receiving with integrity verification"""
+        while self.is_connected:
+            try:
+                data = self.ssl_socket.recv(1024)
+                if not data:
+                    break
+                
+                message = data.decode('utf-8')
+                
+                # Check if message has signature format
+                if '|' in message and len(message.split('|')) >= 4:
+                    is_valid, original_message = self.verify_message_signature(message)
+                    if is_valid:
+                        # Don't show ✅ for history messages to keep display clean
+                        if any(indicator in original_message for indicator in ["📜", "Welcome", "─", "━"]):
+                            print(original_message)
+                        else:
+                            print(f"✅ {original_message}")
                     else:
-                        print(formatted_message)
-                        
-                except ssl.SSLError as e:
-                    self.log_message(f"SSL Error: {e}", "ERROR")
-                    break
-                except socket.timeout:
-                    continue
-                except Exception as e:
-                    self.log_message(f"Error menerima pesan: {e}", "ERROR")
-                    break
-        finally:
-            self.connected = False
-            if not self.gui_mode and self.previous_connection_status != self.connected:
-                self.previous_connection_status = self.connected
+                        print(f"⚠️  [INTEGRITY FAILED] {original_message}")
+                else:
+                    # Message without signature (system message or history)
+                    print(message)
+                
+            except ssl.SSLError as e:
+                logger.error(f"SSL Error receiving message: {e}")
+                break
+            except Exception as e:
+                logger.error(f"Error receiving message: {e}")
+                break
+        
+        self.is_connected = False
 
     def send_message(self, message: str):
-        """Mengirim pesan ke server"""
+        """Enhanced message sending with integrity protection"""
+        if not self.is_connected:
+            logger.error("❌ Not connected to server")
+            return False
+        
         try:
-            if not self.connected:
-                raise Exception("Tidak terhubung ke server")
+            # Add signature for integrity protection
+            signed_message = self.create_message_signature(message)
             
-            self.ssl_socket.send(message.encode('utf-8'))
-            self.log_message(f"Pesan terkirim: {message}")
+            self.ssl_socket.send(signed_message.encode('utf-8'))
+            return True
             
         except Exception as e:
-            self.log_message(f"Error mengirim pesan: {e}", "ERROR")
-            self.connected = False
+            logger.error(f"❌ Error sending message: {e}")
+            return False
 
-    def cleanup(self):
-        """Membersihkan resources"""
+    def disconnect(self):
+        """Disconnect from server"""
+        self.is_connected = False
+        
         try:
             if self.ssl_socket:
                 self.ssl_socket.close()
-            if self.socket:
-                self.socket.close()
-        except Exception as e:
-            self.log_message(f"Error saat cleanup: {e}", "ERROR")
+            if self.client_socket:
+                self.client_socket.close()
+        except:
+            pass
+        
+        logger.info("🔌 Disconnected from server")
+
+    def start_chat(self):
+        """Start interactive chat with enhanced security"""
+        if not self.connect():
+            return
+        
+        print("\n" + "="*60)
+        print("🛡️  ENHANCED SECURE CHAT CLIENT")
+        print("🔐 Features: Fingerprint verification, Message integrity, MITM detection")
+        print("Commands: /quit to exit")
+        print("="*60 + "\n")
+        
+        try:
+            while self.is_connected:
+                message = input()
+                if message.lower() == '/quit':
+                    break
+                
+                if message.strip():
+                    if not self.send_message(message):
+                        break
+                    
+        except KeyboardInterrupt:
+            logger.info("Chat interrupted by user")
         finally:
-            self.connected = False
-
-    def get_connection_status(self) -> str:
-        """Mendapatkan status koneksi untuk GUI"""
-        if self.connected:
-            return f"Terhubung ke {self.host}:{self.port} sebagai {self.client_id}"
-        else:
-            return f"Terputus dari {self.host}:{self.port}"
-
-class ChatGUI:
-    def __init__(self, client: TLSChatClient):
-        self.client = client
-        self.client.set_gui(self)
-        
-        # Membuat window utama
-        self.root = tk.Tk()
-        self.root.title("TLS Chat Client")
-        self.root.geometry("800x600")
-        self.root.protocol("WM_DELETE_WINDOW", self.on_closing)
-        
-        self.setup_ui()
-        
-        # Timer untuk update status dan pesan
-        self.update_timer()
-        
-    def setup_ui(self):
-        """Setup user interface"""
-        # Frame utama
-        main_frame = ttk.Frame(self.root, padding="10")
-        main_frame.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
-        
-        # Configure grid weights
-        self.root.columnconfigure(0, weight=1)
-        self.root.rowconfigure(0, weight=1)
-        main_frame.columnconfigure(1, weight=1)
-        main_frame.rowconfigure(1, weight=1)
-        main_frame.rowconfigure(3, weight=1)
-        
-        # Status Connection
-        status_frame = ttk.LabelFrame(main_frame, text="Status Koneksi", padding="5")
-        status_frame.grid(row=0, column=0, columnspan=2, sticky=(tk.W, tk.E), pady=(0, 10))
-        status_frame.columnconfigure(0, weight=1)
-        
-        self.status_label = ttk.Label(status_frame, text="Belum terhubung", font=("Arial", 10))
-        self.status_label.grid(row=0, column=0, sticky=tk.W)
-        
-        # Connect/Disconnect Button
-        self.connect_button = ttk.Button(status_frame, text="Connect", command=self.toggle_connection)
-        self.connect_button.grid(row=0, column=1, sticky=tk.E)
-        
-        # Messages Display
-        messages_frame = ttk.LabelFrame(main_frame, text="Pesan", padding="5")
-        messages_frame.grid(row=1, column=0, columnspan=2, sticky=(tk.W, tk.E, tk.N, tk.S), pady=(0, 10))
-        messages_frame.columnconfigure(0, weight=1)
-        messages_frame.rowconfigure(0, weight=1)
-        
-        self.messages_text = scrolledtext.ScrolledText(messages_frame, wrap=tk.WORD, height=15)
-        self.messages_text.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
-        self.messages_text.config(state=tk.DISABLED)
-        
-        # Message Input
-        input_frame = ttk.LabelFrame(main_frame, text="Kirim Pesan", padding="5")
-        input_frame.grid(row=2, column=0, columnspan=2, sticky=(tk.W, tk.E), pady=(0, 10))
-        input_frame.columnconfigure(0, weight=1)
-        
-        self.message_entry = ttk.Entry(input_frame, font=("Arial", 10))
-        self.message_entry.grid(row=0, column=0, sticky=(tk.W, tk.E), padx=(0, 5))
-        self.message_entry.bind("<Return>", self.send_message)
-        
-        self.send_button = ttk.Button(input_frame, text="Kirim", command=self.send_message)
-        self.send_button.grid(row=0, column=1)
-        
-        # Logs Display
-        logs_frame = ttk.LabelFrame(main_frame, text="Log Aktivitas", padding="5")
-        logs_frame.grid(row=3, column=0, columnspan=2, sticky=(tk.W, tk.E, tk.N, tk.S))
-        logs_frame.columnconfigure(0, weight=1)
-        logs_frame.rowconfigure(0, weight=1)
-        
-        self.logs_text = scrolledtext.ScrolledText(logs_frame, wrap=tk.WORD, height=10)
-        self.logs_text.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
-        self.logs_text.config(state=tk.DISABLED)
-
-    def update_timer(self):
-        """Timer untuk update status dan pesan"""
-        self.update_status()
-        self.process_messages()
-        self.process_logs()
-        self.root.after(100, self.update_timer)  # Update setiap 100ms
-
-    def update_status(self):
-        """Update status koneksi"""
-        status = self.client.get_connection_status()
-        self.status_label.config(text=status)
-        
-        if self.client.connected:
-            self.connect_button.config(text="Disconnect")
-            self.send_button.config(state=tk.NORMAL)
-            self.message_entry.config(state=tk.NORMAL)
-        else:
-            self.connect_button.config(text="Connect")
-            self.send_button.config(state=tk.DISABLED)
-            self.message_entry.config(state=tk.DISABLED)
-
-    def process_messages(self):
-        """Proses pesan yang diterima"""
-        try:
-            while True:
-                message = self.client.message_queue.get_nowait()
-                self.add_message(message)
-        except queue.Empty:
-            pass
-
-    def process_logs(self):
-        """Proses log yang diterima"""
-        try:
-            while True:
-                log = self.client.log_queue.get_nowait()
-                self.add_log(log)
-        except queue.Empty:
-            pass
-
-    def add_message(self, message: str):
-        """Tambahkan pesan ke display"""
-        self.messages_text.config(state=tk.NORMAL)
-        self.messages_text.insert(tk.END, f"{datetime.now().strftime('%H:%M:%S')} - {message}\n")
-        self.messages_text.see(tk.END)
-        self.messages_text.config(state=tk.DISABLED)
-
-    def add_log(self, log: str):
-        """Tambahkan log ke display"""
-        self.logs_text.config(state=tk.NORMAL)
-        self.logs_text.insert(tk.END, f"{log}\n")
-        self.logs_text.see(tk.END)
-        self.logs_text.config(state=tk.DISABLED)
-
-    def toggle_connection(self):
-        """Toggle koneksi"""
-        if self.client.connected:
-            self.client.cleanup()
-            self.add_log("Koneksi diputus")
-        else:
-            # Jalankan koneksi di thread terpisah
-            connect_thread = threading.Thread(target=self.client.connect)
-            connect_thread.daemon = True
-            connect_thread.start()
-
-    def send_message(self, event=None):
-        """Kirim pesan"""
-        message = self.message_entry.get().strip()
-        if message and self.client.connected:
-            self.client.send_message(message)
-            self.message_entry.delete(0, tk.END)
-        elif not self.client.connected:
-            messagebox.showwarning("Peringatan", "Tidak terhubung ke server!")
-
-    def on_closing(self):
-        """Handle window closing"""
-        if self.client.connected:
-            self.client.cleanup()
-        self.root.destroy()
-
-    def run(self):
-        """Jalankan GUI"""
-        self.root.mainloop()
-
-def main():
-    # Tentukan host dari argument
-    host = 'localhost'
-    if len(sys.argv) > 1:
-        host = sys.argv[1]
-    
-    # Tentukan mode dari argument
-    gui_mode = True  # Default ke GUI mode
-    if len(sys.argv) > 2 and sys.argv[2] == '--cli':
-        gui_mode = False
-    
-    # Buat client
-    client = TLSChatClient(host=host, gui_mode=gui_mode)
-    
-    if gui_mode:
-        # Jalankan GUI
-        gui = ChatGUI(client)
-        gui.run()
-    else:
-        # Jalankan CLI
-        client.connect()
+            self.disconnect()
 
 if __name__ == "__main__":
-    main()
+    client = SecurityEnhancedTLSClient()
+    client.start_chat()
