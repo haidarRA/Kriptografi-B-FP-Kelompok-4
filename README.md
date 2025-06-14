@@ -69,6 +69,8 @@ python client.py <host>
   - `server.key` - Private key server
   - `client.crt` - Sertifikat client
   - `client.key` - Private key client
+- `fingerprint_tool` - Script untuk verifikasi fingerprint
+- `server_fingerprint` - Fingerprint Server
 
 ## Dokumentasi
 
