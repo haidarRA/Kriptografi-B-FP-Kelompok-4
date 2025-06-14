@@ -5,3 +5,17 @@
 2025-06-13 23:53:38,405 - ERROR - Error koneksi: [WinError 10054] An existing connection was forcibly closed by the remote host
 2025-06-13 23:53:50,510 - INFO - Sertifikat server valid
 2025-06-13 23:53:50,510 - INFO - Terhubung ke server sebagai server
+2025-06-14 14:50:19,419 - INFO - Sertifikat server valid
+2025-06-14 14:50:19,419 - INFO - Terhubung ke server sebagai server
+2025-06-14 14:51:41,332 - INFO - Send processor thread terminated.
+2025-06-14 14:51:41,333 - INFO - Receive thread terminated.
+2025-06-14 14:51:41,835 - INFO - Cleaning up client resources...
+2025-06-14 14:51:41,835 - INFO - Shutting down send executor...
+2025-06-14 14:51:41,836 - INFO - Send executor shutdown complete.
+2025-06-14 14:51:41,837 - INFO - Client program finished.
+2025-06-14 15:10:03,234 - INFO - Sertifikat server valid
+2025-06-14 15:10:03,234 - INFO - Terhubung ke server sebagai server2025-06-14 15:36:53,314 - INFO - Sertifikat server valid
+2025-06-14 15:36:53,315 - INFO - Terhubung ke server sebagai server
+2025-06-14 15:44:00,888 - INFO - Sertifikat server valid
+2025-06-14 15:44:00,888 - INFO - Terhubung ke server sebagai server
+2025-06-14 15:46:54,340 - INFO - Pesan terkirim: testing tampilan GUI

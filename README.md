@@ -69,3 +69,9 @@ python client.py <host>
   - `server.key` - Private key server
   - `client.crt` - Sertifikat client
   - `client.key` - Private key client
+
+## Dokumentasi
+
+![whitelist](/img/7-whitelist-server.png)
+![whitelist](/img/7-whitelist-client.png)
+![tampilan-GUI](/img/tampilan-GUI.png)

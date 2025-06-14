@@ -39,3 +39,36 @@
 2025-06-13 23:53:53,836 - INFO - [MESSAGE] client: halo
 2025-06-13 23:53:55,220 - INFO - [MESSAGE] client: tes
 2025-06-13 23:53:56,941 - INFO - [MESSAGE] client: masuk
+2025-06-14 14:50:15,242 - INFO - Whitelist berhasil dimuat dari 'whitelist.txt'. 1 pengguna diizinkan.
+2025-06-14 14:50:15,245 - INFO - Enhanced Server berjalan di 0.0.0.0:8443
+2025-06-14 14:50:15,245 - INFO - 🚀 Enhanced TLS Chat Server dimulai...
+2025-06-14 14:50:15,245 - INFO - 📊 Fitur tambahan: Commands, History, Better Logging, Error Handling
+2025-06-14 14:50:19,419 - INFO - Klien 'client' diterima dari whitelist.
+2025-06-14 14:50:19,419 - INFO - Klien terhubung: client dari ('127.0.0.1', 55951)
+2025-06-14 14:50:19,419 - INFO - [JOIN] 📢 client telah bergabung ke chat
+2025-06-14 14:51:18,332 - INFO - [MESSAGE] client: halo
+2025-06-14 14:51:30,962 - INFO - [MESSAGE] client: whitelist berhasil yak ges
+2025-06-14 14:51:41,838 - INFO - Klien client terhubung selama 0:01:22.418620
+2025-06-14 14:51:41,838 - INFO - [LEAVE] 📢 client telah meninggalkan chat
+2025-06-14 14:51:41,839 - INFO - Klien terputus: client
+2025-06-14 14:56:28,642 - INFO - 🛑 Server dihentikan oleh pengguna
+2025-06-14 14:56:28,644 - INFO - 🧹 Membersihkan resources...
+2025-06-14 14:56:28,644 - INFO - Shutting down send executor...
+2025-06-14 14:56:28,645 - INFO - Send executor shutdown complete.
+2025-06-14 14:56:28,645 - INFO - ✅ Server cleanup selesai
+2025-06-14 15:42:22,861 - INFO - Whitelist berhasil dimuat dari 'whitelist.txt'. 1 pengguna diizinkan.
+2025-06-14 15:42:22,864 - INFO - Enhanced Server berjalan di 0.0.0.0:8443
+2025-06-14 15:42:22,864 - INFO - 🚀 Enhanced TLS Chat Server dimulai...
+2025-06-14 15:42:22,864 - INFO - 📊 Fitur tambahan: Commands, History, Better Logging, Error Handling
+2025-06-14 15:44:00,889 - INFO - Klien 'client' diterima dari whitelist.
+2025-06-14 15:44:00,890 - INFO - Klien terhubung: client dari ('127.0.0.1', 58645)
+2025-06-14 15:44:00,890 - INFO - [JOIN] 📢 client telah bergabung ke chat
+2025-06-14 15:46:54,340 - INFO - [MESSAGE] client: testing tampilan GUI
+2025-06-14 15:47:01,069 - INFO - Klien client terhubung selama 0:03:00.179380
+2025-06-14 15:47:01,070 - INFO - [LEAVE] 📢 client telah meninggalkan chat
+2025-06-14 15:47:01,070 - INFO - Klien terputus: client
+2025-06-14 15:47:08,286 - INFO - 🛑 Server dihentikan oleh pengguna
+2025-06-14 15:47:08,287 - INFO - 🧹 Membersihkan resources...
+2025-06-14 15:47:08,287 - INFO - Shutting down send executor...
+2025-06-14 15:47:08,287 - INFO - Send executor shutdown complete.
+2025-06-14 15:47:08,287 - INFO - ✅ Server cleanup selesai

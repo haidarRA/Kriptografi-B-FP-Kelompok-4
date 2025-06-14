@@ -64,16 +64,21 @@ def create_certificate(name, ca_key, ca_cert, hostname="localhost"):
         f.write(crypto.dump_certificate(crypto.FILETYPE_PEM, cert))
 
 def main():
-    print("Membuat Certificate Authority...")
+    print("Membuat Certificate Authority (CA)...")
     ca_key, ca_cert = create_certificate_authority()
+    print("-> CA (ca.crt) dibuat.\n")
     
-    print("Membuat sertifikat server...")
+    print("Membuat sertifikat untuk Server...")
+    # Panggilan ini akan membuat server.crt dengan CN="server"
     create_certificate("server", ca_key, ca_cert)
+    print("-> Server (server.crt) dibuat.\n")
     
-    print("Membuat sertifikat client...")
+    print("Membuat sertifikat untuk Klien...")
+    # Panggilan ini HARUS membuat client.crt dengan CN="client"
     create_certificate("client", ca_key, ca_cert)
+    print("-> Klien (client.crt) dibuat.\n")
     
-    print("Selesai! Sertifikat telah dibuat di direktori 'certs'")
+    print("Selesai! Semua sertifikat telah dibuat di direktori 'certs'.")
 
 if __name__ == "__main__":
-    main() 
+    main()

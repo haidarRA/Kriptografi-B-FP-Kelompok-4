@@ -27,9 +27,11 @@ class EnhancedTLSChatServer:
         self.clients: Dict[str, ssl.SSLSocket] = {}
         self.client_names: Dict[ssl.SSLSocket, str] = {}
         self.client_join_time: Dict[str, datetime] = {}
+        self.whitelist_file = 'whitelist.txt'
+        self.whitelist = self.load_whitelist()
         self.message_history: List[Dict] = []
         self.max_history = 100
-        self.banned_clients: List[str] = []
+        self.banned_clients: List[str] = []    
         
         # ThreadPoolExecutor untuk mengirim pesan broadcast secara asynchronous
         self.send_executor: Executor = ThreadPoolExecutor(max_workers=10, thread_name_prefix='BroadcastSender') # Ditambahkan
@@ -53,8 +55,31 @@ class EnhancedTLSChatServer:
         # Lock untuk thread safety
         self.clients_lock = threading.Lock()
         self.history_lock = threading.Lock()
-        
-        logger.info(f"Enhanced Server berjalan di {host}:{port}")
+
+        logger.info(f"Enhanced Server berjalan di {self.host}:{self.port}")
+    def load_whitelist(self) -> set:
+        """Membaca daftar pengguna yang diizinkan dari file."""
+        allowed_users = set()
+        try:
+            with open(self.whitelist_file, 'r') as f:
+                for line in f:
+                    # Menghapus spasi dan baris baru, abaikan baris kosong atau komentar
+                    user = line.strip()
+                    if user and not user.startswith('#'):
+                        allowed_users.add(user)
+            logger.info(f"Whitelist berhasil dimuat dari '{self.whitelist_file}'. {len(allowed_users)} pengguna diizinkan.")
+        except FileNotFoundError:
+            logger.warning(f"File whitelist '{self.whitelist_file}' tidak ditemukan. Tidak ada pengguna yang akan diizinkan (kecuali list kosong).")
+        except Exception as e:
+            logger.error(f"Gagal memuat whitelist: {e}")
+    
+        return allowed_users
+    
+    # untuk reload whitelist
+    def reload_whitelist_command(self):
+        """Memuat ulang daftar pengguna dari file whitelist."""
+        logger.info("Memuat ulang whitelist...")
+        self.whitelist = self.load_whitelist()
 
     def handle_client(self, client_socket: ssl.SSLSocket, client_address: tuple):
         client_id = None
@@ -67,6 +92,19 @@ class EnhancedTLSChatServer:
                 return
                 
             client_id = cert['subject'][0][0][1]
+
+            if client_id not in self.whitelist:
+                logger.warning(f"Koneksi dari '{client_id}' ditolak. Tidak ada di whitelist.")
+                # Kirim pesan penolakan ke klien
+                try:
+                    client_socket.sendall("ERROR: Anda tidak terdaftar di server ini.".encode('utf-8'))
+                except Exception as send_error:
+                    logger.error(f"Gagal mengirim pesan penolakan ke {client_id}: {send_error}")
+                finally:
+                    client_socket.close() # Tutup koneksi
+                    return # Hentikan eksekusi untuk klien ini
+        
+            logger.info(f"Klien '{client_id}' diterima dari whitelist.")
             
             # Check if client is banned
             if client_id in self.banned_clients:
