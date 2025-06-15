@@ -2,6 +2,79 @@
 
 FP Kriptografi B Kelompok 4
 
+## Pembagian Tugas:
+
+### 1. TLS Infrastructure & Certificate Management
+
+_Person 1 – TLS & CA Setup (Haidar_5027231063)_
+
+- Membuat Certificate Authority (CA) lokal (OpenSSL)
+- Generate dan tanda tangani sertifikat server & client
+- Menyiapkan direktori certs/ dan dokumen panduan sertifikat
+- Testing validasi mutual TLS (handshake, kepercayaan, trust store)
+
+### 2. Server Side Development
+
+_Person 2 – TLS Chat Server (Fidel_5027231063)_
+
+- Membuat server socket berbasis TLS (Python ssl + socket)
+- Konfigurasi ssl.SSLContext dengan sertifikat server & verifikasi klien
+- Menerima koneksi dari banyak klien (threading/asynchronous)
+- Validasi identitas klien berdasarkan sertifikat
+
+_Person 3 – Server-side Chat Logic (Furqon_5027231024)_
+
+- Menangani broadcast pesan dari satu klien ke semua klien lain
+- Manajemen daftar klien aktif
+- Logging pesan yang masuk (optional)
+- Sistem handling disconnect & error handling
+
+### 3. Client Side Development
+
+_Person 4 – TLS Chat Client (Radit_5027231033)_
+
+- Mengimplementasikan koneksi TLS ke server menggunakan ssl
+- Menyediakan sertifikat & kunci privat untuk autentikasi
+- Implementasi pengiriman pesan
+
+_Person 5 – Client UI (CLI/GUI) (Almendo_5027221073)_
+
+- Membuat tampilan antarmuka (CLI: input/output; atau GUI sederhana dengan Tkinter)
+- Antarmuka untuk mengirim dan menampilkan pesan secara real-time
+- Menampilkan status koneksi, error, notifikasi
+
+### 4. Asynchronous Communication
+
+_Person 6 – Asynchronous I/O (Client & Server) (Marcel_5027231044)_
+
+- Refactor komunikasi (client/server) agar tidak blocking
+- Menggunakan threading, select, atau asyncio agar komunikasi real-time
+- Sinkronisasi pengiriman & penerimaan pesan di sisi klien/server
+
+### 5. Message Security & Identity Verification
+
+_Person 7 – Sertifikat dan Validasi Identity (Maulana_5027231010)_
+
+- Mengekstrak dan menampilkan identitas dari sertifikat digital klien (CN, O, OU)
+- Menolak koneksi klien yang sertifikatnya tidak valid
+- Menambahkan whitelist user (opsional)
+
+_Person 8 – End-to-End Security Enhancements (Jo_5027231067)_
+
+- Verifikasi fingerprint sertifikat
+- Implementasi layer keamanan tambahan (opsional: message signature atau integrity check)
+- Deteksi MITM basic
+
+### 6. Testing, Deployment & Documentation
+
+Person 9 – QA & DevOps (Farand_5027231084)
+
+- Menulis unit test (e.g. unittest, pytest) untuk modul TLS & komunikasi
+- Menyusun instruksi setup (README)
+- Automasi testing TLS handshake & koneksi klien
+- Menyiapkan script run (run_server.py, run_client.py)
+- Deployment lokal dan skenario uji (3 klien, 1 server)
+
 ## TLS Chat Server
 
 Implementasi chat server yang aman menggunakan TLS dengan fitur:
@@ -83,6 +156,3 @@ python client.py <host>
 ![image](https://github.com/user-attachments/assets/ea385d43-7966-4e12-9eac-6a1baf28eaa7)
 
 ![image](https://github.com/user-attachments/assets/b7ee3458-49ef-429d-8d1f-be452adca995)
-
-
-
