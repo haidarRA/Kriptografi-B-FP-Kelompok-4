@@ -69,16 +69,22 @@ def main():
     print("-> CA (ca.crt) dibuat.\n")
     
     print("Membuat sertifikat untuk Server...")
-    # Panggilan ini akan membuat server.crt dengan CN="server"
     create_certificate("server", ca_key, ca_cert)
     print("-> Server (server.crt) dibuat.\n")
     
+    # Membuat sertifikat untuk beberapa client
+    client_names = ["client1", "client2", "client3"]
     print("Membuat sertifikat untuk Klien...")
-    # Panggilan ini HARUS membuat client.crt dengan CN="client"
-    create_certificate("client", ca_key, ca_cert)
-    print("-> Klien (client.crt) dibuat.\n")
+    for client_name in client_names:
+        create_certificate(client_name, ca_key, ca_cert)
+        print(f"-> Klien {client_name} ({client_name}.crt) dibuat.")
+    print("\nSelesai! Semua sertifikat telah dibuat di direktori 'certs'.")
     
-    print("Selesai! Semua sertifikat telah dibuat di direktori 'certs'.")
+    # Membuat whitelist.txt dengan daftar client yang diizinkan
+    with open("whitelist.txt", "w") as f:
+        for client_name in client_names:
+            f.write(f"{client_name}\n")
+    print("-> whitelist.txt telah dibuat dengan daftar client yang diizinkan.")
 
 if __name__ == "__main__":
     main()

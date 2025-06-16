@@ -19,3 +19,151 @@
 2025-06-14 15:44:00,888 - INFO - Sertifikat server valid
 2025-06-14 15:44:00,888 - INFO - Terhubung ke server sebagai server
 2025-06-14 15:46:54,340 - INFO - Pesan terkirim: testing tampilan GUI
+2025-06-16 14:33:41,417 - INFO - Sertifikat server valid
+2025-06-16 14:33:41,418 - INFO - Terhubung ke server sebagai server
+2025-06-16 14:33:51,042 - INFO - Pesan terkirim: /list
+2025-06-16 14:34:09,306 - INFO - Pesan terkirim: /time
+2025-06-16 14:34:14,683 - INFO - Pesan terkirim: /history
+2025-06-16 14:35:17,822 - ERROR - Error koneksi: [Errno 8] nodename nor servname provided, or not known
+2025-06-16 14:35:21,057 - ERROR - Error koneksi: [Errno 9] Bad file descriptor
+2025-06-16 14:36:09,922 - ERROR - Error koneksi: [Errno 9] Bad file descriptor
+2025-06-16 14:36:54,574 - ERROR - Error koneksi: [Errno 8] nodename nor servname provided, or not known
+2025-06-16 14:36:55,701 - ERROR - Error koneksi: [Errno 9] Bad file descriptor
+2025-06-16 14:36:57,595 - ERROR - Error koneksi: [Errno 9] Bad file descriptor
+2025-06-16 14:46:34,027 - ERROR - Error koneksi: [Errno 9] Bad file descriptor
+2025-06-16 14:48:40,626 - ERROR - Error koneksi: [Errno 9] Bad file descriptor
+2025-06-16 14:50:24,198 - ERROR - Error koneksi: [Errno 8] nodename nor servname provided, or not known
+2025-06-16 14:50:26,900 - ERROR - Error koneksi: [Errno 9] Bad file descriptor
+2025-06-16 14:51:57,027 - ERROR - Error koneksi: [Errno 9] Bad file descriptor
+2025-06-16 14:52:14,245 - INFO - Sertifikat server valid
+2025-06-16 14:52:14,245 - INFO - Certificate subject: {'commonName': 'server'}
+2025-06-16 14:52:14,245 - INFO - Certificate issuer: {'commonName': 'Chat CA'}
+2025-06-16 14:52:14,245 - INFO - Terhubung ke server sebagai server
+2025-06-16 14:53:39,191 - ERROR - Error menerima pesan: [Errno 9] Bad file descriptor
+2025-06-16 14:54:46,348 - INFO - Sertifikat server valid
+2025-06-16 14:54:46,348 - INFO - Certificate subject: {'commonName': 'server'}
+2025-06-16 14:54:46,348 - INFO - Certificate issuer: {'commonName': 'Chat CA'}
+2025-06-16 14:54:46,348 - INFO - Terhubung ke server sebagai server
+2025-06-16 14:54:52,652 - INFO - Sertifikat server valid
+2025-06-16 14:54:52,652 - INFO - Certificate subject: {'commonName': 'server'}
+2025-06-16 14:54:52,652 - INFO - Certificate issuer: {'commonName': 'Chat CA'}
+2025-06-16 14:54:52,652 - INFO - Terhubung ke server sebagai server
+2025-06-16 14:54:56,495 - INFO - Pesan terkirim: halo
+2025-06-16 14:55:09,027 - INFO - Pesan terkirim: halo
+2025-06-16 14:56:15,852 - INFO - Sertifikat server valid
+2025-06-16 14:56:15,852 - INFO - Certificate subject: {'commonName': 'server'}
+2025-06-16 14:56:15,852 - INFO - Certificate issuer: {'commonName': 'Chat CA'}
+2025-06-16 14:56:15,852 - INFO - Terhubung ke server sebagai server
+2025-06-16 14:56:19,686 - INFO - Pesan terkirim: dam
+2025-06-16 14:57:51,804 - INFO - Sertifikat server valid
+2025-06-16 14:57:51,804 - INFO - Certificate subject: {'commonName': 'server'}
+2025-06-16 14:57:51,804 - INFO - Certificate issuer: {'commonName': 'Chat CA'}
+2025-06-16 14:57:51,804 - INFO - Terhubung ke server sebagai server
+2025-06-16 14:58:02,693 - INFO - Pesan terkirim: hlao
+2025-06-16 14:58:12,183 - INFO - Pesan terkirim: halo
+2025-06-16 14:58:18,780 - INFO - Sertifikat server valid
+2025-06-16 14:58:18,780 - INFO - Certificate subject: {'commonName': 'server'}
+2025-06-16 14:58:18,780 - INFO - Certificate issuer: {'commonName': 'Chat CA'}
+2025-06-16 14:58:18,780 - INFO - Terhubung ke server sebagai server
+2025-06-16 14:58:42,273 - INFO - Sertifikat server valid
+2025-06-16 14:58:42,273 - INFO - Certificate subject: {'commonName': 'server'}
+2025-06-16 14:58:42,274 - INFO - Certificate issuer: {'commonName': 'Chat CA'}
+2025-06-16 14:58:42,274 - INFO - Terhubung ke server sebagai server
+2025-06-16 14:58:44,234 - INFO - Pesan terkirim: hlao
+2025-06-16 14:58:48,449 - INFO - Pesan terkirim: tes client 3
+2025-06-16 14:59:03,055 - INFO - Pesan terkirim: check client 2
+2025-06-16 15:00:46,126 - INFO - Pesan terkirim: aku client 1
+2025-06-16 15:00:51,844 - INFO - Pesan terkirim: aku client 2
+2025-06-16 15:19:22,400 - INFO - Sertifikat server valid
+2025-06-16 15:19:22,400 - INFO - Certificate subject: {'commonName': 'server'}
+2025-06-16 15:19:22,400 - INFO - Certificate issuer: {'commonName': 'Chat CA'}
+2025-06-16 15:19:22,400 - INFO - Terhubung ke server sebagai server
+2025-06-16 15:19:25,768 - INFO - Pesan terkirim: tes
+2025-06-16 15:19:58,738 - INFO - Sertifikat server valid
+2025-06-16 15:19:58,742 - INFO - Certificate subject: {'commonName': 'server'}
+2025-06-16 15:19:58,742 - INFO - Certificate issuer: {'commonName': 'Chat CA'}
+2025-06-16 15:19:58,742 - INFO - Terhubung ke server sebagai server
+2025-06-16 15:20:03,494 - INFO - Pesan terkirim: tes
+2025-06-16 15:20:13,630 - INFO - Pesan terkirim: tes
+2025-06-16 15:20:18,403 - INFO - Pesan terkirim: tes
+2025-06-16 15:28:32,990 - INFO - Fingerprint SHA-256 sertifikat server: 508ed8bdf4900e1f287385e4e5925525cd8add8b14f953409d34038238d6a0f6
+2025-06-16 15:28:32,990 - INFO - Fingerprint sertifikat server cocok dengan yang diharapkan.
+2025-06-16 15:28:32,990 - INFO - Certificate subject: {'commonName': 'server'}
+2025-06-16 15:28:32,990 - INFO - Certificate issuer: {'commonName': 'Chat CA'}
+2025-06-16 15:28:32,990 - INFO - Terhubung ke server sebagai server
+2025-06-16 15:28:32,996 - ERROR - Error menerima pesan: [WinError 10038] An operation was attempted on something that is not a socket
+2025-06-16 15:28:33,002 - INFO - Fingerprint SHA-256 sertifikat server: 508ed8bdf4900e1f287385e4e5925525cd8add8b14f953409d34038238d6a0f6
+2025-06-16 15:28:33,002 - INFO - Fingerprint sertifikat server cocok dengan yang diharapkan.
+2025-06-16 15:28:33,002 - INFO - Certificate subject: {'commonName': 'server'}
+2025-06-16 15:28:33,002 - INFO - Certificate issuer: {'commonName': 'Chat CA'}
+2025-06-16 15:28:33,002 - INFO - Terhubung ke server sebagai server
+2025-06-16 15:28:33,007 - INFO - Fingerprint SHA-256 sertifikat server: 508ed8bdf4900e1f287385e4e5925525cd8add8b14f953409d34038238d6a0f6
+2025-06-16 15:28:33,007 - INFO - Fingerprint sertifikat server cocok dengan yang diharapkan.
+2025-06-16 15:28:33,007 - INFO - Certificate subject: {'commonName': 'server'}
+2025-06-16 15:28:33,007 - INFO - Certificate issuer: {'commonName': 'Chat CA'}
+2025-06-16 15:28:33,012 - INFO - Terhubung ke server sebagai server
+2025-06-16 15:29:00,173 - INFO - Fingerprint SHA-256 sertifikat server: 508ed8bdf4900e1f287385e4e5925525cd8add8b14f953409d34038238d6a0f6
+2025-06-16 15:29:00,173 - INFO - Fingerprint sertifikat server cocok dengan yang diharapkan.
+2025-06-16 15:29:00,173 - INFO - Certificate subject: {'commonName': 'server'}
+2025-06-16 15:29:00,173 - INFO - Certificate issuer: {'commonName': 'Chat CA'}
+2025-06-16 15:29:00,173 - INFO - Terhubung ke server sebagai server
+2025-06-16 15:29:00,183 - INFO - Fingerprint SHA-256 sertifikat server: 508ed8bdf4900e1f287385e4e5925525cd8add8b14f953409d34038238d6a0f6
+2025-06-16 15:29:00,183 - INFO - Fingerprint sertifikat server cocok dengan yang diharapkan.
+2025-06-16 15:29:00,183 - INFO - Certificate subject: {'commonName': 'server'}
+2025-06-16 15:29:00,184 - INFO - Certificate issuer: {'commonName': 'Chat CA'}
+2025-06-16 15:29:00,184 - INFO - Terhubung ke server sebagai server
+2025-06-16 15:29:00,190 - INFO - Fingerprint SHA-256 sertifikat server: 508ed8bdf4900e1f287385e4e5925525cd8add8b14f953409d34038238d6a0f6
+2025-06-16 15:29:00,192 - INFO - Fingerprint sertifikat server cocok dengan yang diharapkan.
+2025-06-16 15:29:00,192 - INFO - Certificate subject: {'commonName': 'server'}
+2025-06-16 15:29:00,192 - INFO - Certificate issuer: {'commonName': 'Chat CA'}
+2025-06-16 15:29:00,193 - INFO - Terhubung ke server sebagai server
+2025-06-16 15:29:00,193 - ERROR - Error menerima pesan: [WinError 10053] An established connection was aborted by the software in your host machine
+2025-06-16 15:29:39,665 - INFO - Fingerprint SHA-256 sertifikat server: 508ed8bdf4900e1f287385e4e5925525cd8add8b14f953409d34038238d6a0f6
+2025-06-16 15:29:39,665 - WARNING - Tidak ada fingerprint server yang diharapkan untuk diverifikasi. Mengandalkan validasi CA.
+2025-06-16 15:29:39,665 - INFO - Certificate subject: {'commonName': 'server'}
+2025-06-16 15:29:39,665 - INFO - Certificate issuer: {'commonName': 'Chat CA'}
+2025-06-16 15:29:39,665 - INFO - Terhubung ke server sebagai server
+2025-06-16 15:29:46,161 - WARNING - Koneksi ditutup oleh server.
+2025-06-16 15:30:57,755 - INFO - Fingerprint SHA-256 sertifikat server: 508ed8bdf4900e1f287385e4e5925525cd8add8b14f953409d34038238d6a0f6
+2025-06-16 15:30:57,755 - WARNING - Tidak ada fingerprint server yang diharapkan untuk diverifikasi. Mengandalkan validasi CA.
+2025-06-16 15:30:57,755 - INFO - Certificate subject: {'commonName': 'server'}
+2025-06-16 15:30:57,755 - INFO - Certificate issuer: {'commonName': 'Chat CA'}
+2025-06-16 15:30:57,755 - INFO - Terhubung ke server sebagai server
+2025-06-16 15:31:03,216 - INFO - Pesan terkirim: tes
+2025-06-16 15:31:07,303 - WARNING - Koneksi ditutup oleh server.
+2025-06-16 15:31:28,666 - INFO - Fingerprint SHA-256 sertifikat server: 508ed8bdf4900e1f287385e4e5925525cd8add8b14f953409d34038238d6a0f6
+2025-06-16 15:31:28,666 - INFO - Fingerprint sertifikat server cocok dengan yang diharapkan.
+2025-06-16 15:31:28,666 - INFO - Certificate subject: {'commonName': 'server'}
+2025-06-16 15:31:28,666 - INFO - Certificate issuer: {'commonName': 'Chat CA'}
+2025-06-16 15:31:28,666 - INFO - Terhubung ke server sebagai server
+2025-06-16 15:31:28,666 - INFO - Fingerprint SHA-256 sertifikat server: 508ed8bdf4900e1f287385e4e5925525cd8add8b14f953409d34038238d6a0f6
+2025-06-16 15:31:28,666 - INFO - Fingerprint sertifikat server cocok dengan yang diharapkan.
+2025-06-16 15:31:28,666 - INFO - Certificate subject: {'commonName': 'server'}
+2025-06-16 15:31:28,666 - INFO - Certificate issuer: {'commonName': 'Chat CA'}
+2025-06-16 15:31:28,666 - INFO - Terhubung ke server sebagai server
+2025-06-16 15:31:28,677 - INFO - Fingerprint SHA-256 sertifikat server: 508ed8bdf4900e1f287385e4e5925525cd8add8b14f953409d34038238d6a0f6
+2025-06-16 15:31:28,677 - INFO - Fingerprint sertifikat server cocok dengan yang diharapkan.
+2025-06-16 15:31:28,682 - INFO - Certificate subject: {'commonName': 'server'}
+2025-06-16 15:31:28,682 - INFO - Certificate issuer: {'commonName': 'Chat CA'}
+2025-06-16 15:31:28,683 - INFO - Terhubung ke server sebagai server
+2025-06-16 15:31:42,878 - INFO - Pesan terkirim: test
+2025-06-16 15:31:54,709 - INFO - Pesan terkirim: tes
+2025-06-16 15:32:01,413 - INFO - Pesan terkirim: anjay
+2025-06-16 15:34:47,537 - INFO - Fingerprint SHA-256 sertifikat server: 508ed8bdf4900e1f287385e4e5925525cd8add8b14f953409d34038238d6a0f6
+2025-06-16 15:34:47,537 - INFO - Fingerprint sertifikat server cocok dengan yang diharapkan.
+2025-06-16 15:34:47,537 - INFO - Certificate subject: {'commonName': 'server'}
+2025-06-16 15:34:47,537 - INFO - Certificate issuer: {'commonName': 'Chat CA'}
+2025-06-16 15:34:47,537 - INFO - Terhubung ke server sebagai server
+2025-06-16 15:34:47,544 - INFO - Fingerprint SHA-256 sertifikat server: 508ed8bdf4900e1f287385e4e5925525cd8add8b14f953409d34038238d6a0f6
+2025-06-16 15:34:47,544 - INFO - Fingerprint sertifikat server cocok dengan yang diharapkan.
+2025-06-16 15:34:47,544 - INFO - Certificate subject: {'commonName': 'server'}
+2025-06-16 15:34:47,545 - INFO - Certificate issuer: {'commonName': 'Chat CA'}
+2025-06-16 15:34:47,545 - INFO - Terhubung ke server sebagai server
+2025-06-16 15:34:47,551 - INFO - Fingerprint SHA-256 sertifikat server: 508ed8bdf4900e1f287385e4e5925525cd8add8b14f953409d34038238d6a0f6
+2025-06-16 15:34:47,552 - INFO - Fingerprint sertifikat server cocok dengan yang diharapkan.
+2025-06-16 15:34:47,552 - INFO - Certificate subject: {'commonName': 'server'}
+2025-06-16 15:34:47,552 - INFO - Certificate issuer: {'commonName': 'Chat CA'}
+2025-06-16 15:34:47,553 - INFO - Terhubung ke server sebagai server
+2025-06-16 15:34:59,751 - INFO - Pesan terkirim: tes
+2025-06-16 15:35:04,021 - INFO - Pesan terkirim: hai
+2025-06-16 15:35:18,061 - INFO - Pesan terkirim: hai

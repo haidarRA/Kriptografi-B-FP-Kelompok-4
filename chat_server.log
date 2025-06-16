@@ -72,3 +72,236 @@
 2025-06-14 15:47:08,287 - INFO - Shutting down send executor...
 2025-06-14 15:47:08,287 - INFO - Send executor shutdown complete.
 2025-06-14 15:47:08,287 - INFO - ✅ Server cleanup selesai
+2025-06-16 14:06:26,424 - INFO - Whitelist berhasil dimuat dari 'whitelist.txt'. 2 pengguna diizinkan.
+2025-06-16 14:06:26,436 - INFO - Enhanced Server berjalan di 0.0.0.0:8443
+2025-06-16 14:06:26,436 - INFO - 🚀 Enhanced TLS Chat Server dimulai...
+2025-06-16 14:06:26,436 - INFO - 📊 Fitur tambahan: Commands, History, Better Logging, Error Handling
+2025-06-16 14:21:12,793 - INFO - 🛑 Server dihentikan oleh pengguna
+2025-06-16 14:21:12,796 - INFO - 🧹 Membersihkan resources...
+2025-06-16 14:21:12,796 - INFO - Shutting down send executor...
+2025-06-16 14:21:12,796 - INFO - Send executor shutdown complete.
+2025-06-16 14:21:12,796 - INFO - ✅ Server cleanup selesai
+2025-06-16 14:32:55,671 - INFO - Whitelist berhasil dimuat dari 'whitelist.txt'. 2 pengguna diizinkan.
+2025-06-16 14:32:55,679 - INFO - Enhanced Server berjalan di 0.0.0.0:8443
+2025-06-16 14:32:55,679 - INFO - 🚀 Enhanced TLS Chat Server dimulai...
+2025-06-16 14:32:55,680 - INFO - 📊 Fitur tambahan: Commands, History, Better Logging, Error Handling
+2025-06-16 14:33:41,417 - INFO - Klien 'client' diterima dari whitelist.
+2025-06-16 14:33:41,418 - INFO - Klien terhubung: client dari ('127.0.0.1', 56978)
+2025-06-16 14:33:41,418 - INFO - [JOIN] 📢 client telah bergabung ke chat
+2025-06-16 14:39:14,693 - WARNING - Timeout dari client
+2025-06-16 14:39:14,694 - INFO - Klien client terhubung selama 0:05:33.275803
+2025-06-16 14:39:14,694 - INFO - [LEAVE] 📢 client telah meninggalkan chat
+2025-06-16 14:39:14,694 - INFO - Klien terputus: client
+2025-06-16 14:46:55,504 - INFO - 🛑 Server dihentikan oleh pengguna
+2025-06-16 14:46:55,505 - INFO - 🧹 Membersihkan resources...
+2025-06-16 14:46:55,505 - INFO - Shutting down send executor...
+2025-06-16 14:46:55,505 - INFO - Send executor shutdown complete.
+2025-06-16 14:46:55,505 - INFO - ✅ Server cleanup selesai
+2025-06-16 14:52:06,951 - INFO - Whitelist berhasil dimuat dari 'whitelist.txt'. 3 pengguna diizinkan.
+2025-06-16 14:52:06,954 - INFO - Enhanced Server berjalan di 0.0.0.0:8443
+2025-06-16 14:52:06,954 - INFO - 🚀 Enhanced TLS Chat Server dimulai...
+2025-06-16 14:52:06,954 - INFO - 📊 Fitur tambahan: Commands, History, Better Logging, Error Handling
+2025-06-16 14:52:14,246 - INFO - Klien 'client' diterima dari whitelist.
+2025-06-16 14:52:14,246 - INFO - Klien terhubung: client dari ('127.0.0.1', 58011)
+2025-06-16 14:52:14,246 - INFO - [JOIN] 📢 client telah bergabung ke chat
+2025-06-16 14:53:39,192 - INFO - Klien client terhubung selama 0:01:24.945588
+2025-06-16 14:53:39,193 - INFO - [LEAVE] 📢 client telah meninggalkan chat
+2025-06-16 14:53:39,193 - INFO - Klien terputus: client
+2025-06-16 14:53:46,426 - INFO - 🛑 Server dihentikan oleh pengguna
+2025-06-16 14:53:46,426 - INFO - 🧹 Membersihkan resources...
+2025-06-16 14:53:46,426 - INFO - Shutting down send executor...
+2025-06-16 14:53:46,427 - INFO - Send executor shutdown complete.
+2025-06-16 14:53:46,427 - INFO - ✅ Server cleanup selesai
+2025-06-16 14:53:48,637 - INFO - Whitelist berhasil dimuat dari 'whitelist.txt'. 3 pengguna diizinkan.
+2025-06-16 14:53:48,640 - INFO - Enhanced Server berjalan di 0.0.0.0:8443
+2025-06-16 14:53:48,640 - INFO - 🚀 Enhanced TLS Chat Server dimulai...
+2025-06-16 14:53:48,640 - INFO - 📊 Fitur tambahan: Commands, History, Better Logging, Error Handling
+2025-06-16 14:54:18,361 - INFO - Whitelist berhasil dimuat dari 'whitelist.txt'. 5 pengguna diizinkan.
+2025-06-16 14:54:29,063 - INFO - 🛑 Server dihentikan oleh pengguna
+2025-06-16 14:54:29,064 - INFO - 🧹 Membersihkan resources...
+2025-06-16 14:54:29,064 - INFO - Shutting down send executor...
+2025-06-16 14:54:29,064 - INFO - Send executor shutdown complete.
+2025-06-16 14:54:29,065 - INFO - ✅ Server cleanup selesai
+2025-06-16 14:54:30,849 - INFO - Whitelist berhasil dimuat dari 'whitelist.txt'. 5 pengguna diizinkan.
+2025-06-16 14:54:30,852 - INFO - Enhanced Server berjalan di 0.0.0.0:8443
+2025-06-16 14:54:30,852 - INFO - 🚀 Enhanced TLS Chat Server dimulai...
+2025-06-16 14:54:30,852 - INFO - 📊 Fitur tambahan: Commands, History, Better Logging, Error Handling
+2025-06-16 14:54:46,348 - INFO - Klien 'client1' diterima dari whitelist.
+2025-06-16 14:54:46,348 - INFO - Klien terhubung: client1 dari ('127.0.0.1', 58227)
+2025-06-16 14:54:46,348 - INFO - [JOIN] 📢 client1 telah bergabung ke chat
+2025-06-16 14:54:52,652 - INFO - Klien 'client2' diterima dari whitelist.
+2025-06-16 14:54:52,652 - INFO - Klien terhubung: client2 dari ('127.0.0.1', 58230)
+2025-06-16 14:54:52,652 - INFO - [JOIN] 📢 client2 telah bergabung ke chat
+2025-06-16 14:54:56,495 - INFO - [MESSAGE] client1: halo
+2025-06-16 14:55:09,027 - INFO - [MESSAGE] client2: halo
+2025-06-16 14:56:15,855 - INFO - Klien 'client3' diterima dari whitelist.
+2025-06-16 14:56:15,856 - INFO - Klien terhubung: client3 dari ('127.0.0.1', 58376)
+2025-06-16 14:56:15,856 - INFO - [JOIN] 📢 client3 telah bergabung ke chat
+2025-06-16 14:56:19,686 - INFO - [MESSAGE] client3: dam
+2025-06-16 14:57:39,367 - INFO - Klien client1 terhubung selama 0:02:53.018268
+2025-06-16 14:57:39,368 - INFO - [LEAVE] 📢 client1 telah meninggalkan chat
+2025-06-16 14:57:39,369 - INFO - Klien terputus: client1
+2025-06-16 14:57:51,804 - INFO - Klien 'client1' diterima dari whitelist.
+2025-06-16 14:57:51,804 - INFO - Klien terhubung: client1 dari ('127.0.0.1', 58494)
+2025-06-16 14:57:51,804 - INFO - [JOIN] 📢 client1 telah bergabung ke chat
+2025-06-16 14:58:02,693 - INFO - [MESSAGE] client1: hlao
+2025-06-16 14:58:12,182 - INFO - [MESSAGE] client2: halo
+2025-06-16 14:58:16,798 - INFO - Klien client2 terhubung selama 0:03:24.145382
+2025-06-16 14:58:16,798 - INFO - [LEAVE] 📢 client2 telah meninggalkan chat
+2025-06-16 14:58:16,799 - INFO - Klien terputus: client2
+2025-06-16 14:58:18,780 - INFO - Klien 'client2' diterima dari whitelist.
+2025-06-16 14:58:18,780 - INFO - Klien terhubung: client2 dari ('127.0.0.1', 58522)
+2025-06-16 14:58:18,780 - INFO - [JOIN] 📢 client2 telah bergabung ke chat
+2025-06-16 14:58:34,160 - INFO - Klien client3 terhubung selama 0:02:18.303695
+2025-06-16 14:58:34,161 - INFO - [LEAVE] 📢 client3 telah meninggalkan chat
+2025-06-16 14:58:34,161 - INFO - Klien terputus: client3
+2025-06-16 14:58:42,274 - INFO - Klien 'client3' diterima dari whitelist.
+2025-06-16 14:58:42,274 - INFO - Klien terhubung: client3 dari ('127.0.0.1', 58532)
+2025-06-16 14:58:42,274 - INFO - [JOIN] 📢 client3 telah bergabung ke chat
+2025-06-16 14:58:44,234 - INFO - [MESSAGE] client3: hlao
+2025-06-16 14:58:48,449 - INFO - [MESSAGE] client3: tes client 3
+2025-06-16 14:59:03,055 - INFO - [MESSAGE] client1: check client 2
+2025-06-16 15:00:46,127 - INFO - [MESSAGE] client1: aku client 1
+2025-06-16 15:00:51,843 - INFO - [MESSAGE] client2: aku client 2
+2025-06-16 15:19:17,051 - INFO - Whitelist berhasil dimuat dari 'whitelist.txt'. 5 pengguna diizinkan.
+2025-06-16 15:19:17,093 - INFO - Enhanced Server berjalan di 0.0.0.0:8443
+2025-06-16 15:19:17,093 - INFO - 🚀 Enhanced TLS Chat Server dimulai...
+2025-06-16 15:19:17,097 - INFO - 📊 Fitur tambahan: Commands, History, Better Logging, Error Handling
+2025-06-16 15:19:22,400 - INFO - Klien 'client1' diterima dari whitelist.
+2025-06-16 15:19:22,400 - INFO - Klien terhubung: client1 dari ('127.0.0.1', 50676)
+2025-06-16 15:19:22,400 - INFO - [JOIN] 📢 client1 telah bergabung ke chat
+2025-06-16 15:19:25,768 - INFO - [MESSAGE] client1: tes
+2025-06-16 15:19:58,742 - INFO - Klien 'client2' diterima dari whitelist.
+2025-06-16 15:19:58,742 - INFO - Klien terhubung: client2 dari ('127.0.0.1', 50683)
+2025-06-16 15:19:58,742 - INFO - [JOIN] 📢 client2 telah bergabung ke chat
+2025-06-16 15:20:03,494 - INFO - [MESSAGE] client2: tes
+2025-06-16 15:20:13,630 - INFO - [MESSAGE] client2: tes
+2025-06-16 15:20:18,403 - INFO - [MESSAGE] client1: tes
+2025-06-16 15:20:22,712 - INFO - Klien client1 terhubung selama 0:01:00.312523
+2025-06-16 15:20:22,712 - INFO - [LEAVE] 📢 client1 telah meninggalkan chat
+2025-06-16 15:20:22,712 - INFO - Klien terputus: client1
+2025-06-16 15:20:26,275 - INFO - Klien client2 terhubung selama 0:00:27.533800
+2025-06-16 15:20:26,275 - INFO - [LEAVE] 📢 client2 telah meninggalkan chat
+2025-06-16 15:20:26,275 - INFO - Klien terputus: client2
+2025-06-16 15:28:29,896 - INFO - Whitelist berhasil dimuat dari 'whitelist.txt'. 5 pengguna diizinkan.
+2025-06-16 15:28:29,896 - INFO - Enhanced Server berjalan di 0.0.0.0:8443
+2025-06-16 15:28:29,896 - INFO - Server memulai di 0.0.0.0:8443
+2025-06-16 15:28:32,990 - INFO - Klien 'client1' diterima dari whitelist.
+2025-06-16 15:28:32,990 - INFO - Klien terhubung: client1 dari ('127.0.0.1', 50828)
+2025-06-16 15:28:32,993 - INFO - [JOIN] 📢 client1 telah bergabung ke chat
+2025-06-16 15:28:32,996 - INFO - Klien client1 terhubung selama 0:00:00.006171
+2025-06-16 15:28:32,996 - INFO - [LEAVE] 📢 client1 telah meninggalkan chat
+2025-06-16 15:28:32,996 - INFO - Klien terputus: client1
+2025-06-16 15:28:33,002 - INFO - Klien 'client3' diterima dari whitelist.
+2025-06-16 15:28:33,002 - INFO - Klien terhubung: client3 dari ('127.0.0.1', 50829)
+2025-06-16 15:28:33,005 - INFO - [JOIN] 📢 client3 telah bergabung ke chat
+2025-06-16 15:28:33,007 - INFO - Klien client3 terhubung selama 0:00:00.004580
+2025-06-16 15:28:33,007 - INFO - [LEAVE] 📢 client3 telah meninggalkan chat
+2025-06-16 15:28:33,007 - INFO - Klien terputus: client3
+2025-06-16 15:28:33,013 - INFO - Klien 'client2' diterima dari whitelist.
+2025-06-16 15:28:33,013 - INFO - Klien terhubung: client2 dari ('127.0.0.1', 50830)
+2025-06-16 15:28:33,013 - INFO - [JOIN] 📢 client2 telah bergabung ke chat
+2025-06-16 15:28:33,013 - INFO - Klien client2 terhubung selama 0:00:00
+2025-06-16 15:28:33,013 - INFO - [LEAVE] 📢 client2 telah meninggalkan chat
+2025-06-16 15:28:33,013 - INFO - Klien terputus: client2
+2025-06-16 15:28:57,075 - INFO - Whitelist berhasil dimuat dari 'whitelist.txt'. 5 pengguna diizinkan.
+2025-06-16 15:28:57,085 - INFO - Enhanced Server berjalan di 0.0.0.0:8443
+2025-06-16 15:28:57,085 - INFO - Server memulai di 0.0.0.0:8443
+2025-06-16 15:29:00,173 - INFO - Klien 'client1' diterima dari whitelist.
+2025-06-16 15:29:00,173 - INFO - Klien terhubung: client1 dari ('127.0.0.1', 50838)
+2025-06-16 15:29:00,173 - INFO - [JOIN] 📢 client1 telah bergabung ke chat
+2025-06-16 15:29:00,173 - INFO - Klien client1 terhubung selama 0:00:00
+2025-06-16 15:29:00,173 - INFO - [LEAVE] 📢 client1 telah meninggalkan chat
+2025-06-16 15:29:00,181 - INFO - Klien terputus: client1
+2025-06-16 15:29:00,184 - INFO - Klien 'client2' diterima dari whitelist.
+2025-06-16 15:29:00,184 - INFO - Klien terhubung: client2 dari ('127.0.0.1', 50839)
+2025-06-16 15:29:00,184 - INFO - [JOIN] 📢 client2 telah bergabung ke chat
+2025-06-16 15:29:00,188 - INFO - Klien client2 terhubung selama 0:00:00.004328
+2025-06-16 15:29:00,188 - INFO - [LEAVE] 📢 client2 telah meninggalkan chat
+2025-06-16 15:29:00,188 - INFO - Klien terputus: client2
+2025-06-16 15:29:00,193 - INFO - Klien 'client3' diterima dari whitelist.
+2025-06-16 15:29:00,193 - INFO - Klien terhubung: client3 dari ('127.0.0.1', 50840)
+2025-06-16 15:29:00,193 - INFO - [JOIN] 📢 client3 telah bergabung ke chat
+2025-06-16 15:29:00,193 - INFO - Klien client3 terhubung selama 0:00:00
+2025-06-16 15:29:00,193 - INFO - [LEAVE] 📢 client3 telah meninggalkan chat
+2025-06-16 15:29:00,193 - INFO - Klien terputus: client3
+2025-06-16 15:29:15,772 - INFO - Whitelist berhasil dimuat dari 'whitelist.txt'. 5 pengguna diizinkan.
+2025-06-16 15:29:15,772 - INFO - Enhanced Server berjalan di 0.0.0.0:8443
+2025-06-16 15:29:15,772 - INFO - Server memulai di 0.0.0.0:8443
+2025-06-16 15:29:39,665 - INFO - Menerima koneksi dari ('127.0.0.1', 50849)
+2025-06-16 15:29:39,672 - INFO - Detail sertifikat klien dari ('127.0.0.1', 50849): CN=client1, O=None, OU=None
+2025-06-16 15:29:39,672 - INFO - Klien 'client1' diterima dari whitelist.
+2025-06-16 15:29:39,672 - INFO - Klien terhubung: client1 dari ('127.0.0.1', 50849)
+2025-06-16 15:29:39,673 - INFO - [JOIN] 📢 client1 telah bergabung ke chat
+2025-06-16 15:29:46,161 - INFO - Klien client1 terhubung selama 0:00:06.489846
+2025-06-16 15:29:46,161 - INFO - [LEAVE] 📢 client1 telah meninggalkan chat
+2025-06-16 15:29:46,161 - INFO - Klien terputus: client1
+2025-06-16 15:30:57,755 - INFO - Menerima koneksi dari ('127.0.0.1', 50863)
+2025-06-16 15:30:57,755 - INFO - Detail sertifikat klien dari ('127.0.0.1', 50863): CN=client2, O=None, OU=None
+2025-06-16 15:30:57,755 - INFO - Klien 'client2' diterima dari whitelist.
+2025-06-16 15:30:57,755 - INFO - Klien terhubung: client2 dari ('127.0.0.1', 50863)
+2025-06-16 15:30:57,771 - INFO - [JOIN] 📢 client2 telah bergabung ke chat
+2025-06-16 15:31:03,216 - INFO - [MESSAGE] client2: tes
+2025-06-16 15:31:07,303 - INFO - Klien client2 terhubung selama 0:00:09.547746
+2025-06-16 15:31:07,303 - INFO - [LEAVE] 📢 client2 telah meninggalkan chat
+2025-06-16 15:31:07,303 - INFO - Klien terputus: client2
+2025-06-16 15:31:25,432 - INFO - Whitelist berhasil dimuat dari 'whitelist.txt'. 5 pengguna diizinkan.
+2025-06-16 15:31:25,448 - INFO - Enhanced Server berjalan di 0.0.0.0:8443
+2025-06-16 15:31:25,448 - INFO - Server memulai di 0.0.0.0:8443
+2025-06-16 15:31:28,666 - INFO - Menerima koneksi dari ('127.0.0.1', 50884)
+2025-06-16 15:31:28,666 - INFO - Detail sertifikat klien dari ('127.0.0.1', 50884): CN=client3, O=None, OU=None
+2025-06-16 15:31:28,666 - INFO - Klien 'client3' diterima dari whitelist.
+2025-06-16 15:31:28,666 - INFO - Klien terhubung: client3 dari ('127.0.0.1', 50884)
+2025-06-16 15:31:28,666 - INFO - [JOIN] 📢 client3 telah bergabung ke chat
+2025-06-16 15:31:28,676 - INFO - Menerima koneksi dari ('127.0.0.1', 50885)
+2025-06-16 15:31:28,676 - INFO - Detail sertifikat klien dari ('127.0.0.1', 50885): CN=client1, O=None, OU=None
+2025-06-16 15:31:28,677 - INFO - Klien 'client1' diterima dari whitelist.
+2025-06-16 15:31:28,677 - INFO - Klien terhubung: client1 dari ('127.0.0.1', 50885)
+2025-06-16 15:31:28,677 - INFO - [JOIN] 📢 client1 telah bergabung ke chat
+2025-06-16 15:31:28,684 - INFO - Menerima koneksi dari ('127.0.0.1', 50886)
+2025-06-16 15:31:28,684 - INFO - Detail sertifikat klien dari ('127.0.0.1', 50886): CN=client2, O=None, OU=None
+2025-06-16 15:31:28,684 - INFO - Klien 'client2' diterima dari whitelist.
+2025-06-16 15:31:28,684 - INFO - Klien terhubung: client2 dari ('127.0.0.1', 50886)
+2025-06-16 15:31:28,684 - INFO - [JOIN] 📢 client2 telah bergabung ke chat
+2025-06-16 15:31:42,878 - INFO - [MESSAGE] client3: test
+2025-06-16 15:31:54,709 - INFO - [MESSAGE] client3: tes
+2025-06-16 15:32:01,413 - INFO - [MESSAGE] client1: anjay
+2025-06-16 15:34:37,610 - INFO - Klien client1 terhubung selama 0:03:08.932664
+2025-06-16 15:34:37,610 - INFO - Klien client2 terhubung selama 0:03:08.925961
+2025-06-16 15:34:37,610 - INFO - [LEAVE] 📢 client1 telah meninggalkan chat
+2025-06-16 15:34:37,612 - INFO - [LEAVE] 📢 client2 telah meninggalkan chat
+2025-06-16 15:34:37,612 - INFO - Klien client3 terhubung selama 0:03:08.945801
+2025-06-16 15:34:37,612 - INFO - Klien terputus: client1
+2025-06-16 15:34:37,612 - INFO - [LEAVE] 📢 client3 telah meninggalkan chat
+2025-06-16 15:34:37,612 - INFO - Klien terputus: client2
+2025-06-16 15:34:37,612 - INFO - Klien terputus: client3
+2025-06-16 15:34:44,302 - INFO - Whitelist berhasil dimuat dari 'whitelist.txt'. 3 pengguna diizinkan.
+2025-06-16 15:34:44,309 - INFO - Enhanced Server berjalan di 0.0.0.0:8443
+2025-06-16 15:34:44,309 - INFO - Server memulai di 0.0.0.0:8443
+2025-06-16 15:34:47,537 - INFO - Menerima koneksi dari ('127.0.0.1', 50934)
+2025-06-16 15:34:47,537 - INFO - Detail sertifikat klien dari ('127.0.0.1', 50934): CN=client1, O=None, OU=None
+2025-06-16 15:34:47,537 - INFO - Klien 'client1' diterima dari whitelist.
+2025-06-16 15:34:47,537 - INFO - Klien terhubung: client1 dari ('127.0.0.1', 50934)
+2025-06-16 15:34:47,537 - INFO - [JOIN] 📢 client1 telah bergabung ke chat
+2025-06-16 15:34:47,545 - INFO - Menerima koneksi dari ('127.0.0.1', 50935)
+2025-06-16 15:34:47,545 - INFO - Detail sertifikat klien dari ('127.0.0.1', 50935): CN=client2, O=None, OU=None
+2025-06-16 15:34:47,547 - INFO - Klien 'client2' diterima dari whitelist.
+2025-06-16 15:34:47,547 - INFO - Klien terhubung: client2 dari ('127.0.0.1', 50935)
+2025-06-16 15:34:47,547 - INFO - [JOIN] 📢 client2 telah bergabung ke chat
+2025-06-16 15:34:47,553 - INFO - Menerima koneksi dari ('127.0.0.1', 50936)
+2025-06-16 15:34:47,553 - INFO - Detail sertifikat klien dari ('127.0.0.1', 50936): CN=client3, O=None, OU=None
+2025-06-16 15:34:47,553 - INFO - Klien 'client3' diterima dari whitelist.
+2025-06-16 15:34:47,553 - INFO - Klien terhubung: client3 dari ('127.0.0.1', 50936)
+2025-06-16 15:34:47,553 - INFO - [JOIN] 📢 client3 telah bergabung ke chat
+2025-06-16 15:34:59,751 - INFO - [MESSAGE] client2: tes
+2025-06-16 15:35:04,021 - INFO - [MESSAGE] client1: hai
+2025-06-16 15:35:18,061 - INFO - [MESSAGE] client3: hai
+2025-06-16 15:35:52,063 - INFO - Klien client3 terhubung selama 0:01:04.510209
+2025-06-16 15:35:52,070 - INFO - Klien client1 terhubung selama 0:01:04.532313
+2025-06-16 15:35:52,070 - INFO - [LEAVE] 📢 client3 telah meninggalkan chat
+2025-06-16 15:35:52,075 - INFO - [LEAVE] 📢 client1 telah meninggalkan chat
+2025-06-16 15:35:52,075 - INFO - Klien client2 terhubung selama 0:01:04.528034
+2025-06-16 15:35:52,082 - INFO - Klien terputus: client3
+2025-06-16 15:35:52,082 - INFO - [LEAVE] 📢 client2 telah meninggalkan chat
+2025-06-16 15:35:52,082 - INFO - Klien terputus: client1
+2025-06-16 15:35:52,083 - INFO - Klien terputus: client2

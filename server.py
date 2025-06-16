@@ -57,13 +57,15 @@ class EnhancedTLSChatServer:
         self.history_lock = threading.Lock()
 
         logger.info(f"Enhanced Server berjalan di {self.host}:{self.port}")
+
+        self.running = False # Ditambahkan untuk kontrol loop server dalam testing
+
     def load_whitelist(self) -> set:
         """Membaca daftar pengguna yang diizinkan dari file."""
         allowed_users = set()
         try:
             with open(self.whitelist_file, 'r') as f:
                 for line in f:
-                    # Menghapus spasi dan baris baru, abaikan baris kosong atau komentar
                     user = line.strip()
                     if user and not user.startswith('#'):
                         allowed_users.add(user)
@@ -83,6 +85,7 @@ class EnhancedTLSChatServer:
 
     def handle_client(self, client_socket: ssl.SSLSocket, client_address: tuple):
         client_id = None
+        client_cn = None
         try:
             # Enhanced certificate validation
             cert = client_socket.getpeercert()
@@ -90,8 +93,19 @@ class EnhancedTLSChatServer:
                 logger.warning(f"Koneksi tanpa sertifikat dari {client_address}")
                 client_socket.close()
                 return
-                
-            client_id = cert['subject'][0][0][1]
+
+            subject_info = dict(x[0] for x in cert.get('subject', []))
+            client_cn = subject_info.get('commonName')
+            client_o = subject_info.get('organizationName')
+            client_ou = subject_info.get('organizationalUnitName')
+
+            if not client_cn:
+                logger.warning(f"Koneksi dari {client_address} tidak memiliki Common Name (CN) di sertifikat.")
+                client_socket.close()
+                return
+
+            client_id = client_cn  # Use CN as the primary identifier
+            logger.info(f"Detail sertifikat klien dari {client_address}: CN={client_cn}, O={client_o}, OU={client_ou}")
 
             if client_id not in self.whitelist:
                 logger.warning(f"Koneksi dari '{client_id}' ditolak. Tidak ada di whitelist.")
@@ -135,6 +149,8 @@ class EnhancedTLSChatServer:
             join_msg = f"📢 {client_id} telah bergabung ke chat"
             self.broadcast_and_log(join_msg, exclude=client_socket, msg_type="JOIN")
             
+            client_socket.settimeout(1.0) # Set a 1-second timeout for recv
+            
             # Main message loop
             while True:
                 try:
@@ -155,7 +171,12 @@ class EnhancedTLSChatServer:
                         self.broadcast_and_log(formatted_msg, exclude=client_socket, 
                                              msg_type="MESSAGE", sender=client_id)
                     
+                except socket.timeout: # Handle timeout for non-blocking recv
+                    continue # No data, loop again
                 except ssl.SSLError as e:
+                    if 'timed out' in str(e).lower() or 'want read' in str(e): # Handle SSL-specific timeout/non-blocking behavior
+                        logger.warning(f"SSL read timed out/want read untuk {client_id}, mencoba lagi.")
+                        continue
                     logger.error(f"SSL Error dari {client_id}: {e}")
                     break
                 except socket.timeout:
@@ -170,6 +191,80 @@ class EnhancedTLSChatServer:
         finally:
             if client_id:
                 self.remove_client(client_socket, client_id)
+
+    # Metode untuk memulai dan menghentikan server (untuk testing)
+    def start(self):
+        logger.info(f"Server memulai di {self.host}:{self.port}")
+        self.server_socket.settimeout(1.0) # Agar bisa diinterupsi
+        self.running = True
+        try:
+            while self.running:
+                try:
+                    client_socket, client_address = self.server_socket.accept()
+                    # Bungkus socket dengan SSL setelah accept, bukan sebelumnya
+                    wrapped_socket = self.ssl_context.wrap_socket(client_socket, server_side=True)
+                    
+                    logger.info(f"Menerima koneksi dari {client_address}")
+                    # Handle client connection in a new thread
+                    thread = threading.Thread(target=self.handle_client, args=(wrapped_socket, client_address))
+                    thread.daemon = True
+                    thread.start()
+                except socket.timeout:
+                    continue # Kembali cek self.running
+                except ssl.SSLError as e:
+                    if self.running:
+                        logger.error(f"SSL Error saat accept koneksi: {e}")
+                    # Mungkin tidak perlu break di sini, tergantung jenis SSLError
+                except Exception as e:
+                    if self.running:
+                        logger.error(f"Error saat accept koneksi: {e}")
+                    # Pertimbangkan apakah akan break atau tidak
+        finally:
+            logger.info("Server loop berhenti.")
+            self.cleanup_server_socket() # Pastikan socket server ditutup saat loop berhenti
+
+    def stop(self):
+        logger.info("Menghentikan Server...")
+        self.running = False
+        # Menutup socket server akan menyebabkan accept() gagal, membantu keluar dari loop
+        self.cleanup_server_socket()
+
+        # Menutup koneksi klien yang aktif
+        with self.clients_lock:
+            # Buat salinan list item karena kita akan memodifikasi dictionary self.clients di self.remove_client
+            client_sockets_to_close = list(self.clients.items())
+        
+        logger.info(f"Menutup {len(client_sockets_to_close)} koneksi klien aktif...")
+        for client_id, client_socket in client_sockets_to_close:
+            logger.info(f"Menutup koneksi untuk klien {client_id}...")
+            try:
+                # Pesan ke klien bahwa server shutdown (opsional)
+                # client_socket.sendall("INFO: Server sedang shutdown.\n".encode('utf-8')) 
+                client_socket.shutdown(socket.SHUT_RDWR)
+                client_socket.close()
+            except Exception as e:
+                logger.warning(f"Error saat menutup socket klien {client_id} secara paksa: {e}")
+            # Hapus dari daftar aktif (jika belum dihapus oleh handle_client)
+            # self.remove_client(client_socket, client_id) # Ini bisa menyebabkan masalah jika dipanggil dari sini dan handle_client bersamaan
+            # Cukup pastikan mereka ditutup. remove_client akan dipanggil oleh handle_client saat threadnya berakhir.
+
+        logger.info("Pembersihan daftar klien setelah penutupan paksa...")
+        with self.clients_lock:
+            self.clients.clear()
+            self.client_names.clear()
+            self.client_join_time.clear()
+        
+        logger.info("Server telah dihentikan.")
+
+    def cleanup_server_socket(self):
+        if self.server_socket:
+            logger.info("Menutup socket utama server...")
+            try:
+                self.server_socket.close()
+            except Exception as e:
+                logger.error(f"Error saat menutup socket utama server: {e}")
+            finally:
+                self.server_socket = None # Set ke None agar tidak digunakan lagi
 
     def send_welcome_message(self, client_socket: ssl.SSLSocket, client_id: str):
         """Mengirim pesan selamat datang ke klien baru"""
@@ -339,63 +434,557 @@ class EnhancedTLSChatServer:
             }
 
     def start(self):
+        logger.info(f"Server memulai di {self.host}:{self.port}")
+        self.server_socket.settimeout(1.0) # Agar bisa diinterupsi
+        self.running = True
         try:
-            logger.info("🚀 Enhanced TLS Chat Server dimulai...")
-            logger.info("📊 Fitur tambahan: Commands, History, Better Logging, Error Handling")
-            
-            while True:
+            while self.running:
                 try:
                     client_socket, client_address = self.server_socket.accept()
+                    # Bungkus socket dengan SSL setelah accept, bukan sebelumnya
+                    wrapped_socket = self.ssl_context.wrap_socket(client_socket, server_side=True)
                     
-                    # Set socket timeout untuk mencegah hanging
-                    client_socket.settimeout(300)  # 5 menit timeout
-                    
-                    # Wrap dengan SSL
-                    ssl_client = self.ssl_context.wrap_socket(client_socket, server_side=True)
-                    
-                    client_thread = threading.Thread(
-                        target=self.handle_client,
-                        args=(ssl_client, client_address),
-                        name=f"ClientThread-{client_address[0]}:{client_address[1]}"
-                    )
-                    client_thread.daemon = True
-                    client_thread.start()
-                    
+                    logger.info(f"Menerima koneksi dari {client_address}")
+                    # Handle client connection in a new thread
+                    thread = threading.Thread(target=self.handle_client, args=(wrapped_socket, client_address))
+                    thread.daemon = True
+                    thread.start()
+                except socket.timeout:
+                    continue # Kembali cek self.running
                 except ssl.SSLError as e:
-                    logger.error(f"SSL Error saat menerima koneksi: {e}")
+                    if self.running:
+                        logger.error(f"SSL Error saat accept koneksi: {e}")
+                    # Mungkin tidak perlu break di sini, tergantung jenis SSLError
                 except Exception as e:
-                    logger.error(f"Error saat menerima koneksi: {e}")
-                    
-        except KeyboardInterrupt:
-            logger.info("🛑 Server dihentikan oleh pengguna")
-        except Exception as e:
-            logger.error(f"Fatal error: {e}")
+                    if self.running:
+                        logger.error(f"Error saat accept koneksi: {e}")
+                    # Pertimbangkan apakah akan break atau tidak
         finally:
-            self.cleanup()
+            logger.info("Server loop berhenti.")
+            self.cleanup_server_socket() # Pastikan socket server ditutup saat loop berhenti
 
-    def cleanup(self):
-        """Cleanup resources saat server shutdown"""
-        logger.info("🧹 Membersihkan resources...")
-        
-        # Shutdown executor
-        logger.info("Shutting down send executor...")
-        self.send_executor.shutdown(wait=True) # Menunggu task yang ada selesai
-        logger.info("Send executor shutdown complete.")
+    def stop(self):
+        logger.info("Menghentikan Server...")
+        self.running = False
+        # Menutup socket server akan menyebabkan accept() gagal, membantu keluar dari loop
+        self.cleanup_server_socket()
 
+        # Menutup koneksi klien yang aktif
         with self.clients_lock:
-            for client_id, client_socket in self.clients.items():
-                try:
-                    client_socket.send("🛑 Server sedang shutdown...".encode('utf-8'))
-                    client_socket.close()
-                except:
-                    pass
+            # Buat salinan list item karena kita akan memodifikasi dictionary self.clients di self.remove_client
+            client_sockets_to_close = list(self.clients.items())
         
+        logger.info(f"Menutup {len(client_sockets_to_close)} koneksi klien aktif...")
+        for client_id, client_socket in client_sockets_to_close:
+            logger.info(f"Menutup koneksi untuk klien {client_id}...")
+            try:
+                # Pesan ke klien bahwa server shutdown (opsional)
+                # client_socket.sendall("INFO: Server sedang shutdown.\n".encode('utf-8')) 
+                client_socket.shutdown(socket.SHUT_RDWR)
+                client_socket.close()
+            except Exception as e:
+                logger.warning(f"Error saat menutup socket klien {client_id} secara paksa: {e}")
+            # Hapus dari daftar aktif (jika belum dihapus oleh handle_client)
+            # self.remove_client(client_socket, client_id) # Ini bisa menyebabkan masalah jika dipanggil dari sini dan handle_client bersamaan
+            # Cukup pastikan mereka ditutup. remove_client akan dipanggil oleh handle_client saat threadnya berakhir.
+
+        logger.info("Pembersihan daftar klien setelah penutupan paksa...")
+        with self.clients_lock:
+            self.clients.clear()
+            self.client_names.clear()
+            self.client_join_time.clear()
+        
+        logger.info("Server telah dihentikan.")
+
+    def cleanup_server_socket(self):
+        if self.server_socket:
+            logger.info("Menutup socket utama server...")
+            try:
+                self.server_socket.close()
+            except Exception as e:
+                logger.error(f"Error saat menutup socket utama server: {e}")
+            finally:
+                self.server_socket = None # Set ke None agar tidak digunakan lagi
+
+    def send_welcome_message(self, client_socket: ssl.SSLSocket, client_id: str):
+        """Mengirim pesan selamat datang ke klien baru"""
         try:
-            self.server_socket.close()
-        except:
-            pass
+            welcome_msg = f"""
+🎉 Selamat datang {client_id}!
+📋 Perintah yang tersedia:
+   /help - Tampilkan bantuan
+   /list - Lihat daftar pengguna online
+   /time - Lihat waktu server
+   /history - Lihat 10 pesan terakhir
+   /quit - Keluar dari chat
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+"""
+            client_socket.send(welcome_msg.encode('utf-8'))
+        except Exception as e:
+            logger.error(f"Error sending welcome message: {e}")
+
+    def send_recent_history(self, client_socket: ssl.SSLSocket):
+        """Mengirim riwayat pesan terakhir ke klien baru"""
+        try:
+            with self.history_lock:
+                recent_messages = self.message_history[-10:]  # 10 pesan terakhir
             
-        logger.info("✅ Server cleanup selesai")
+            if recent_messages:
+                history_msg = "\n📜 10 Pesan Terakhir:\n" + "─" * 30 + "\n"
+                for msg in recent_messages:
+                    timestamp = msg['timestamp'].strftime("%H:%M")
+                    history_msg += f"[{timestamp}] {msg['content']}\n"
+                history_msg += "─" * 30 + "\n"
+                client_socket.send(history_msg.encode('utf-8'))
+        except Exception as e:
+            logger.error(f"Error sending history: {e}")
+
+    def handle_command(self, client_socket: ssl.SSLSocket, client_id: str, command: str):
+        """Handle special commands dari klien"""
+        try:
+            cmd_parts = command.lower().split()
+            cmd = cmd_parts[0]
+            
+            if cmd == '/help':
+                help_msg = """
+📋 Perintah yang tersedia:
+   /help - Tampilkan bantuan ini
+   /list - Lihat daftar pengguna online
+   /time - Lihat waktu server
+   /history - Lihat 10 pesan terakhir
+   /quit - Keluar dari chat
+"""
+                client_socket.send(help_msg.encode('utf-8'))
+                
+            elif cmd == '/list':
+                with self.clients_lock:
+                    online_users = list(self.clients.keys())
+                list_msg = f"👥 Pengguna Online ({len(online_users)}): " + ", ".join(online_users)
+                client_socket.send(list_msg.encode('utf-8'))
+                
+            elif cmd == '/time':
+                time_msg = f"🕒 Waktu Server: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
+                client_socket.send(time_msg.encode('utf-8'))
+                
+            elif cmd == '/history':
+                self.send_recent_history(client_socket)
+                
+            elif cmd == '/quit':
+                client_socket.send("👋 Sampai jumpa!".encode('utf-8'))
+                # client_socket.close() # Penutupan akan ditangani oleh finally di handle_client
+                # Tidak perlu memanggil remove_client di sini, akan ditangani oleh finally di handle_client
+                # setelah loop utama di handle_client berakhir karena socket ditutup oleh client atau recv gagal.
+                # Cukup pastikan client loop berhenti.
+                # Untuk memaksa client loop berhenti, kita bisa mengirim sinyal shutdown atau biarkan recv gagal.
+                # Cara paling sederhana adalah membiarkan client menutup koneksi setelah menerima pesan /quit.
+                # Atau, server bisa menutupnya setelah mengirim pesan.
+                # Jika server menutupnya di sini, pastikan handle_client menangani error dengan baik.
+                # Untuk saat ini, kita biarkan client yang menutup setelah menerima pesan.
+                # Jika ingin server yang menutup:
+                # try:
+                #     client_socket.shutdown(socket.SHUT_RDWR)
+                # except OSError:
+                #     pass # Socket mungkin sudah ditutup
+                # client_socket.close()
+
+            else:
+                client_socket.send(f"❌ Perintah tidak dikenal: {cmd}".encode('utf-8'))
+                
+        except Exception as e:
+            logger.error(f"Error handling command {command} dari {client_id}: {e}")
+
+    def _send_message_to_client(self, client_socket: ssl.SSLSocket, recipient_id: str, message: str):
+        """Mengirim pesan ke satu klien; digunakan oleh executor."""
+        try:
+            client_socket.sendall(message.encode('utf-8')) # Menggunakan sendall
+        except Exception as e:
+            logger.error(f"Error broadcasting (async) ke {recipient_id}: {e}")
+            # Jika pengiriman gagal, klien mungkin terputus. Hapus klien.
+            # Pastikan remove_client aman dipanggil dari berbagai thread (sudah menggunakan lock).
+            self.remove_client(client_socket, recipient_id)
+
+    def broadcast_and_log(self, message: str, exclude: ssl.SSLSocket = None, 
+                         msg_type: str = "BROADCAST", sender: str = "SYSTEM"):
+        """Broadcast pesan dan simpan ke history, menggunakan executor untuk pengiriman."""
+        # Log message
+        logger.info(f"[{msg_type}] {message}")
+        
+        # Save to history
+        with self.history_lock:
+            self.message_history.append({
+                'timestamp': datetime.now(),
+                'content': message,
+                'type': msg_type,
+                'sender': sender
+            })
+            
+            # Keep only recent messages
+            if len(self.message_history) > self.max_history:
+                self.message_history.pop(0)
+        
+        # Broadcast to all clients using ThreadPoolExecutor
+        with self.clients_lock:
+            # Buat salinan daftar klien untuk diiterasi, jika self.clients bisa berubah saat iterasi
+            # karena remove_client dipanggil oleh _send_message_to_client
+            # Namun, karena kita mengambil client_socket dan client_id sebelum submit, ini aman.
+            
+            clients_to_send = []
+            for r_id, r_socket in self.clients.items():
+                if r_socket != exclude:
+                    clients_to_send.append((r_socket, r_id))
+
+        for client_sock, recipient_id_val in clients_to_send:
+            self.send_executor.submit(self._send_message_to_client, client_sock, recipient_id_val, message)
+            
+            # Logika disconnected_clients yang lama dihapus karena penanganan error ada di _send_message_to_client
+
+    def remove_client(self, client_socket: ssl.SSLSocket, client_id: str):
+        """Remove client dengan error handling yang lebih baik"""
+        try:
+            with self.clients_lock:
+                if client_id in self.clients:
+                    del self.clients[client_id]
+                if client_socket in self.client_names:
+                    del self.client_names[client_socket]
+                if client_id in self.client_join_time:
+                    join_time = self.client_join_time[client_id]
+                    duration = datetime.now() - join_time
+                    logger.info(f"Klien {client_id} terhubung selama {duration}")
+                    del self.client_join_time[client_id]
+            
+            try:
+                client_socket.close()
+            except:
+                pass
+                
+            leave_msg = f"📢 {client_id} telah meninggalkan chat"
+            self.broadcast_and_log(leave_msg, msg_type="LEAVE")
+            logger.info(f"Klien terputus: {client_id}")
+            
+        except Exception as e:
+            logger.error(f"Error removing client {client_id}: {e}")
+
+    def get_server_stats(self):
+        """Mendapatkan statistik server"""
+        with self.clients_lock:
+            return {
+                'active_clients': len(self.clients),
+                'client_list': list(self.clients.keys()),
+                'total_messages': len(self.message_history)
+            }
+
+    def start(self):
+        logger.info(f"Server memulai di {self.host}:{self.port}")
+        self.server_socket.settimeout(1.0) # Agar bisa diinterupsi
+        self.running = True
+        try:
+            while self.running:
+                try:
+                    client_socket, client_address = self.server_socket.accept()
+                    # Bungkus socket dengan SSL setelah accept, bukan sebelumnya
+                    wrapped_socket = self.ssl_context.wrap_socket(client_socket, server_side=True)
+                    
+                    logger.info(f"Menerima koneksi dari {client_address}")
+                    # Handle client connection in a new thread
+                    thread = threading.Thread(target=self.handle_client, args=(wrapped_socket, client_address))
+                    thread.daemon = True
+                    thread.start()
+                except socket.timeout:
+                    continue # Kembali cek self.running
+                except ssl.SSLError as e:
+                    if self.running:
+                        logger.error(f"SSL Error saat accept koneksi: {e}")
+                    # Mungkin tidak perlu break di sini, tergantung jenis SSLError
+                except Exception as e:
+                    if self.running:
+                        logger.error(f"Error saat accept koneksi: {e}")
+                    # Pertimbangkan apakah akan break atau tidak
+        finally:
+            logger.info("Server loop berhenti.")
+            self.cleanup_server_socket() # Pastikan socket server ditutup saat loop berhenti
+
+    def stop(self):
+        logger.info("Menghentikan Server...")
+        self.running = False
+        # Menutup socket server akan menyebabkan accept() gagal, membantu keluar dari loop
+        self.cleanup_server_socket()
+
+        # Menutup koneksi klien yang aktif
+        with self.clients_lock:
+            # Buat salinan list item karena kita akan memodifikasi dictionary self.clients di self.remove_client
+            client_sockets_to_close = list(self.clients.items())
+        
+        logger.info(f"Menutup {len(client_sockets_to_close)} koneksi klien aktif...")
+        for client_id, client_socket in client_sockets_to_close:
+            logger.info(f"Menutup koneksi untuk klien {client_id}...")
+            try:
+                # Pesan ke klien bahwa server shutdown (opsional)
+                # client_socket.sendall("INFO: Server sedang shutdown.\n".encode('utf-8')) 
+                client_socket.shutdown(socket.SHUT_RDWR)
+                client_socket.close()
+            except Exception as e:
+                logger.warning(f"Error saat menutup socket klien {client_id} secara paksa: {e}")
+            # Hapus dari daftar aktif (jika belum dihapus oleh handle_client)
+            # self.remove_client(client_socket, client_id) # Ini bisa menyebabkan masalah jika dipanggil dari sini dan handle_client bersamaan
+            # Cukup pastikan mereka ditutup. remove_client akan dipanggil oleh handle_client saat threadnya berakhir.
+
+        logger.info("Pembersihan daftar klien setelah penutupan paksa...")
+        with self.clients_lock:
+            self.clients.clear()
+            self.client_names.clear()
+            self.client_join_time.clear()
+        
+        logger.info("Server telah dihentikan.")
+
+    def cleanup_server_socket(self):
+        if self.server_socket:
+            logger.info("Menutup socket utama server...")
+            try:
+                self.server_socket.close()
+            except Exception as e:
+                logger.error(f"Error saat menutup socket utama server: {e}")
+            finally:
+                self.server_socket = None # Set ke None agar tidak digunakan lagi
+
+    def send_welcome_message(self, client_socket: ssl.SSLSocket, client_id: str):
+        """Mengirim pesan selamat datang ke klien baru"""
+        try:
+            welcome_msg = f"""
+🎉 Selamat datang {client_id}!
+📋 Perintah yang tersedia:
+   /help - Tampilkan bantuan
+   /list - Lihat daftar pengguna online
+   /time - Lihat waktu server
+   /history - Lihat 10 pesan terakhir
+   /quit - Keluar dari chat
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+"""
+            client_socket.send(welcome_msg.encode('utf-8'))
+        except Exception as e:
+            logger.error(f"Error sending welcome message: {e}")
+
+    def send_recent_history(self, client_socket: ssl.SSLSocket):
+        """Mengirim riwayat pesan terakhir ke klien baru"""
+        try:
+            with self.history_lock:
+                recent_messages = self.message_history[-10:]  # 10 pesan terakhir
+            
+            if recent_messages:
+                history_msg = "\n📜 10 Pesan Terakhir:\n" + "─" * 30 + "\n"
+                for msg in recent_messages:
+                    timestamp = msg['timestamp'].strftime("%H:%M")
+                    history_msg += f"[{timestamp}] {msg['content']}\n"
+                history_msg += "─" * 30 + "\n"
+                client_socket.send(history_msg.encode('utf-8'))
+        except Exception as e:
+            logger.error(f"Error sending history: {e}")
+
+    def handle_command(self, client_socket: ssl.SSLSocket, client_id: str, command: str):
+        """Handle special commands dari klien"""
+        try:
+            cmd_parts = command.lower().split()
+            cmd = cmd_parts[0]
+            
+            if cmd == '/help':
+                help_msg = """
+📋 Perintah yang tersedia:
+   /help - Tampilkan bantuan ini
+   /list - Lihat daftar pengguna online
+   /time - Lihat waktu server
+   /history - Lihat 10 pesan terakhir
+   /quit - Keluar dari chat
+"""
+                client_socket.send(help_msg.encode('utf-8'))
+                
+            elif cmd == '/list':
+                with self.clients_lock:
+                    online_users = list(self.clients.keys())
+                list_msg = f"👥 Pengguna Online ({len(online_users)}): " + ", ".join(online_users)
+                client_socket.send(list_msg.encode('utf-8'))
+                
+            elif cmd == '/time':
+                time_msg = f"🕒 Waktu Server: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
+                client_socket.send(time_msg.encode('utf-8'))
+                
+            elif cmd == '/history':
+                self.send_recent_history(client_socket)
+                
+            elif cmd == '/quit':
+                client_socket.send("👋 Sampai jumpa!".encode('utf-8'))
+                # client_socket.close() # Penutupan akan ditangani oleh finally di handle_client
+                # Tidak perlu memanggil remove_client di sini, akan ditangani oleh finally di handle_client
+                # setelah loop utama di handle_client berakhir karena socket ditutup oleh client atau recv gagal.
+                # Cukup pastikan client loop berhenti.
+                # Untuk memaksa client loop berhenti, kita bisa mengirim sinyal shutdown atau biarkan recv gagal.
+                # Cara paling sederhana adalah membiarkan client menutup koneksi setelah menerima pesan /quit.
+                # Atau, server bisa menutupnya setelah mengirim pesan.
+                # Jika server menutupnya di sini, pastikan handle_client menangani error dengan baik.
+                # Untuk saat ini, kita biarkan client yang menutup setelah menerima pesan.
+                # Jika ingin server yang menutup:
+                # try:
+                #     client_socket.shutdown(socket.SHUT_RDWR)
+                # except OSError:
+                #     pass # Socket mungkin sudah ditutup
+                # client_socket.close()
+
+            else:
+                client_socket.send(f"❌ Perintah tidak dikenal: {cmd}".encode('utf-8'))
+                
+        except Exception as e:
+            logger.error(f"Error handling command {command} dari {client_id}: {e}")
+
+    def _send_message_to_client(self, client_socket: ssl.SSLSocket, recipient_id: str, message: str):
+        """Mengirim pesan ke satu klien; digunakan oleh executor."""
+        try:
+            client_socket.sendall(message.encode('utf-8')) # Menggunakan sendall
+        except Exception as e:
+            logger.error(f"Error broadcasting (async) ke {recipient_id}: {e}")
+            # Jika pengiriman gagal, klien mungkin terputus. Hapus klien.
+            # Pastikan remove_client aman dipanggil dari berbagai thread (sudah menggunakan lock).
+            self.remove_client(client_socket, recipient_id)
+
+    def broadcast_and_log(self, message: str, exclude: ssl.SSLSocket = None, 
+                         msg_type: str = "BROADCAST", sender: str = "SYSTEM"):
+        """Broadcast pesan dan simpan ke history, menggunakan executor untuk pengiriman."""
+        # Log message
+        logger.info(f"[{msg_type}] {message}")
+        
+        # Save to history
+        with self.history_lock:
+            self.message_history.append({
+                'timestamp': datetime.now(),
+                'content': message,
+                'type': msg_type,
+                'sender': sender
+            })
+            
+            # Keep only recent messages
+            if len(self.message_history) > self.max_history:
+                self.message_history.pop(0)
+        
+        # Broadcast to all clients using ThreadPoolExecutor
+        with self.clients_lock:
+            # Buat salinan daftar klien untuk diiterasi, jika self.clients bisa berubah saat iterasi
+            # karena remove_client dipanggil oleh _send_message_to_client
+            # Namun, karena kita mengambil client_socket dan client_id sebelum submit, ini aman.
+            
+            clients_to_send = []
+            for r_id, r_socket in self.clients.items():
+                if r_socket != exclude:
+                    clients_to_send.append((r_socket, r_id))
+
+        for client_sock, recipient_id_val in clients_to_send:
+            self.send_executor.submit(self._send_message_to_client, client_sock, recipient_id_val, message)
+            
+            # Logika disconnected_clients yang lama dihapus karena penanganan error ada di _send_message_to_client
+
+    def remove_client(self, client_socket: ssl.SSLSocket, client_id: str):
+        """Remove client dengan error handling yang lebih baik"""
+        try:
+            with self.clients_lock:
+                if client_id in self.clients:
+                    del self.clients[client_id]
+                if client_socket in self.client_names:
+                    del self.client_names[client_socket]
+                if client_id in self.client_join_time:
+                    join_time = self.client_join_time[client_id]
+                    duration = datetime.now() - join_time
+                    logger.info(f"Klien {client_id} terhubung selama {duration}")
+                    del self.client_join_time[client_id]
+            
+            try:
+                client_socket.close()
+            except:
+                pass
+                
+            leave_msg = f"📢 {client_id} telah meninggalkan chat"
+            self.broadcast_and_log(leave_msg, msg_type="LEAVE")
+            logger.info(f"Klien terputus: {client_id}")
+            
+        except Exception as e:
+            logger.error(f"Error removing client {client_id}: {e}")
+
+    def get_server_stats(self):
+        """Mendapatkan statistik server"""
+        with self.clients_lock:
+            return {
+                'active_clients': len(self.clients),
+                'client_list': list(self.clients.keys()),
+                'total_messages': len(self.message_history)
+            }
+
+    def start(self):
+        logger.info(f"Server memulai di {self.host}:{self.port}")
+        self.server_socket.settimeout(1.0) # Agar bisa diinterupsi
+        self.running = True
+        try:
+            while self.running:
+                try:
+                    client_socket, client_address = self.server_socket.accept()
+                    # Bungkus socket dengan SSL setelah accept, bukan sebelumnya
+                    wrapped_socket = self.ssl_context.wrap_socket(client_socket, server_side=True)
+                    
+                    logger.info(f"Menerima koneksi dari {client_address}")
+                    # Handle client connection in a new thread
+                    thread = threading.Thread(target=self.handle_client, args=(wrapped_socket, client_address))
+                    thread.daemon = True
+                    thread.start()
+                except socket.timeout:
+                    continue # Kembali cek self.running
+                except ssl.SSLError as e:
+                    if self.running:
+                        logger.error(f"SSL Error saat accept koneksi: {e}")
+                    # Mungkin tidak perlu break di sini, tergantung jenis SSLError
+                except Exception as e:
+                    if self.running:
+                        logger.error(f"Error saat accept koneksi: {e}")
+                    # Pertimbangkan apakah akan break atau tidak
+        finally:
+            logger.info("Server loop berhenti.")
+            self.cleanup_server_socket() # Pastikan socket server ditutup saat loop berhenti
+
+    def stop(self):
+        logger.info("Menghentikan Server...")
+        self.running = False
+        # Menutup socket server akan menyebabkan accept() gagal, membantu keluar dari loop
+        self.cleanup_server_socket()
+
+        # Menutup koneksi klien yang aktif
+        with self.clients_lock:
+            # Buat salinan list item karena kita akan memodifikasi dictionary self.clients di self.remove_client
+            client_sockets_to_close = list(self.clients.items())
+        
+        logger.info(f"Menutup {len(client_sockets_to_close)} koneksi klien aktif...")
+        for client_id, client_socket in client_sockets_to_close:
+            logger.info(f"Menutup koneksi untuk klien {client_id}...")
+            try:
+                # Pesan ke klien bahwa server shutdown (opsional)
+                # client_socket.sendall("INFO: Server sedang shutdown.\n".encode('utf-8')) 
+                client_socket.shutdown(socket.SHUT_RDWR)
+                client_socket.close()
+            except Exception as e:
+                logger.warning(f"Error saat menutup socket klien {client_id} secara paksa: {e}")
+            # Hapus dari daftar aktif (jika belum dihapus oleh handle_client)
+            # self.remove_client(client_socket, client_id) # Ini bisa menyebabkan masalah jika dipanggil dari sini dan handle_client bersamaan
+            # Cukup pastikan mereka ditutup. remove_client akan dipanggil oleh handle_client saat threadnya berakhir.
+
+        logger.info("Pembersihan daftar klien setelah penutupan paksa...")
+        with self.clients_lock:
+            self.clients.clear()
+            self.client_names.clear()
+            self.client_join_time.clear()
+        
+        logger.info("Server telah dihentikan.")
+
+    def cleanup_server_socket(self):
+        if self.server_socket:
+            logger.info("Menutup socket utama server...")
+            try:
+                self.server_socket.close()
+            except Exception as e:
+                logger.error(f"Error saat menutup socket utama server: {e}")
+            finally:
+                self.server_socket = None # Set ke None agar tidak digunakan lagi
 
 if __name__ == "__main__":
     server = EnhancedTLSChatServer()
