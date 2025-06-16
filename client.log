@@ -167,3 +167,51 @@
 2025-06-16 15:34:59,751 - INFO - Pesan terkirim: tes
 2025-06-16 15:35:04,021 - INFO - Pesan terkirim: hai
 2025-06-16 15:35:18,061 - INFO - Pesan terkirim: hai
+2025-06-16 17:38:26,243 - ERROR - Error loading sertifikat: [Errno 2] No such file or directory
+2025-06-16 17:38:26,243 - ERROR - Error loading sertifikat: [Errno 2] No such file or directory
+2025-06-16 17:38:26,243 - ERROR - Error loading sertifikat: [Errno 2] No such file or directory
+2025-06-16 17:38:26,524 - INFO - Fingerprint SHA-256 sertifikat server: 5c87efb9f2f8f80440eb2ce7cd38e00ceff53c54758d1981364e718ca819a086
+2025-06-16 17:38:26,524 - INFO - Fingerprint sertifikat server cocok dengan yang diharapkan.
+2025-06-16 17:38:26,524 - INFO - Certificate subject: {'commonName': 'server'}
+2025-06-16 17:38:26,524 - INFO - Certificate issuer: {'commonName': 'Chat CA'}
+2025-06-16 17:38:26,524 - INFO - Terhubung ke server sebagai server
+2025-06-16 17:38:26,527 - INFO - Fingerprint SHA-256 sertifikat server: 5c87efb9f2f8f80440eb2ce7cd38e00ceff53c54758d1981364e718ca819a086
+2025-06-16 17:38:26,527 - INFO - Fingerprint sertifikat server cocok dengan yang diharapkan.
+2025-06-16 17:38:26,527 - INFO - Certificate subject: {'commonName': 'server'}
+2025-06-16 17:38:26,527 - INFO - Certificate issuer: {'commonName': 'Chat CA'}
+2025-06-16 17:38:26,527 - INFO - Terhubung ke server sebagai server
+2025-06-16 17:38:26,530 - INFO - Fingerprint SHA-256 sertifikat server: 5c87efb9f2f8f80440eb2ce7cd38e00ceff53c54758d1981364e718ca819a086
+2025-06-16 17:38:26,530 - INFO - Fingerprint sertifikat server cocok dengan yang diharapkan.
+2025-06-16 17:38:26,530 - INFO - Certificate subject: {'commonName': 'server'}
+2025-06-16 17:38:26,530 - INFO - Certificate issuer: {'commonName': 'Chat CA'}
+2025-06-16 17:38:26,530 - INFO - Terhubung ke server sebagai server
+2025-06-16 17:39:32,155 - ERROR - Error loading sertifikat: [Errno 2] No such file or directory
+2025-06-16 17:39:32,252 - INFO - Fingerprint SHA-256 sertifikat server: 5c87efb9f2f8f80440eb2ce7cd38e00ceff53c54758d1981364e718ca819a086
+2025-06-16 17:39:32,252 - WARNING - Tidak ada fingerprint server yang diharapkan untuk diverifikasi. Mengandalkan validasi CA.
+2025-06-16 17:39:32,253 - INFO - Certificate subject: {'commonName': 'server'}
+2025-06-16 17:39:32,253 - INFO - Certificate issuer: {'commonName': 'Chat CA'}
+2025-06-16 17:39:32,253 - INFO - Terhubung ke server sebagai server
+2025-06-16 17:40:45,993 - ERROR - Error loading sertifikat: [Errno 2] No such file or directory
+2025-06-16 17:40:45,993 - ERROR - Error loading sertifikat: [Errno 2] No such file or directory
+2025-06-16 17:40:45,993 - ERROR - Error loading sertifikat: [Errno 2] No such file or directory
+2025-06-16 17:40:46,133 - INFO - Fingerprint SHA-256 sertifikat server: 5c87efb9f2f8f80440eb2ce7cd38e00ceff53c54758d1981364e718ca819a086
+2025-06-16 17:40:46,133 - INFO - Fingerprint sertifikat server cocok dengan yang diharapkan.
+2025-06-16 17:40:46,133 - INFO - Certificate subject: {'commonName': 'server'}
+2025-06-16 17:40:46,133 - INFO - Certificate issuer: {'commonName': 'Chat CA'}
+2025-06-16 17:40:46,133 - INFO - Terhubung ke server sebagai server
+2025-06-16 17:40:46,136 - INFO - Fingerprint SHA-256 sertifikat server: 5c87efb9f2f8f80440eb2ce7cd38e00ceff53c54758d1981364e718ca819a086
+2025-06-16 17:40:46,136 - INFO - Fingerprint sertifikat server cocok dengan yang diharapkan.
+2025-06-16 17:40:46,136 - INFO - Certificate subject: {'commonName': 'server'}
+2025-06-16 17:40:46,136 - INFO - Certificate issuer: {'commonName': 'Chat CA'}
+2025-06-16 17:40:46,136 - INFO - Terhubung ke server sebagai server
+2025-06-16 17:40:46,139 - INFO - Fingerprint SHA-256 sertifikat server: 5c87efb9f2f8f80440eb2ce7cd38e00ceff53c54758d1981364e718ca819a086
+2025-06-16 17:40:46,139 - INFO - Fingerprint sertifikat server cocok dengan yang diharapkan.
+2025-06-16 17:40:46,139 - INFO - Certificate subject: {'commonName': 'server'}
+2025-06-16 17:40:46,139 - INFO - Certificate issuer: {'commonName': 'Chat CA'}
+2025-06-16 17:40:46,139 - INFO - Terhubung ke server sebagai server
+2025-06-16 18:28:39,055 - ERROR - Error loading sertifikat: [Errno 2] No such file or directory
+2025-06-16 18:28:39,131 - INFO - Fingerprint SHA-256 sertifikat server: 593c515b48fe831362f5052a09a080889c0788d46bf1a04584b336671657d000
+2025-06-16 18:28:39,131 - WARNING - Tidak ada fingerprint server yang diharapkan untuk diverifikasi. Mengandalkan validasi CA.
+2025-06-16 18:28:39,132 - INFO - Certificate subject: {'commonName': 'server'}
+2025-06-16 18:28:39,132 - INFO - Certificate issuer: {'commonName': 'Chat CA'}
+2025-06-16 18:28:39,132 - INFO - Terhubung ke server sebagai server

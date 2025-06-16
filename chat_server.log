@@ -305,3 +305,257 @@
 2025-06-16 15:35:52,082 - INFO - [LEAVE] 📢 client2 telah meninggalkan chat
 2025-06-16 15:35:52,082 - INFO - Klien terputus: client1
 2025-06-16 15:35:52,083 - INFO - Klien terputus: client2
+2025-06-16 17:31:47,617 - INFO - Whitelist berhasil dimuat dari 'whitelist.txt'. 3 pengguna diizinkan.
+2025-06-16 17:31:47,619 - INFO - Enhanced Server berjalan di 0.0.0.0:8443
+2025-06-16 17:31:47,619 - INFO - Server memulai di 0.0.0.0:8443
+2025-06-16 17:38:22,812 - INFO - Whitelist berhasil dimuat dari 'whitelist.txt'. 3 pengguna diizinkan.
+2025-06-16 17:38:22,814 - INFO - Enhanced Server berjalan di 0.0.0.0:8443
+2025-06-16 17:38:22,814 - INFO - Server memulai di 0.0.0.0:8443
+2025-06-16 17:38:26,524 - INFO - Menerima koneksi dari ('127.0.0.1', 49279)
+2025-06-16 17:38:26,524 - INFO - Detail sertifikat klien dari ('127.0.0.1', 49279): CN=client2, O=None, OU=None
+2025-06-16 17:38:26,525 - INFO - Klien 'client2' diterima dari whitelist.
+2025-06-16 17:38:26,525 - INFO - Klien terhubung: client2 dari ('127.0.0.1', 49279)
+2025-06-16 17:38:26,525 - INFO - [JOIN] 📢 client2 telah bergabung ke chat
+2025-06-16 17:38:26,527 - INFO - Menerima koneksi dari ('127.0.0.1', 49278)
+2025-06-16 17:38:26,527 - INFO - Detail sertifikat klien dari ('127.0.0.1', 49278): CN=client1, O=None, OU=None
+2025-06-16 17:38:26,527 - INFO - Klien 'client1' diterima dari whitelist.
+2025-06-16 17:38:26,527 - INFO - Klien terhubung: client1 dari ('127.0.0.1', 49278)
+2025-06-16 17:38:26,528 - INFO - [JOIN] 📢 client1 telah bergabung ke chat
+2025-06-16 17:38:26,530 - INFO - Menerima koneksi dari ('127.0.0.1', 49280)
+2025-06-16 17:38:26,530 - INFO - Detail sertifikat klien dari ('127.0.0.1', 49280): CN=client3, O=None, OU=None
+2025-06-16 17:38:26,530 - INFO - Klien 'client3' diterima dari whitelist.
+2025-06-16 17:38:26,530 - INFO - Klien terhubung: client3 dari ('127.0.0.1', 49280)
+2025-06-16 17:38:26,530 - INFO - [JOIN] 📢 client3 telah bergabung ke chat
+2025-06-16 17:38:55,623 - INFO - Klien client2 terhubung selama 0:00:29.097874
+2025-06-16 17:38:55,624 - INFO - [LEAVE] 📢 client2 telah meninggalkan chat
+2025-06-16 17:38:55,624 - INFO - Klien terputus: client2
+2025-06-16 17:38:58,039 - INFO - Klien client1 terhubung selama 0:00:31.511376
+2025-06-16 17:38:58,039 - INFO - [LEAVE] 📢 client1 telah meninggalkan chat
+2025-06-16 17:38:58,039 - INFO - Klien terputus: client1
+2025-06-16 17:39:01,893 - INFO - Server loop berhenti.
+2025-06-16 17:39:01,893 - INFO - Menutup socket utama server...
+2025-06-16 17:39:16,967 - INFO - Whitelist berhasil dimuat dari 'whitelist.txt'. 3 pengguna diizinkan.
+2025-06-16 17:39:16,969 - INFO - Enhanced Server berjalan di 0.0.0.0:8443
+2025-06-16 17:39:16,969 - INFO - Server memulai di 0.0.0.0:8443
+2025-06-16 17:39:32,253 - INFO - Menerima koneksi dari ('127.0.0.1', 49292)
+2025-06-16 17:39:32,253 - INFO - Detail sertifikat klien dari ('127.0.0.1', 49292): CN=client1, O=None, OU=None
+2025-06-16 17:39:32,253 - INFO - Klien 'client1' diterima dari whitelist.
+2025-06-16 17:39:32,253 - INFO - Klien terhubung: client1 dari ('127.0.0.1', 49292)
+2025-06-16 17:39:32,253 - INFO - [JOIN] 📢 client1 telah bergabung ke chat
+2025-06-16 17:40:08,341 - INFO - Klien client1 terhubung selama 0:00:36.088189
+2025-06-16 17:40:08,341 - INFO - [LEAVE] 📢 client1 telah meninggalkan chat
+2025-06-16 17:40:08,342 - INFO - Klien terputus: client1
+2025-06-16 17:40:36,415 - INFO - Server loop berhenti.
+2025-06-16 17:40:36,415 - INFO - Menutup socket utama server...
+2025-06-16 17:40:42,944 - INFO - Whitelist berhasil dimuat dari 'whitelist.txt'. 3 pengguna diizinkan.
+2025-06-16 17:40:42,946 - INFO - Enhanced Server berjalan di 0.0.0.0:8443
+2025-06-16 17:40:42,946 - INFO - Server memulai di 0.0.0.0:8443
+2025-06-16 17:40:46,134 - INFO - Menerima koneksi dari ('127.0.0.1', 49321)
+2025-06-16 17:40:46,134 - INFO - Detail sertifikat klien dari ('127.0.0.1', 49321): CN=client3, O=None, OU=None
+2025-06-16 17:40:46,134 - INFO - Klien 'client3' diterima dari whitelist.
+2025-06-16 17:40:46,134 - INFO - Klien terhubung: client3 dari ('127.0.0.1', 49321)
+2025-06-16 17:40:46,134 - INFO - [JOIN] 📢 client3 telah bergabung ke chat
+2025-06-16 17:40:46,136 - INFO - Menerima koneksi dari ('127.0.0.1', 49322)
+2025-06-16 17:40:46,137 - INFO - Detail sertifikat klien dari ('127.0.0.1', 49322): CN=client2, O=None, OU=None
+2025-06-16 17:40:46,137 - INFO - Klien 'client2' diterima dari whitelist.
+2025-06-16 17:40:46,137 - INFO - Klien terhubung: client2 dari ('127.0.0.1', 49322)
+2025-06-16 17:40:46,137 - INFO - [JOIN] 📢 client2 telah bergabung ke chat
+2025-06-16 17:40:46,139 - INFO - Menerima koneksi dari ('127.0.0.1', 49323)
+2025-06-16 17:40:46,139 - INFO - Detail sertifikat klien dari ('127.0.0.1', 49323): CN=client1, O=None, OU=None
+2025-06-16 17:40:46,139 - INFO - Klien 'client1' diterima dari whitelist.
+2025-06-16 17:40:46,139 - INFO - Klien terhubung: client1 dari ('127.0.0.1', 49323)
+2025-06-16 17:40:46,139 - INFO - [JOIN] 📢 client1 telah bergabung ke chat
+2025-06-16 17:45:21,799 - INFO - Whitelist berhasil dimuat dari 'whitelist.txt'. 3 pengguna diizinkan.
+2025-06-16 17:45:21,802 - INFO - Enhanced Server berjalan di 0.0.0.0:8443
+2025-06-16 17:45:21,802 - INFO - Server memulai di 0.0.0.0:8443
+2025-06-16 17:46:11,048 - INFO - Menerima koneksi dari ('127.0.0.1', 49479)
+2025-06-16 17:46:11,048 - INFO - Detail sertifikat klien dari ('127.0.0.1', 49479): CN=client1, O=None, OU=None
+2025-06-16 17:46:11,048 - INFO - Klien 'client1' diterima dari whitelist.
+2025-06-16 17:46:11,048 - INFO - Klien terhubung: client1 dari ('127.0.0.1', 49479)
+2025-06-16 17:46:11,048 - INFO - [JOIN] 📢 client1 telah bergabung ke chat
+2025-06-16 17:48:27,504 - INFO - Klien client1 terhubung selama 0:02:16.455175
+2025-06-16 17:48:27,504 - INFO - [LEAVE] 📢 client1 telah meninggalkan chat
+2025-06-16 17:48:27,504 - INFO - Klien terputus: client1
+2025-06-16 17:48:31,098 - INFO - Menerima koneksi dari ('127.0.0.1', 49538)
+2025-06-16 17:48:31,098 - INFO - Detail sertifikat klien dari ('127.0.0.1', 49538): CN=client1, O=None, OU=None
+2025-06-16 17:48:31,098 - INFO - Klien 'client1' diterima dari whitelist.
+2025-06-16 17:48:31,099 - INFO - Klien terhubung: client1 dari ('127.0.0.1', 49538)
+2025-06-16 17:48:31,099 - INFO - [JOIN] 📢 client1 telah bergabung ke chat
+2025-06-16 17:48:36,375 - INFO - Klien client1 terhubung selama 0:00:05.276946
+2025-06-16 17:48:36,376 - INFO - [LEAVE] 📢 client1 telah meninggalkan chat
+2025-06-16 17:48:36,376 - INFO - Klien terputus: client1
+2025-06-16 17:48:37,872 - INFO - Menerima koneksi dari ('127.0.0.1', 49539)
+2025-06-16 17:48:37,872 - INFO - Detail sertifikat klien dari ('127.0.0.1', 49539): CN=client1, O=None, OU=None
+2025-06-16 17:48:37,872 - INFO - Klien 'client1' diterima dari whitelist.
+2025-06-16 17:48:37,872 - INFO - Klien terhubung: client1 dari ('127.0.0.1', 49539)
+2025-06-16 17:48:37,872 - INFO - [JOIN] 📢 client1 telah bergabung ke chat
+2025-06-16 17:49:02,977 - INFO - Klien client1 terhubung selama 0:00:25.104370
+2025-06-16 17:49:02,978 - INFO - [LEAVE] 📢 client1 telah meninggalkan chat
+2025-06-16 17:49:02,978 - INFO - Klien terputus: client1
+2025-06-16 17:49:04,778 - INFO - Server loop berhenti.
+2025-06-16 17:49:04,778 - INFO - Menutup socket utama server...
+2025-06-16 17:49:06,786 - INFO - Whitelist berhasil dimuat dari 'whitelist.txt'. 3 pengguna diizinkan.
+2025-06-16 17:49:06,788 - INFO - Enhanced Server berjalan di 0.0.0.0:8443
+2025-06-16 17:49:06,788 - INFO - Server memulai di 0.0.0.0:8443
+2025-06-16 17:49:08,965 - INFO - Menerima koneksi dari ('127.0.0.1', 49541)
+2025-06-16 17:49:08,965 - INFO - Detail sertifikat klien dari ('127.0.0.1', 49541): CN=client1, O=None, OU=None
+2025-06-16 17:49:08,965 - INFO - Klien 'client1' diterima dari whitelist.
+2025-06-16 17:49:08,965 - INFO - Klien terhubung: client1 dari ('127.0.0.1', 49541)
+2025-06-16 17:49:08,965 - INFO - [JOIN] 📢 client1 telah bergabung ke chat
+2025-06-16 17:49:13,372 - INFO - Klien client1 terhubung selama 0:00:04.407297
+2025-06-16 17:49:13,373 - INFO - [LEAVE] 📢 client1 telah meninggalkan chat
+2025-06-16 17:49:13,373 - INFO - Klien terputus: client1
+2025-06-16 17:49:17,817 - INFO - Server loop berhenti.
+2025-06-16 17:49:17,817 - INFO - Menutup socket utama server...
+2025-06-16 17:50:56,160 - INFO - MainThread - Whitelist berhasil dimuat dari 'whitelist.txt'. 3 pengguna diizinkan.
+2025-06-16 17:50:56,162 - INFO - MainThread - Server diinisialisasi untuk 0.0.0.0:8443
+2025-06-16 17:50:56,162 - INFO - MainThread - 🚀 Server berjalan dan mendengarkan di 0.0.0.0:8443
+2025-06-16 17:51:01,808 - INFO - Client-49597 - Menerima koneksi dari: ID=client1, Org=N/A, Unit=N/A
+2025-06-16 17:51:01,808 - INFO - Client-49597 - DITERIMA: 'client1' berhasil melewati validasi whitelist.
+2025-06-16 17:51:01,808 - INFO - Client-49597 - Klien terhubung: client1 dari ('127.0.0.1', 49597)
+2025-06-16 17:51:01,808 - INFO - Client-49597 - BROADCAST: 📢 client1 telah bergabung.
+2025-06-16 17:53:29,506 - INFO - Client-49597 - Koneksi untuk 'client1' ditutup.
+2025-06-16 17:53:29,507 - INFO - Client-49597 - BROADCAST: 📢 client1 telah keluar.
+2025-06-16 17:53:36,526 - INFO - Client-49642 - Menerima koneksi dari: ID=client1, Org=N/A, Unit=N/A
+2025-06-16 17:53:36,526 - INFO - Client-49642 - DITERIMA: 'client1' berhasil melewati validasi whitelist.
+2025-06-16 17:57:06,301 - INFO - MainThread - 🛑 Menghentikan server...
+2025-06-16 17:57:20,268 - INFO - MainThread - Whitelist berhasil dimuat dari 'whitelist.txt'. 3 pengguna diizinkan.
+2025-06-16 17:57:20,271 - INFO - MainThread - Server diinisialisasi untuk 0.0.0.0:8443
+2025-06-16 17:57:20,271 - INFO - MainThread - 🚀 Server berjalan dan mendengarkan di 0.0.0.0:8443
+2025-06-16 17:57:26,137 - INFO - Client-49731 - Menerima koneksi dari: ID=client1, Org=N/A, Unit=N/A
+2025-06-16 17:57:26,137 - INFO - Client-49731 - DITERIMA: 'client1' berhasil melewati validasi whitelist.
+2025-06-16 17:57:26,137 - INFO - Client-49731 - Klien terhubung: client1 dari ('127.0.0.1', 49731)
+2025-06-16 17:57:26,137 - INFO - Client-49731 - BROADCAST: 📢 client1 telah bergabung.
+2025-06-16 17:57:33,608 - INFO - Client-49731 - Koneksi untuk 'client1' ditutup.
+2025-06-16 17:57:33,608 - INFO - Client-49731 - BROADCAST: 📢 client1 telah keluar.
+2025-06-16 17:57:37,858 - INFO - MainThread - 🛑 Menghentikan server...
+2025-06-16 18:00:59,188 - INFO - MainThread - Whitelist berhasil dimuat dari 'whitelist.txt'. 3 pengguna diizinkan.
+2025-06-16 18:00:59,191 - INFO - MainThread - Server diinisialisasi untuk 0.0.0.0:8443
+2025-06-16 18:00:59,191 - INFO - MainThread - 🚀 Server berjalan dan mendengarkan di 0.0.0.0:8443
+2025-06-16 18:02:06,504 - INFO - Client-49802 - Menerima koneksi dari: ID=client1, Org=N/A, Unit=N/A
+2025-06-16 18:02:06,504 - INFO - Client-49802 - DITERIMA: 'client1' berhasil melewati validasi whitelist.
+2025-06-16 18:02:06,504 - INFO - Client-49802 - Klien terhubung: client1 dari ('127.0.0.1', 49802)
+2025-06-16 18:02:06,504 - INFO - Client-49802 - BROADCAST: 📢 client1 telah bergabung.
+2025-06-16 18:02:15,671 - INFO - Client-49802 - Koneksi untuk 'client1' ditutup.
+2025-06-16 18:02:15,672 - INFO - Client-49802 - BROADCAST: 📢 client1 telah keluar.
+2025-06-16 18:11:29,154 - INFO - MainThread - Whitelist berhasil dimuat dari 'whitelist.txt'. 3 pengguna diizinkan.
+2025-06-16 18:11:29,157 - INFO - MainThread - Server diinisialisasi untuk 0.0.0.0:8443
+2025-06-16 18:11:29,157 - INFO - MainThread - 🚀 Server berjalan dan mendengarkan di 0.0.0.0:8443
+2025-06-16 18:11:34,888 - INFO - Client-49953 - Menerima koneksi dari: ID=client1, Org=N/A, Unit=N/A
+2025-06-16 18:11:34,888 - INFO - Client-49953 - DITERIMA: 'client1' berhasil melewati validasi whitelist.
+2025-06-16 18:11:34,888 - INFO - Client-49953 - Klien terhubung: client1 dari ('127.0.0.1', 49953)
+2025-06-16 18:11:34,889 - INFO - Client-49953 - BROADCAST: 📢 client1 telah bergabung.
+2025-06-16 18:12:18,826 - INFO - MainThread - 🛑 Menghentikan server...
+2025-06-16 18:12:18,827 - INFO - MainThread - Menutup 1 koneksi klien aktif...
+2025-06-16 18:12:18,827 - ERROR - Client-49953 - Error pada handle_client untuk ('127.0.0.1', 49953): [Errno 9] Bad file descriptor
+2025-06-16 18:12:18,828 - INFO - Client-49953 - Koneksi untuk 'client1' ditutup.
+2025-06-16 18:12:18,828 - INFO - MainThread - Socket server utama ditutup.
+2025-06-16 18:12:18,828 - INFO - Client-49953 - BROADCAST: 📢 client1 telah keluar.
+2025-06-16 18:12:18,828 - INFO - MainThread - ✅ Server berhasil dihentikan.
+2025-06-16 18:12:28,005 - INFO - MainThread - Whitelist berhasil dimuat dari 'whitelist.txt'. 3 pengguna diizinkan.
+2025-06-16 18:12:28,007 - INFO - MainThread - Server diinisialisasi untuk 0.0.0.0:8443
+2025-06-16 18:12:28,007 - INFO - MainThread - 🚀 Server berjalan dan mendengarkan di 0.0.0.0:8443
+2025-06-16 18:16:12,133 - INFO - MainThread - Whitelist berhasil dimuat dari 'whitelist.txt'. 3 pengguna diizinkan.
+2025-06-16 18:16:12,135 - INFO - MainThread - Server diinisialisasi untuk 0.0.0.0:8443
+2025-06-16 18:16:12,135 - INFO - MainThread - 🚀 Server berjalan dan mendengarkan di 0.0.0.0:8443
+2025-06-16 18:16:16,912 - INFO - Client-50140 - Menerima koneksi dari: ID=client1, Org=N/A, Unit=N/A
+2025-06-16 18:16:16,912 - INFO - Client-50140 - DITERIMA: 'client1' berhasil melewati validasi whitelist.
+2025-06-16 18:16:16,912 - INFO - Client-50140 - Klien terhubung: client1 dari ('127.0.0.1', 50140)
+2025-06-16 18:16:16,913 - INFO - Client-50140 - BROADCAST: 📢 client1 telah bergabung.
+2025-06-16 18:16:35,615 - INFO - Client-50140 - Koneksi untuk 'client1' ditutup.
+2025-06-16 18:16:35,616 - INFO - Client-50140 - BROADCAST: 📢 client1 telah keluar.
+2025-06-16 18:18:30,978 - INFO - MainThread - Whitelist berhasil dimuat dari 'whitelist.txt'. 3 pengguna diizinkan.
+2025-06-16 18:18:30,983 - INFO - MainThread - Server diinisialisasi untuk 0.0.0.0:8443
+2025-06-16 18:18:30,983 - INFO - MainThread - 🚀 Server berjalan dan mendengarkan di 0.0.0.0:8443
+2025-06-16 18:18:37,193 - INFO - Client-49780 - Menerima koneksi dari: ID=client1, Org=N/A, Unit=N/A
+2025-06-16 18:18:37,193 - INFO - Client-49780 - DITERIMA: 'client1' berhasil melewati validasi whitelist.
+2025-06-16 18:18:37,193 - INFO - Client-49780 - Klien terhubung: client1 dari ('127.0.0.1', 49780)
+2025-06-16 18:18:37,193 - INFO - Client-49780 - BROADCAST: 📢 client1 telah bergabung.
+2025-06-16 18:19:13,491 - INFO - Client-49780 - Koneksi untuk 'client1' ditutup.
+2025-06-16 18:19:13,491 - INFO - Client-49780 - BROADCAST: 📢 client1 telah keluar.
+2025-06-16 18:19:47,778 - INFO - MainThread - Whitelist berhasil dimuat dari 'whitelist.txt'. 3 pengguna diizinkan.
+2025-06-16 18:19:51,614 - INFO - MainThread - Whitelist berhasil dimuat dari 'whitelist.txt'. 3 pengguna diizinkan.
+2025-06-16 18:19:58,348 - INFO - MainThread - Whitelist berhasil dimuat dari 'whitelist.txt'. 3 pengguna diizinkan.
+2025-06-16 18:21:39,793 - INFO - MainThread - Whitelist berhasil dimuat dari 'whitelist.txt'. 3 pengguna diizinkan.
+2025-06-16 18:21:39,796 - INFO - MainThread - Server diinisialisasi untuk 0.0.0.0:8443
+2025-06-16 18:21:39,796 - INFO - MainThread - 🚀 Server berjalan dan mendengarkan di 0.0.0.0:8443
+2025-06-16 18:21:49,194 - INFO - Client-49975 - Menerima koneksi dari: ID=client1, Org=N/A, Unit=N/A
+2025-06-16 18:21:49,194 - INFO - Client-49975 - DITERIMA: 'client1' berhasil melewati validasi whitelist.
+2025-06-16 18:21:49,194 - INFO - Client-49975 - Klien terhubung: client1 dari ('127.0.0.1', 49975)
+2025-06-16 18:21:49,194 - INFO - Client-49975 - BROADCAST: 📢 client1 telah bergabung.
+2025-06-16 18:22:11,190 - INFO - Client-49975 - Koneksi untuk 'client1' ditutup.
+2025-06-16 18:22:11,190 - INFO - Client-49975 - BROADCAST: 📢 client1 telah keluar.
+2025-06-16 18:24:17,243 - INFO - MainThread - 🛑 Menghentikan server...
+2025-06-16 18:24:20,340 - INFO - MainThread - Whitelist berhasil dimuat dari 'whitelist.txt'. 3 pengguna diizinkan.
+2025-06-16 18:24:20,343 - INFO - MainThread - Server diinisialisasi untuk 0.0.0.0:8443
+2025-06-16 18:24:20,343 - INFO - MainThread - 🚀 Server berjalan dan mendengarkan di 0.0.0.0:8443
+2025-06-16 18:24:23,938 - INFO - Client-50060 - Menerima koneksi dari: ID=client1, Org=N/A, Unit=N/A
+2025-06-16 18:24:23,939 - INFO - Client-50060 - DITERIMA: 'client1' berhasil melewati validasi whitelist.
+2025-06-16 18:24:23,939 - INFO - Client-50060 - Klien terhubung: client1 dari ('127.0.0.1', 50060)
+2025-06-16 18:24:23,939 - INFO - Client-50060 - BROADCAST: 📢 client1 telah bergabung.
+2025-06-16 18:27:36,420 - INFO - Client-50060 - Koneksi untuk 'client1' ditutup.
+2025-06-16 18:27:36,420 - INFO - Client-50060 - BROADCAST: 📢 client1 telah keluar.
+2025-06-16 18:28:32,600 - INFO - MainThread - 🛑 Menghentikan server...
+2025-06-16 18:28:36,125 - INFO - MainThread - Whitelist berhasil dimuat dari 'whitelist.txt'. 3 pengguna diizinkan.
+2025-06-16 18:28:36,128 - INFO - MainThread - Server diinisialisasi untuk 0.0.0.0:8443
+2025-06-16 18:28:36,128 - INFO - MainThread - 🚀 Server berjalan dan mendengarkan di 0.0.0.0:8443
+2025-06-16 18:28:39,132 - INFO - Client-50269 - Menerima koneksi dari: ID=client1, Org=N/A, Unit=N/A
+2025-06-16 18:28:39,132 - INFO - Client-50269 - DITERIMA: 'client1' berhasil melewati validasi whitelist.
+2025-06-16 18:28:39,132 - INFO - Client-50269 - Klien terhubung: client1 dari ('127.0.0.1', 50269)
+2025-06-16 18:28:39,132 - INFO - Client-50269 - BROADCAST: 📢 client1 telah bergabung.
+2025-06-16 18:28:46,869 - INFO - Client-50269 - Koneksi untuk 'client1' ditutup.
+2025-06-16 18:28:46,869 - INFO - Client-50269 - BROADCAST: 📢 client1 telah keluar.
+2025-06-16 18:29:29,675 - INFO - Client-50309 - Menerima koneksi dari: ID=client3, Org=N/A, Unit=N/A
+2025-06-16 18:29:29,675 - INFO - Client-50309 - DITERIMA: 'client3' berhasil melewati validasi whitelist.
+2025-06-16 18:42:20,029 - INFO - MainThread - 🛑 Menghentikan server...
+2025-06-16 18:42:48,384 - INFO - MainThread - Whitelist berhasil dimuat dari 'whitelist.txt'. 3 pengguna diizinkan.
+2025-06-16 18:42:48,386 - INFO - MainThread - Server diinisialisasi untuk 0.0.0.0:8443
+2025-06-16 18:42:48,386 - INFO - MainThread - 🚀 Server berjalan dan mendengarkan di 0.0.0.0:8443
+2025-06-16 18:42:59,113 - INFO - Client-50898 - Menerima koneksi dari: ID=client3, Org=N/A, Unit=N/A
+2025-06-16 18:42:59,113 - INFO - Client-50898 - DITERIMA: 'client3' berhasil melewati validasi whitelist.
+2025-06-16 18:42:59,113 - INFO - Client-50898 - Klien terhubung: client3 dari ('127.0.0.1', 50898)
+2025-06-16 18:42:59,114 - INFO - Client-50898 - BROADCAST: 📢 client3 telah bergabung.
+2025-06-16 18:43:23,425 - INFO - MainThread - 🛑 Menghentikan server...
+2025-06-16 18:43:23,426 - INFO - MainThread - Menutup 1 koneksi klien aktif...
+2025-06-16 18:43:23,426 - ERROR - Client-50898 - Error pada handle_client untuk ('127.0.0.1', 50898): [Errno 9] Bad file descriptor
+2025-06-16 18:43:23,427 - INFO - MainThread - Socket server utama ditutup.
+2025-06-16 18:43:23,427 - INFO - Client-50898 - Koneksi untuk 'client3' ditutup.
+2025-06-16 18:43:23,427 - INFO - MainThread - ✅ Server berhasil dihentikan.
+2025-06-16 18:43:23,427 - INFO - Client-50898 - BROADCAST: 📢 client3 telah keluar.
+2025-06-16 18:43:28,337 - INFO - MainThread - Whitelist berhasil dimuat dari 'whitelist.txt'. 2 pengguna diizinkan.
+2025-06-16 18:43:28,340 - INFO - MainThread - Server diinisialisasi untuk 0.0.0.0:8443
+2025-06-16 18:43:28,340 - INFO - MainThread - 🚀 Server berjalan dan mendengarkan di 0.0.0.0:8443
+2025-06-16 18:43:40,679 - INFO - Client-50963 - Menerima koneksi dari: ID=client3, Org=N/A, Unit=N/A
+2025-06-16 18:43:40,680 - WARNING - Client-50963 - DITOLAK: 'client3' tidak ada di whitelist.
+2025-06-16 18:53:59,192 - INFO - MainThread - Whitelist berhasil dimuat dari 'whitelist.txt'. 3 pengguna diizinkan.
+2025-06-16 18:53:59,198 - INFO - MainThread - Server diinisialisasi untuk 0.0.0.0:8443
+2025-06-16 18:53:59,198 - INFO - MainThread - 🚀 Server berjalan dan mendengarkan di 0.0.0.0:8443
+2025-06-16 18:54:10,665 - INFO - Client-53992 - Menerima koneksi dari: ID=client1, Org=N/A, Unit=N/A
+2025-06-16 18:54:10,665 - INFO - Client-53992 - DITERIMA: 'client1' berhasil melewati validasi whitelist.
+2025-06-16 18:54:10,665 - INFO - Client-53992 - Klien terhubung: client1 dari ('127.0.0.1', 53992)
+2025-06-16 18:54:10,666 - INFO - Client-53992 - BROADCAST: 📢 client1 telah bergabung.
+2025-06-16 18:54:55,188 - INFO - Client-54006 - Menerima koneksi dari: ID=client2, Org=N/A, Unit=N/A
+2025-06-16 18:54:55,188 - INFO - Client-54006 - DITERIMA: 'client2' berhasil melewati validasi whitelist.
+2025-06-16 18:54:55,188 - INFO - Client-54006 - Klien terhubung: client2 dari ('127.0.0.1', 54006)
+2025-06-16 18:54:55,188 - INFO - Client-54006 - BROADCAST: 📢 client2 telah bergabung.
+2025-06-16 18:55:15,988 - INFO - Client-53992 - BROADCAST: [client1] hai
+2025-06-16 18:55:20,411 - INFO - Client-54006 - BROADCAST: [client2] halo
+2025-06-16 18:57:48,052 - INFO - MainThread - 🛑 Menghentikan server...
+2025-06-16 18:57:48,056 - INFO - MainThread - Menutup 2 koneksi klien aktif...
+2025-06-16 18:57:48,060 - INFO - Client-54006 - Koneksi untuk 'client2' ditutup.
+2025-06-16 18:57:48,060 - INFO - MainThread - Socket server utama ditutup.
+2025-06-16 18:57:48,061 - INFO - Client-54006 - BROADCAST: 📢 client2 telah keluar.
+2025-06-16 18:57:48,061 - INFO - MainThread - ✅ Server berhasil dihentikan.
+2025-06-16 19:08:28,238 - INFO - MainThread - Whitelist berhasil dimuat dari 'whitelist.txt'. 5 pengguna diizinkan.
+2025-06-16 19:08:28,244 - INFO - MainThread - Server diinisialisasi untuk 0.0.0.0:8443
+2025-06-16 19:08:28,244 - INFO - MainThread - 🚀 Server berjalan dan mendengarkan di 0.0.0.0:8443
+2025-06-16 19:08:43,881 - INFO - Client-54192 - Menerima koneksi dari: ID=Furqon, Org=N/A, Unit=N/A
+2025-06-16 19:08:43,881 - INFO - Client-54192 - DITERIMA: 'Furqon' berhasil melewati validasi whitelist.
+2025-06-16 19:08:43,882 - INFO - Client-54192 - Klien terhubung: Furqon dari ('127.0.0.1', 54192)
+2025-06-16 19:08:43,882 - INFO - Client-54192 - BROADCAST: 📢 Furqon telah bergabung.
+2025-06-16 19:09:09,357 - INFO - Client-54199 - Menerima koneksi dari: ID=Satsujinki, Org=N/A, Unit=N/A
+2025-06-16 19:09:09,357 - INFO - Client-54199 - DITERIMA: 'Satsujinki' berhasil melewati validasi whitelist.
+2025-06-16 19:09:09,357 - INFO - Client-54199 - Klien terhubung: Satsujinki dari ('127.0.0.1', 54199)
+2025-06-16 19:09:09,357 - INFO - Client-54199 - BROADCAST: 📢 Satsujinki telah bergabung.
+2025-06-16 19:09:23,351 - INFO - Client-54192 - BROADCAST: [Furqon] hai furqon
+2025-06-16 19:09:30,756 - INFO - Client-54199 - BROADCAST: [Satsujinki] hai satsujinki

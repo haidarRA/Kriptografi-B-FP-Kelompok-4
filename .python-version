@@ -1,0 +1,4 @@
+3.8.18
+
+root = tk.Tk()
+root.configure(bg="#222222")  # warna background gelap
