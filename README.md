@@ -117,52 +117,9 @@ Kriptografi-B-FP-Kelompok-4/
 └── README.md                 # File ini
 ```
 
-#### 1. Pembuatan Sertifikat
 
-Sistem ini memerlukan Certificate Authority (CA) dan sertifikat yang ditandatangani oleh CA tersebut untuk server dan setiap klien.
 
-1.  **Buat Direktori `certs`**: Jika belum ada, buat direktori `certs` di root proyek.
-
-2.  **Generate CA (Certificate Authority)**:
-
-    ```bash
-    openssl genrsa -out certs/ca.key 2048
-    openssl req -new -x509 -days 3650 -key certs/ca.key -out certs/ca.crt -subj "/CN=MyChatAppCA/O=MyOrg/OU=SecurityDept"
-    ```
-
-    _(Anda akan diminta mengisi beberapa informasi untuk CA. Sesuaikan `subj` jika perlu.)_
-
-3.  **Generate Sertifikat Server**:
-
-    - Buat Key dan CSR (Certificate Signing Request) untuk Server:
-      ```bash
-      openssl genrsa -out certs/server.key 2048
-      openssl req -new -key certs/server.key -out certs/server.csr -subj "/CN=localhost/O=MyOrgServer/OU=ChatServers"
-      ```
-      _(Ganti `CN=localhost` dengan hostname atau IP server jika akan diakses dari mesin lain. Untuk pengembangan lokal, `localhost` sudah cukup.)_
-    - Tandatangani CSR Server dengan CA:
-      ```bash
-      openssl x509 -req -days 365 -in certs/server.csr -CA certs/ca.crt -CAkey certs/ca.key -CAcreateserial -out certs/server.crt
-      ```
-
-4.  **Generate Sertifikat Klien (ulangi untuk setiap klien)**:
-    Misalnya untuk `client1`:
-
-    - Buat Key dan CSR untuk Klien:
-      ```bash
-      openssl genrsa -out certs/client1.key 2048
-      openssl req -new -key certs/client1.key -out certs/client1.csr -subj "/CN=client1/O=MyOrgClient/OU=ChatUsers"
-      ```
-      _(PENTING: `CN` (Common Name) di sini akan digunakan sebagai username klien dan untuk whitelist. Pastikan unik untuk setiap klien, contoh: `client1`, `client2`, `user_A`, dll.)_
-    - Tandatangani CSR Klien dengan CA:
-      `bash
-    openssl x509 -req -days 365 -in certs/client1.csr -CA certs/ca.crt -CAkey certs/ca.key -CAcreateserial -out certs/client1.crt
-    `
-      Ulangi langkah ini untuk `client2`, `client3`, dst., dengan mengganti nama file dan `CN` yang sesuai (misal, `certs/client2.key`, `certs/client2.csr`, `certs/client2.crt`, dan `/CN=client2`).
-
-    _Catatan: File `.csr` dan `.srl` (serial number) bisa dihapus setelah sertifikat (`.crt`) berhasil dibuat, namun tidak masalah jika tetap ada._
-
-#### 2. Konfigurasi Whitelist
+#### 1. Konfigurasi Whitelist
 
 Buat file `whitelist.txt` di direktori root proyek. Isi file ini dengan Common Name (CN) dari sertifikat klien yang diizinkan untuk terhubung, satu CN per baris. Contoh:
 
@@ -172,7 +129,14 @@ client2
 user_A
 ```
 
-Komentar bisa ditambahkan dengan menggunakan `#` di awal baris.
+#### 2. Pembaruan Certs(Opsional
+
+```python
+rm certs/ca.key certs/ca.crt
+python generate_certs.py
+```
+
+
 
 #### 3. Menjalankan Server
 
@@ -202,26 +166,6 @@ Setiap klien memerlukan sertifikat dan kunci yang sesuai.
   Ganti `client1` atau `client2` dengan nama file sertifikat klien yang sesuai (tanpa ekstensi `.crt` atau `.key`).
   Klien akan mencoba terhubung ke `localhost:8443` secara default.
 
-- **Mode CLI (Command Line Interface)**:
-  Tambahkan flag `--cli`:
-
-  ```bash
-  python client.py --cert client1 --cli
-  ```
-
-- **Opsi Tambahan Klien**:
-
-  - `--host <hostname>`: Menentukan host server (default: `localhost`).
-  - `--port <port_number>`: Menentukan port server (default: `8443`).
-  - `--server_fingerprint <SHA256_fingerprint>`: (Opsional) Menentukan fingerprint SHA256 yang diharapkan dari sertifikat server untuk verifikasi tambahan (certificate pinning).
-
-  Untuk mendapatkan fingerprint server (SHA256, format hex tanpa titik dua):
-
-  ```bash
-  openssl x509 -noout -fingerprint -sha256 -in certs/server.crt
-  ```
-
-  Salin bagian setelah `SHA256 Fingerprint=` dan hapus semua karakter `:`. Contoh: `A1B2C3...`
 
 #### 5. Menjalankan Skenario Uji (Server dan Beberapa Klien)
 
