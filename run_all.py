@@ -28,6 +28,7 @@ def get_server_fingerprint():
         fingerprint_line = result.stdout.strip()
         # Outputnya biasanya: SHA256 Fingerprint=XX:YY:ZZ...
         fingerprint = fingerprint_line.split('=')[1].replace(':', '').lower()
+        print(f"✅ Server fingerprint obtained: {fingerprint[:16]}...")
         return fingerprint
     except FileNotFoundError:
         print(f"ERROR: openssl tidak ditemukan. Pastikan openssl terinstall dan ada di PATH.")
@@ -41,64 +42,98 @@ def get_server_fingerprint():
         print(f"ERROR: Kesalahan tidak terduga saat mendapatkan fingerprint: {e}")
         return None
 
+def check_security_dependencies():
+    """Check if security dependencies are available"""
+    try:
+        import cryptography
+        print("✅ Security dependencies available")
+        return True
+    except ImportError:
+        print("⚠️ Security dependencies missing. Install with: pip install cryptography")
+        print("   Application will run with basic security features only.")
+        return False
+
 if __name__ == "__main__":
+    print("🚀 Starting TLS Chat Application with Enhanced Security")
+    print("=" * 60)
+    
+    # Check security dependencies
+    security_available = check_security_dependencies()
+    
+    # Get server fingerprint for MITM detection
     server_fingerprint = get_server_fingerprint()
     if not server_fingerprint:
-        print("Tidak dapat melanjutkan tanpa fingerprint server.")
-        exit(1)
+        print("⚠️ Continuing without MITM detection (fingerprint unavailable)")
+        server_fingerprint = ""
 
-    print(f"Menggunakan fingerprint server: {server_fingerprint}")
+    print(f"🔐 Security Mode: {'Enhanced' if security_available else 'Basic'}")
+    print(f"🔍 MITM Detection: {'Enabled' if server_fingerprint else 'Disabled'}")
+    print("=" * 60)
 
-    print("Menjalankan server...")
+    print("🖥️ Starting server...")
     # Untuk Windows, mungkin perlu 'python' atau 'py' secara eksplisit
     server_process = subprocess.Popen(['python', SERVER_SCRIPT])
     time.sleep(3)  # Beri waktu server untuk start
 
-    print("Menjalankan client (client1)...")
-    client1_process = subprocess.Popen([
-        'python', CLIENT_SCRIPT, 
-        '--cert', 'client1', 
-        '--server_fingerprint', server_fingerprint
-    ])
+    clients = []
+    client_names = ['client1', 'client2', 'client3']
+    
+    for client_name in client_names:
+        print(f"👤 Starting client ({client_name})...")
+        
+        # Build client command with security features
+        client_cmd = ['python', CLIENT_SCRIPT, '--cert', client_name]
+        if server_fingerprint:
+            client_cmd.extend(['--server_fingerprint', server_fingerprint])
+        
+        client_process = subprocess.Popen(client_cmd)
+        clients.append(client_process)
+        time.sleep(1)  # Stagger client starts
 
-    print("Menjalankan client (client2)...")
-    client2_process = subprocess.Popen([
-        'python', CLIENT_SCRIPT, 
-        '--cert', 'client2', 
-        '--server_fingerprint', server_fingerprint
-    ])
-
-    print("Menjalankan client (client3)...")
-    client3_process = subprocess.Popen([
-        'python', CLIENT_SCRIPT, 
-        '--cert', 'client3', 
-        '--server_fingerprint', server_fingerprint
-    ])
-
-    print("\nSkrip run_all.py telah dijalankan.")
-    print("Server dan 3 klien (CLI mode) seharusnya berjalan di terminal terpisah atau di background.")
-    print("Tekan Ctrl+C di terminal ini TIDAK akan menghentikan server/klien secara otomatis.")
-    print("Anda perlu menutupnya secara manual atau menghentikan prosesnya.")
+    print("\n✅ All components started successfully!")
+    print("=" * 60)
+    print("🔐 TLS Chat Application is now running with:")
+    print(f"   • Server: {SERVER_HOST}:{SERVER_PORT}")
+    print(f"   • Clients: {len(clients)} active")
+    print(f"   • Security: {'Enhanced (Message Signing + MITM Detection)' if security_available else 'Basic (TLS only)'}")
+    print(f"   • MITM Detection: {'Enabled' if server_fingerprint else 'Disabled'}")
+    print("=" * 60)
+    print("📋 Controls:")
+    print("   • Each client has its own GUI window")
+    print("   • Server logs are displayed in this terminal")
+    print("   • Press Enter to shutdown all components")
+    print("   • Or close individual client windows")
 
     # Biarkan skrip ini berjalan agar proses anak tidak langsung mati jika ini adalah parent utama
     # Atau, kita bisa menunggu input untuk keluar
     try:
-        input("Tekan Enter untuk mencoba menghentikan server dan klien (mungkin tidak selalu berhasil)...\n")
+        input("\n⏸️ Press Enter to shutdown server and all clients...\n")
     except KeyboardInterrupt:
-        print("Keluar...")
+        print("\n🛑 Ctrl+C detected. Shutting down...")
     finally:
-        print("Mencoba menghentikan proses...")
-        # Coba hentikan proses. Ini mungkin tidak selalu berhasil dengan baik.
-        if server_process.poll() is None: server_process.terminate()
-        if client1_process.poll() is None: client1_process.terminate()
-        if client2_process.poll() is None: client2_process.terminate()
-        if client3_process.poll() is None: client3_process.terminate()
+        print("🔄 Attempting to stop all processes...")
         
-        # Tunggu sebentar agar proses bisa berhenti
+        # Stop all clients first
+        for i, client_process in enumerate(clients):
+            if client_process.poll() is None:
+                print(f"   Stopping client {i+1}...")
+                client_process.terminate()
+        
+        # Stop server
+        if server_process.poll() is None:
+            print("   Stopping server...")
+            server_process.terminate()
+        
+        # Wait for graceful shutdown
         time.sleep(2)
         
-        if server_process.poll() is None: server_process.kill()
-        if client1_process.poll() is None: client1_process.kill()
-        if client2_process.poll() is None: client2_process.kill()
-        if client3_process.poll() is None: client3_process.kill()
-        print("Selesai.")
+        # Force kill if still running
+        for client_process in clients:
+            if client_process.poll() is None:
+                client_process.kill()
+        
+        if server_process.poll() is None:
+            server_process.kill()
+            
+        print("✅ All processes terminated.")
+        print("🔒 TLS Chat Application shutdown complete.")

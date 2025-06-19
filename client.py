@@ -11,6 +11,15 @@ from tkinter import ttk, scrolledtext, messagebox
 from datetime import datetime
 from typing import Optional
 import queue
+import json
+
+# Import security enhancements
+try:
+    from security_enhancements import MessageSecurity, MITMDetector
+    SECURITY_AVAILABLE = True
+except ImportError:
+    SECURITY_AVAILABLE = False
+    print("WARNING: Security enhancements not available. Install cryptography: pip install cryptography")
 
 # Konfigurasi logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(threadName)s - %(message)s')
@@ -18,15 +27,30 @@ logger = logging.getLogger(__name__)
 
 
 class TLSChatClient:
-    def __init__(self, host: str, port: int, cert_path: str, key_path: str, gui_queue: queue.Queue):
+    def __init__(self, host: str, port: int, cert_path: str, key_path: str, gui_queue: queue.Queue, expected_fingerprint: str = None):
         self.host = host
         self.port = port
         self.cert_path = cert_path
         self.key_path = key_path
         self.gui_queue = gui_queue
+        self.expected_fingerprint = expected_fingerprint
         self.client_id = os.path.basename(cert_path).split('.')[0]
         self.ssl_socket: Optional[ssl.SSLSocket] = None
         self.stop_event = threading.Event()
+        
+        # Initialize security components
+        self.message_security = None
+        self.mitm_detector = None
+        
+        if SECURITY_AVAILABLE:
+            try:
+                self.message_security = MessageSecurity(cert_path, key_path)
+                self.mitm_detector = MITMDetector()
+                self._update_gui('log', "🔐 Security components initialized")
+            except Exception as e:
+                self._update_gui('log', f"⚠️ Security initialization failed: {e}")
+        else:
+            self._update_gui('log', "⚠️ Running without enhanced security features")
 
     def _update_gui(self, event_type: str, data: any):
         if self.gui_queue:
@@ -43,8 +67,19 @@ class TLSChatClient:
             sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             self.ssl_socket = context.wrap_socket(sock, server_hostname=self.host)
             self.ssl_socket.connect((self.host, self.port))
-            self.ssl_socket.settimeout(1.0) # Timeout untuk recv
-
+            
+            # MITM Detection
+            if self.mitm_detector and self.expected_fingerprint:
+                if not self.mitm_detector.verify_server_fingerprint(self.ssl_socket, self.expected_fingerprint):
+                    self._update_gui('log', "🚨 SECURITY WARNING: Server identity verification failed!")
+                    self._update_gui('log', "❌ Possible MITM attack detected. Connection terminated.")
+                    return
+                else:
+                    self._update_gui('log', "✅ Server identity verified successfully")
+            elif self.expected_fingerprint:
+                self._update_gui('log', "⚠️ MITM detection disabled (missing security components)")
+            
+            self.ssl_socket.settimeout(1.0)
             self._update_gui('connection_status', {'connected': True, 'client_id': self.client_id})
 
             while not self.stop_event.is_set():
@@ -52,9 +87,31 @@ class TLSChatClient:
                     data = self.ssl_socket.recv(4096)
                     if not data:
                         break
-                    messages = data.decode('utf-8').strip().split('\n')
-                    for message in messages:
-                        if message: self._update_gui('message', message)
+                    
+                    # Try to decode and verify messages
+                    raw_message = data.decode('utf-8').strip()
+                    if self.message_security:
+                        try:
+                            # Try to verify as signed message
+                            verified_data = self.message_security.verify_message(raw_message)
+                            if verified_data['verified']:
+                                formatted_message = f"🔐✅ [{verified_data['sender']}] {verified_data['content']}"
+                            else:
+                                formatted_message = f"⚠️ [{verified_data.get('sender', 'Unknown')}] {verified_data['content']}"
+                            self._update_gui('message', formatted_message)
+                        except:
+                            # Fallback: treat as regular message
+                            messages = raw_message.split('\n')
+                            for message in messages:
+                                if message: 
+                                    self._update_gui('message', message)
+                    else:
+                        # No security - regular messages
+                        messages = raw_message.split('\n')
+                        for message in messages:
+                            if message: 
+                                self._update_gui('message', message)
+                                
                 except socket.timeout:
                     continue
                 except (ConnectionResetError, BrokenPipeError, ssl.SSLError, OSError):
@@ -67,7 +124,14 @@ class TLSChatClient:
     def send_message(self, message: str):
         if self.is_running():
             try:
-                self.ssl_socket.sendall(message.encode('utf-8'))
+                if self.message_security:
+                    # Send signed message
+                    signed_message = self.message_security.sign_message(message, self.client_id)
+                    self.ssl_socket.sendall(signed_message.encode('utf-8'))
+                    self._update_gui('log', f"🔐 Message signed and sent: {message[:50]}...")
+                else:
+                    # Send regular message
+                    self.ssl_socket.sendall(message.encode('utf-8'))
             except Exception as e:
                 self._update_gui('log', f"ERROR saat mengirim: {e}")
                 self.stop()
@@ -101,7 +165,7 @@ class ChatGUI(tk.Frame):
         self.rowconfigure(1, weight=3)
         self.rowconfigure(3, weight=1)
 
-        # Status Label with better styling
+        # Status Label with security indicator
         self.status_label = ttk.Label(self, text="Status: Menghubungkan...", font=('Helvetica', 10, 'bold'))
         self.status_label.grid(row=0, column=0, sticky="ew", pady=(0,5))
         
@@ -128,9 +192,10 @@ class ChatGUI(tk.Frame):
         self.message_input.grid(row=0, column=0, sticky="ew", padx=(0,5))
         self.message_input.bind("<Return>", self.send_message_from_gui)
         
+        send_text = "🔐 Kirim" if self.client.message_security else "Kirim"
         self.send_button = ttk.Button(
             input_frame, 
-            text="Kirim",
+            text=send_text,
             command=self.send_message_from_gui,
             style='Accent.TButton'
         )
@@ -152,7 +217,7 @@ class ChatGUI(tk.Frame):
         style = ttk.Style()
         style.configure('Accent.TButton', font=('Helvetica', 10))
         
-        self.update_ui(False)  # Awalnya disabled
+        self.update_ui(False)
 
     def process_gui_queue(self):
         try:
@@ -188,10 +253,12 @@ class ChatGUI(tk.Frame):
         state = 'normal' if connected else 'disabled'
         self.message_input.config(state=state)
         self.send_button.config(state=state)
-        status_text = f"Status: Terhubung sebagai {self.client.client_id}" if connected else "Status: Terputus"
+        
+        # Security indicator in status
+        security_indicator = "🔐" if self.client.message_security else "⚠️"
+        status_text = f"Status: {security_indicator} Terhubung sebagai {self.client.client_id}" if connected else "Status: Terputus"
         self.status_label.config(text=status_text)
         
-        # Update colors based on connection status
         if connected:
             self.status_label.config(foreground='green')
         else:
@@ -200,7 +267,8 @@ class ChatGUI(tk.Frame):
     def send_message_from_gui(self, event=None):
         message = self.message_input.get().strip()
         if message and self.client.is_running():
-            self.add_to_display(self.chat_display, f"[You] {message}")
+            security_indicator = "🔐" if self.client.message_security else ""
+            self.add_to_display(self.chat_display, f"{security_indicator}[You] {message}")
             self.client.send_message(message)
             self.message_input.delete(0, tk.END)
 
@@ -222,12 +290,12 @@ def main():
         print(f"ERROR: File sertifikat atau kunci tidak ditemukan untuk '{args.cert}'")
         sys.exit(1)
 
-    # --- INI ADALAH PERUBAHAN UTAMA ---
     gui_queue = queue.Queue()
     client = TLSChatClient(
         host='localhost', port=8443,
         cert_path=cert_path, key_path=key_path,
         gui_queue=gui_queue,
+        expected_fingerprint=args.server_fingerprint  # Now actually used!
     )
 
     # Jalankan client di thread terpisah
@@ -236,17 +304,17 @@ def main():
 
     # Jalankan GUI di thread utama
     root = tk.Tk()
-    root.title(f"Chat Client - {os.path.basename(cert_path).split('.')[0]}")
-    root.geometry("800x600")  # Set ukuran window default
+    title = f"🔐 Secure Chat - {os.path.basename(cert_path).split('.')[0]}" if SECURITY_AVAILABLE else f"Chat Client - {os.path.basename(cert_path).split('.')[0]}"
+    root.title(title)
+    root.geometry("800x600")
     
-    # Konfigurasi style
     style = ttk.Style()
     style.configure("TLabel", padding=5)
     style.configure("TButton", padding=5)
     style.configure("TEntry", padding=5)
     
     app = ChatGUI(root, client)
-    root.protocol("WM_DELETE_WINDOW", app.on_closing)  # Handle window closing
+    root.protocol("WM_DELETE_WINDOW", app.on_closing)
     
     # Center window on screen
     root.update_idletasks()

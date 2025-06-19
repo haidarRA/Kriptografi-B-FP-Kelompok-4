@@ -3,9 +3,18 @@ import socket
 import threading
 import logging
 import sys
+import json
 from typing import Dict, List
 from datetime import datetime
 from concurrent.futures import ThreadPoolExecutor
+
+# Import security enhancements
+try:
+    from security_enhancements import MessageSecurity
+    SECURITY_AVAILABLE = True
+except ImportError:
+    SECURITY_AVAILABLE = False
+    print("WARNING: Security enhancements not available. Install cryptography: pip install cryptography")
 
 # Konfigurasi logging yang lebih komprehensif
 logging.basicConfig(
@@ -25,6 +34,7 @@ class EnhancedTLSChatServer:
         self.clients: Dict[str, ssl.SSLSocket] = {}
         self.client_names: Dict[ssl.SSLSocket, str] = {}
         self.client_join_time: Dict[str, datetime] = {}
+        self.client_security: Dict[str, MessageSecurity] = {}  # Store client security objects
         self.whitelist_file = 'whitelist.txt'
         self.whitelist = self.load_whitelist()
         self.message_history: List[Dict] = []
@@ -47,7 +57,9 @@ class EnhancedTLSChatServer:
         self.clients_lock = threading.Lock()
         self.history_lock = threading.Lock()
         self.running = False
-        logger.info(f"Server diinisialisasi untuk {self.host}:{self.port}")
+        
+        security_status = "with enhanced security" if SECURITY_AVAILABLE else "with basic security"
+        logger.info(f"Server diinisialisasi untuk {self.host}:{self.port} {security_status}")
 
     def load_whitelist(self) -> set:
         """Membaca daftar pengguna yang diizinkan dari file."""
@@ -69,7 +81,7 @@ class EnhancedTLSChatServer:
         """Menangani koneksi dari satu klien."""
         client_id = None
         try:
-            # === BAGIAN TUGAS #7: VALIDASI IDENTITAS & WHITELIST (SUDAH DIPERBAIKI) ===
+            # === BAGIAN TUGAS #7: VALIDASI IDENTITAS & WHITELIST ===
             cert = client_socket.getpeercert()
             if not cert:
                 logger.warning(f"Koneksi dari {client_address} tanpa sertifikat.")
@@ -95,8 +107,25 @@ class EnhancedTLSChatServer:
                     pass
                 return
 
+            # Initialize message security for this client if available
+            if SECURITY_AVAILABLE:
+                try:
+                    cert_path = f'certs/{client_id}.crt'
+                    key_path = f'certs/{client_id}.key'
+                    import os
+                    if os.path.exists(cert_path) and os.path.exists(key_path):
+                        self.client_security[client_id] = MessageSecurity(cert_path, key_path)
+                        logger.info(f"🔐 Message security initialized for {client_id}")
+                    else:
+                        logger.warning(f"Certificate files not found for {client_id}, security disabled")
+                        self.client_security[client_id] = None
+                except Exception as e:
+                    logger.warning(f"Failed to initialize security for {client_id}: {e}")
+                    self.client_security[client_id] = None
+            else:
+                self.client_security[client_id] = None
+
             logger.info(f"DITERIMA: '{client_id}' berhasil melewati validasi whitelist.")
-            # === AKHIR BAGIAN TUGAS #7 ===
 
             with self.clients_lock:
                 if client_id in self.clients:
@@ -119,19 +148,24 @@ class EnhancedTLSChatServer:
             
             while self.running and client_id in self.clients:
                 try:
-                    data = client_socket.recv(1024)
+                    data = client_socket.recv(4096)  # Increased buffer for signed messages
                     if not data:
-                        break # Klien menutup koneksi
+                        break
                     
-                    message = data.decode('utf-8').strip()
-                    if not message:
+                    raw_message = data.decode('utf-8').strip()
+                    if not raw_message:
                         continue
-                        
-                    if message.startswith('/'):
-                        self.handle_command(client_socket, client_id, message)
+                    
+                    # ✅ FIXED: Ekstrak pesan original untuk command checking
+                    original_message = self.extract_original_message(raw_message, client_id)
+                    
+                    # Check if it's a command first (BEFORE processing)
+                    if original_message.startswith('/'):
+                        self.handle_command(client_socket, client_id, original_message)
                     else:
-                        formatted_msg = f"[{client_id}] {message}"
-                        self.broadcast(formatted_msg, exclude_socket=client_socket)
+                        # Process as regular message with security features
+                        processed_message = self.process_message(raw_message, client_id)
+                        self.broadcast(processed_message, exclude_socket=client_socket)
 
                 except (ssl.SSLError, socket.timeout):
                     continue
@@ -142,6 +176,48 @@ class EnhancedTLSChatServer:
             logger.error(f"Error pada handle_client untuk {client_address}: {e}")
         finally:
             self.remove_client(client_socket, client_id)
+
+    def extract_original_message(self, raw_message: str, client_id: str) -> str:
+        """Extract original message content (for command detection)"""
+        try:
+            if self.client_security.get(client_id):
+                # Try to extract from signed message
+                try:
+                    data = json.loads(raw_message)
+                    if 'message_data' in data and 'content' in data['message_data']:
+                        return data['message_data']['content']
+                except (json.JSONDecodeError, KeyError):
+                    pass
+            # Fallback to raw message
+            return raw_message
+        except Exception:
+            return raw_message
+
+    def process_message(self, raw_message: str, client_id: str) -> str:
+        """Process incoming message - verify signature if present"""
+        try:
+            if self.client_security.get(client_id):
+                # Try to verify as signed message
+                verified_data = self.client_security[client_id].verify_message(raw_message)
+                
+                if verified_data['verified']:
+                    # Message signature verified
+                    security_indicator = "🔐✅"
+                    logger.info(f"Verified signed message from {client_id}")
+                    return f"{security_indicator} [{verified_data['sender']}] {verified_data['content']}"
+                else:
+                    # Message signature failed or unsigned
+                    security_indicator = "⚠️"
+                    logger.warning(f"Unverified message from {client_id}")
+                    return f"{security_indicator} [{verified_data.get('sender', client_id)}] {verified_data['content']}"
+            else:
+                # No security initialized - treat as regular message
+                return f"[{client_id}] {raw_message}"
+                
+        except Exception as e:
+            logger.error(f"Error processing message from {client_id}: {e}")
+            # Fallback to regular message
+            return f"[{client_id}] {raw_message}"
 
     def remove_client(self, client_socket: ssl.SSLSocket, client_id: str):
         """Menghapus klien dari daftar aktif dan menutup koneksi."""
@@ -154,6 +230,8 @@ class EnhancedTLSChatServer:
                 del self.client_names[client_socket]
                 if client_id in self.client_join_time:
                     del self.client_join_time[client_id]
+                if client_id in self.client_security:
+                    del self.client_security[client_id]
                 
                 logger.info(f"Koneksi untuk '{client_id}' ditutup.")
                 self.broadcast(f"📢 {client_id} telah keluar.")
@@ -182,14 +260,15 @@ class EnhancedTLSChatServer:
         try:
             client_socket.sendall(message.encode('utf-8'))
         except Exception:
-            # Penanganan klien disconnect akan ditangani oleh loop recv di handle_client
             pass
             
     def send_welcome_message(self, client_socket: ssl.SSLSocket, client_id: str):
         """Mengirim pesan selamat datang ke klien baru."""
+        security_status = "🔐 Enhanced" if self.client_security.get(client_id) else "⚠️ Basic"
         welcome_msg = f"""
-🎉 Selamat datang {client_id}!
+🎉 Selamat datang {client_id}! (Security: {security_status})
 📋 Perintah yang tersedia: /help, /list, /time, /history, /quit
+🔐 Message signing: {'Enabled' if self.client_security.get(client_id) else 'Disabled'}
 """
         try:
             client_socket.sendall(welcome_msg.encode('utf-8'))
@@ -215,11 +294,18 @@ class EnhancedTLSChatServer:
         parts = command.lower().split()
         cmd = parts[0]
         response = ""
+        
+        logger.info(f"Processing command '{cmd}' from {client_id}")  # Debug log
+        
         if cmd == '/help':
             response = "Perintah: /help, /list, /time, /history, /quit"
         elif cmd == '/list':
             with self.clients_lock:
-                users = ", ".join(self.clients.keys())
+                users_info = []
+                for user_id in self.clients.keys():
+                    security_status = "🔐" if self.client_security.get(user_id) else "⚠️"
+                    users_info.append(f"{security_status}{user_id}")
+                users = ", ".join(users_info)
                 response = f"Pengguna online ({len(self.clients)}): {users}"
         elif cmd == '/time':
             response = f"Waktu server: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
@@ -227,13 +313,13 @@ class EnhancedTLSChatServer:
             self.send_recent_history(client_socket)
             return
         elif cmd == '/quit':
-            # Penanganan quit akan dilakukan oleh loop recv saat koneksi ditutup
-            pass
+            response = "Sampai jumpa!"
         else:
-            response = f"Perintah tidak dikenal: {cmd}"
+            response = f"Perintah tidak dikenal: {cmd}. Ketik /help untuk daftar perintah."
         
         if response:
             try:
+                logger.info(f"Sending command response to {client_id}: {response}")  # Debug log
                 client_socket.sendall(response.encode('utf-8'))
             except Exception as e:
                 logger.error(f"Gagal mengirim respon command ke {client_id}: {e}")
@@ -242,7 +328,8 @@ class EnhancedTLSChatServer:
         """Metode utama untuk menjalankan server dan menerima koneksi."""
         self.server_socket.listen(5)
         self.running = True
-        logger.info(f"🚀 Server berjalan dan mendengarkan di {self.host}:{self.port}")
+        security_info = "🔐 Enhanced Security Mode" if SECURITY_AVAILABLE else "⚠️ Basic Security Mode"
+        logger.info(f"🚀 Server berjalan dan mendengarkan di {self.host}:{self.port} ({security_info})")
 
         try:
             while self.running:

@@ -559,3 +559,157 @@
 2025-06-16 19:09:09,357 - INFO - Client-54199 - BROADCAST: 📢 Satsujinki telah bergabung.
 2025-06-16 19:09:23,351 - INFO - Client-54192 - BROADCAST: [Furqon] hai furqon
 2025-06-16 19:09:30,756 - INFO - Client-54199 - BROADCAST: [Satsujinki] hai satsujinki
+2025-06-19 11:32:05,828 - INFO - MainThread - Whitelist berhasil dimuat dari 'whitelist.txt'. 5 pengguna diizinkan.
+2025-06-19 11:32:05,835 - INFO - MainThread - Server diinisialisasi untuk 0.0.0.0:8443
+2025-06-19 11:32:05,836 - INFO - MainThread - 🚀 Server berjalan dan mendengarkan di 0.0.0.0:8443
+2025-06-19 11:32:09,987 - INFO - Client-64987 - Menerima koneksi dari: ID=client2, Org=N/A, Unit=N/A
+2025-06-19 11:32:09,988 - INFO - Client-64987 - DITERIMA: 'client2' berhasil melewati validasi whitelist.
+2025-06-19 11:32:09,988 - INFO - Client-64987 - Klien terhubung: client2 dari ('127.0.0.1', 64987)
+2025-06-19 11:32:09,993 - INFO - Client-64987 - BROADCAST: 📢 client2 telah bergabung.
+2025-06-19 11:32:09,996 - INFO - Client-64988 - Menerima koneksi dari: ID=client3, Org=N/A, Unit=N/A
+2025-06-19 11:32:10,001 - INFO - Client-64988 - DITERIMA: 'client3' berhasil melewati validasi whitelist.
+2025-06-19 11:32:10,008 - INFO - Client-64988 - Klien terhubung: client3 dari ('127.0.0.1', 64988)
+2025-06-19 11:32:10,015 - INFO - Client-64989 - Menerima koneksi dari: ID=client1, Org=N/A, Unit=N/A
+2025-06-19 11:32:10,016 - INFO - Client-64988 - BROADCAST: 📢 client3 telah bergabung.
+2025-06-19 11:32:10,017 - INFO - Client-64989 - DITERIMA: 'client1' berhasil melewati validasi whitelist.
+2025-06-19 11:32:10,022 - INFO - Client-64989 - Klien terhubung: client1 dari ('127.0.0.1', 64989)
+2025-06-19 11:32:10,023 - INFO - Client-64989 - BROADCAST: 📢 client1 telah bergabung.
+2025-06-19 11:32:18,812 - INFO - Client-64989 - BROADCAST: [client1] tes
+2025-06-19 11:32:22,814 - INFO - Client-64987 - BROADCAST: [client2] tes
+2025-06-19 11:32:25,995 - INFO - Client-64988 - BROADCAST: [client3] tes
+2025-06-19 11:32:39,323 - INFO - Client-64987 - Koneksi untuk 'client2' ditutup.
+2025-06-19 11:32:39,324 - INFO - Client-64987 - BROADCAST: 📢 client2 telah keluar.
+2025-06-19 11:53:16,890 - INFO - MainThread - Whitelist berhasil dimuat dari 'whitelist.txt'. 5 pengguna diizinkan.
+2025-06-19 11:53:16,900 - INFO - MainThread - Server diinisialisasi untuk 0.0.0.0:8443 with enhanced security
+2025-06-19 11:53:16,900 - INFO - MainThread - 🚀 Server berjalan dan mendengarkan di 0.0.0.0:8443 (🔐 Enhanced Security Mode)
+2025-06-19 11:53:20,160 - INFO - Client-50246 - Menerima koneksi dari: ID=client1, Org=N/A, Unit=N/A
+2025-06-19 11:53:20,203 - ERROR - Client-50246 - Failed to initialize MessageSecurity: module 'cryptography.hazmat.primitives.serialization' has no attribute 'load_pem_x509_certificate'
+2025-06-19 11:53:20,204 - WARNING - Client-50246 - Failed to initialize security for client1: module 'cryptography.hazmat.primitives.serialization' has no attribute 'load_pem_x509_certificate'
+2025-06-19 11:53:20,204 - INFO - Client-50246 - DITERIMA: 'client1' berhasil melewati validasi whitelist.
+2025-06-19 11:53:20,205 - INFO - Client-50246 - Klien terhubung: client1 dari ('127.0.0.1', 50246)
+2025-06-19 11:53:20,205 - INFO - Client-50246 - BROADCAST: 📢 client1 telah bergabung.
+2025-06-19 11:53:21,070 - INFO - Client-50249 - Menerima koneksi dari: ID=client2, Org=N/A, Unit=N/A
+2025-06-19 11:53:21,141 - ERROR - Client-50249 - Failed to initialize MessageSecurity: module 'cryptography.hazmat.primitives.serialization' has no attribute 'load_pem_x509_certificate'
+2025-06-19 11:53:21,142 - WARNING - Client-50249 - Failed to initialize security for client2: module 'cryptography.hazmat.primitives.serialization' has no attribute 'load_pem_x509_certificate'
+2025-06-19 11:53:21,143 - INFO - Client-50249 - DITERIMA: 'client2' berhasil melewati validasi whitelist.
+2025-06-19 11:53:21,148 - INFO - Client-50249 - Klien terhubung: client2 dari ('127.0.0.1', 50249)
+2025-06-19 11:53:21,149 - INFO - Client-50249 - BROADCAST: 📢 client2 telah bergabung.
+2025-06-19 11:53:22,162 - INFO - Client-50251 - Menerima koneksi dari: ID=client3, Org=N/A, Unit=N/A
+2025-06-19 11:53:22,220 - ERROR - Client-50251 - Failed to initialize MessageSecurity: module 'cryptography.hazmat.primitives.serialization' has no attribute 'load_pem_x509_certificate'
+2025-06-19 11:53:22,221 - WARNING - Client-50251 - Failed to initialize security for client3: module 'cryptography.hazmat.primitives.serialization' has no attribute 'load_pem_x509_certificate'
+2025-06-19 11:53:22,221 - INFO - Client-50251 - DITERIMA: 'client3' berhasil melewati validasi whitelist.
+2025-06-19 11:53:22,222 - INFO - Client-50251 - Klien terhubung: client3 dari ('127.0.0.1', 50251)
+2025-06-19 11:53:22,223 - INFO - Client-50251 - BROADCAST: 📢 client3 telah bergabung.
+2025-06-19 11:53:40,634 - INFO - Client-50246 - BROADCAST: [client1] tes
+2025-06-19 11:53:46,696 - INFO - Client-50249 - BROADCAST: [client2] tes
+2025-06-19 11:53:50,030 - INFO - Client-50249 - BROADCAST: [client2] tes
+2025-06-19 11:56:26,056 - INFO - Client-50246 - BROADCAST: [client1] /help
+2025-06-19 11:56:37,948 - INFO - Client-50246 - BROADCAST: [client1] /help
+2025-06-19 11:56:44,300 - INFO - Client-50249 - BROADCAST: [client2] /help
+2025-06-19 11:56:50,448 - INFO - Client-50251 - BROADCAST: [client3] /help
+2025-06-19 11:56:54,022 - INFO - Client-50251 - BROADCAST: [client3] /list
+2025-06-19 11:56:58,125 - INFO - Client-50251 - BROADCAST: [client3] /time
+2025-06-19 12:03:32,567 - INFO - Client-50246 - Koneksi untuk 'client1' ditutup.
+2025-06-19 12:03:32,569 - INFO - Client-50246 - BROADCAST: 📢 client1 telah keluar.
+2025-06-19 12:04:47,933 - INFO - MainThread - Whitelist berhasil dimuat dari 'whitelist.txt'. 5 pengguna diizinkan.
+2025-06-19 12:04:47,941 - INFO - MainThread - Server diinisialisasi untuk 0.0.0.0:8443 with enhanced security
+2025-06-19 12:04:47,942 - INFO - MainThread - 🚀 Server berjalan dan mendengarkan di 0.0.0.0:8443 (🔐 Enhanced Security Mode)
+2025-06-19 12:04:51,269 - INFO - Client-52345 - Menerima koneksi dari: ID=client1, Org=N/A, Unit=N/A
+2025-06-19 12:04:51,315 - ERROR - Client-52345 - Failed to initialize MessageSecurity: module 'cryptography.hazmat.primitives.serialization' has no attribute 'load_pem_x509_certificate'
+2025-06-19 12:04:51,316 - WARNING - Client-52345 - Failed to initialize security for client1: module 'cryptography.hazmat.primitives.serialization' has no attribute 'load_pem_x509_certificate'
+2025-06-19 12:04:51,316 - INFO - Client-52345 - DITERIMA: 'client1' berhasil melewati validasi whitelist.
+2025-06-19 12:04:51,317 - INFO - Client-52345 - Klien terhubung: client1 dari ('127.0.0.1', 52345)
+2025-06-19 12:04:51,317 - INFO - Client-52345 - BROADCAST: 📢 client1 telah bergabung.
+2025-06-19 12:04:52,293 - INFO - Client-52347 - Menerima koneksi dari: ID=client2, Org=N/A, Unit=N/A
+2025-06-19 12:04:52,341 - ERROR - Client-52347 - Failed to initialize MessageSecurity: module 'cryptography.hazmat.primitives.serialization' has no attribute 'load_pem_x509_certificate'
+2025-06-19 12:04:52,342 - WARNING - Client-52347 - Failed to initialize security for client2: module 'cryptography.hazmat.primitives.serialization' has no attribute 'load_pem_x509_certificate'
+2025-06-19 12:04:52,343 - INFO - Client-52347 - DITERIMA: 'client2' berhasil melewati validasi whitelist.
+2025-06-19 12:04:52,344 - INFO - Client-52347 - Klien terhubung: client2 dari ('127.0.0.1', 52347)
+2025-06-19 12:04:52,345 - INFO - Client-52347 - BROADCAST: 📢 client2 telah bergabung.
+2025-06-19 12:04:53,263 - INFO - Client-52349 - Menerima koneksi dari: ID=client3, Org=N/A, Unit=N/A
+2025-06-19 12:04:53,312 - ERROR - Client-52349 - Failed to initialize MessageSecurity: module 'cryptography.hazmat.primitives.serialization' has no attribute 'load_pem_x509_certificate'
+2025-06-19 12:04:53,312 - WARNING - Client-52349 - Failed to initialize security for client3: module 'cryptography.hazmat.primitives.serialization' has no attribute 'load_pem_x509_certificate'
+2025-06-19 12:04:53,312 - INFO - Client-52349 - DITERIMA: 'client3' berhasil melewati validasi whitelist.
+2025-06-19 12:04:53,313 - INFO - Client-52349 - Klien terhubung: client3 dari ('127.0.0.1', 52349)
+2025-06-19 12:04:53,313 - INFO - Client-52349 - BROADCAST: 📢 client3 telah bergabung.
+2025-06-19 12:05:02,269 - INFO - Client-52345 - BROADCAST: [client1] tes
+2025-06-19 12:05:04,716 - INFO - Client-52345 - Processing command '/help' from client1
+2025-06-19 12:05:04,716 - INFO - Client-52345 - Sending command response to client1: Perintah: /help, /list, /time, /history, /quit
+2025-06-19 12:05:08,053 - INFO - Client-52345 - Processing command '/list' from client1
+2025-06-19 12:05:08,053 - INFO - Client-52345 - Sending command response to client1: Pengguna online (3): ⚠️client1, ⚠️client2, ⚠️client3
+2025-06-19 12:05:11,060 - INFO - Client-52345 - Processing command '/time' from client1
+2025-06-19 12:05:11,061 - INFO - Client-52345 - Sending command response to client1: Waktu server: 2025-06-19 12:05:11
+2025-06-19 12:05:15,388 - INFO - Client-52345 - Processing command '/history' from client1
+2025-06-19 12:07:38,280 - INFO - Client-52345 - Koneksi untuk 'client1' ditutup.
+2025-06-19 12:07:38,280 - INFO - Client-52345 - BROADCAST: 📢 client1 telah keluar.
+2025-06-19 12:08:58,887 - INFO - MainThread - Whitelist berhasil dimuat dari 'whitelist.txt'. 5 pengguna diizinkan.
+2025-06-19 12:08:58,894 - INFO - MainThread - Server diinisialisasi untuk 0.0.0.0:8443 with enhanced security
+2025-06-19 12:08:58,894 - INFO - MainThread - 🚀 Server berjalan dan mendengarkan di 0.0.0.0:8443 (🔐 Enhanced Security Mode)
+2025-06-19 12:09:02,460 - INFO - Client-52641 - Menerima koneksi dari: ID=client1, Org=N/A, Unit=N/A
+2025-06-19 12:09:02,502 - INFO - Client-52641 - MessageSecurity initialized successfully
+2025-06-19 12:09:02,502 - INFO - Client-52641 - 🔐 Message security initialized for client1
+2025-06-19 12:09:02,503 - INFO - Client-52641 - DITERIMA: 'client1' berhasil melewati validasi whitelist.
+2025-06-19 12:09:02,503 - INFO - Client-52641 - Klien terhubung: client1 dari ('127.0.0.1', 52641)
+2025-06-19 12:09:02,503 - INFO - Client-52641 - BROADCAST: 📢 client1 telah bergabung.
+2025-06-19 12:09:03,163 - INFO - Client-52643 - Menerima koneksi dari: ID=client2, Org=N/A, Unit=N/A
+2025-06-19 12:09:03,206 - INFO - Client-52643 - MessageSecurity initialized successfully
+2025-06-19 12:09:03,207 - INFO - Client-52643 - 🔐 Message security initialized for client2
+2025-06-19 12:09:03,207 - INFO - Client-52643 - DITERIMA: 'client2' berhasil melewati validasi whitelist.
+2025-06-19 12:09:03,208 - INFO - Client-52643 - Klien terhubung: client2 dari ('127.0.0.1', 52643)
+2025-06-19 12:09:03,209 - INFO - Client-52643 - BROADCAST: 📢 client2 telah bergabung.
+2025-06-19 12:09:04,164 - INFO - Client-52645 - Menerima koneksi dari: ID=client3, Org=N/A, Unit=N/A
+2025-06-19 12:09:04,206 - INFO - Client-52645 - MessageSecurity initialized successfully
+2025-06-19 12:09:04,207 - INFO - Client-52645 - 🔐 Message security initialized for client3
+2025-06-19 12:09:04,207 - INFO - Client-52645 - DITERIMA: 'client3' berhasil melewati validasi whitelist.
+2025-06-19 12:09:04,208 - INFO - Client-52645 - Klien terhubung: client3 dari ('127.0.0.1', 52645)
+2025-06-19 12:09:04,208 - INFO - Client-52645 - BROADCAST: 📢 client3 telah bergabung.
+2025-06-19 12:09:16,173 - INFO - Client-52641 - Verified signed message from client1
+2025-06-19 12:09:16,173 - INFO - Client-52641 - BROADCAST: 🔐✅ [client1] tes
+2025-06-19 12:09:24,397 - INFO - Client-52643 - Verified signed message from client2
+2025-06-19 12:09:24,398 - INFO - Client-52643 - BROADCAST: 🔐✅ [client2] tes
+2025-06-19 12:09:27,895 - INFO - Client-52645 - Verified signed message from client3
+2025-06-19 12:09:27,895 - INFO - Client-52645 - BROADCAST: 🔐✅ [client3] tes
+2025-06-19 12:09:52,090 - INFO - Client-52641 - Processing command '/list' from client1
+2025-06-19 12:09:52,090 - INFO - Client-52641 - Sending command response to client1: Pengguna online (3): 🔐client1, 🔐client2, 🔐client3
+2025-06-19 12:10:06,833 - INFO - Client-52641 - Processing command '/time' from client1
+2025-06-19 12:10:06,833 - INFO - Client-52641 - Sending command response to client1: Waktu server: 2025-06-19 12:10:06
+2025-06-19 12:11:42,247 - INFO - Client-52641 - Koneksi untuk 'client1' ditutup.
+2025-06-19 12:11:42,247 - INFO - Client-52641 - BROADCAST: 📢 client1 telah keluar.
+2025-06-19 12:12:50,312 - INFO - MainThread - Whitelist berhasil dimuat dari 'whitelist.txt'. 5 pengguna diizinkan.
+2025-06-19 12:12:50,318 - INFO - MainThread - Server diinisialisasi untuk 0.0.0.0:8443 with enhanced security
+2025-06-19 12:12:50,319 - INFO - MainThread - 🚀 Server berjalan dan mendengarkan di 0.0.0.0:8443 (🔐 Enhanced Security Mode)
+2025-06-19 12:12:56,284 - ERROR - MainThread - Error saat menerima koneksi: [WinError 10053] An established connection was aborted by the software in your host machine
+2025-06-19 12:15:11,474 - INFO - Client-53064 - Menerima koneksi dari: ID=client1, Org=N/A, Unit=N/A
+2025-06-19 12:15:11,522 - INFO - Client-53064 - MessageSecurity initialized successfully
+2025-06-19 12:15:11,523 - INFO - Client-53064 - 🔐 Message security initialized for client1
+2025-06-19 12:15:11,523 - INFO - Client-53064 - DITERIMA: 'client1' berhasil melewati validasi whitelist.
+2025-06-19 12:15:11,523 - INFO - Client-53064 - Klien terhubung: client1 dari ('127.0.0.1', 53064)
+2025-06-19 12:15:11,524 - INFO - Client-53064 - BROADCAST: 📢 client1 telah bergabung.
+2025-06-19 12:15:15,909 - INFO - Client-53064 - Verified signed message from client1
+2025-06-19 12:15:15,912 - INFO - Client-53064 - BROADCAST: 🔐✅ [client1] tes
+2025-06-19 12:15:17,229 - INFO - Client-53064 - Verified signed message from client1
+2025-06-19 12:15:17,229 - INFO - Client-53064 - BROADCAST: 🔐✅ [client1] tes
+2025-06-19 12:15:21,664 - INFO - Client-53064 - Koneksi untuk 'client1' ditutup.
+2025-06-19 12:15:21,664 - INFO - Client-53064 - BROADCAST: 📢 client1 telah keluar.
+2025-06-19 12:18:22,167 - INFO - Client-53283 - Menerima koneksi dari: ID=client1, Org=N/A, Unit=N/A
+2025-06-19 12:18:22,203 - INFO - Client-53283 - MessageSecurity initialized successfully
+2025-06-19 12:18:22,204 - INFO - Client-53283 - 🔐 Message security initialized for client1
+2025-06-19 12:18:22,205 - INFO - Client-53283 - DITERIMA: 'client1' berhasil melewati validasi whitelist.
+2025-06-19 12:20:12,852 - INFO - MainThread - Whitelist berhasil dimuat dari 'whitelist.txt'. 5 pengguna diizinkan.
+2025-06-19 12:20:12,858 - INFO - MainThread - Server diinisialisasi untuk 0.0.0.0:8443 with enhanced security
+2025-06-19 12:20:12,858 - INFO - MainThread - 🚀 Server berjalan dan mendengarkan di 0.0.0.0:8443 (🔐 Enhanced Security Mode)
+2025-06-19 12:20:33,900 - INFO - Client-53615 - Menerima koneksi dari: ID=client1, Org=N/A, Unit=N/A
+2025-06-19 12:20:33,951 - INFO - Client-53615 - MessageSecurity initialized successfully
+2025-06-19 12:20:33,952 - INFO - Client-53615 - 🔐 Message security initialized for client1
+2025-06-19 12:20:33,952 - INFO - Client-53615 - DITERIMA: 'client1' berhasil melewati validasi whitelist.
+2025-06-19 12:20:33,952 - INFO - Client-53615 - Klien terhubung: client1 dari ('127.0.0.1', 53615)
+2025-06-19 12:20:33,953 - INFO - Client-53615 - BROADCAST: 📢 client1 telah bergabung.
+2025-06-19 12:20:39,198 - INFO - Client-53615 - Processing command '/history' from client1
+2025-06-19 12:20:41,788 - INFO - Client-53615 - Processing command '/list' from client1
+2025-06-19 12:20:41,789 - INFO - Client-53615 - Sending command response to client1: Pengguna online (1): 🔐client1
+2025-06-19 12:20:43,167 - INFO - Client-53615 - Processing command '/help' from client1
+2025-06-19 12:20:43,167 - INFO - Client-53615 - Sending command response to client1: Perintah: /help, /list, /time, /history, /quit
+2025-06-19 12:20:45,053 - INFO - Client-53615 - Verified signed message from client1
+2025-06-19 12:20:45,053 - INFO - Client-53615 - BROADCAST: 🔐✅ [client1] clear
+2025-06-19 12:20:48,036 - INFO - Client-53615 - Koneksi untuk 'client1' ditutup.
+2025-06-19 12:20:48,036 - INFO - Client-53615 - BROADCAST: 📢 client1 telah keluar.
