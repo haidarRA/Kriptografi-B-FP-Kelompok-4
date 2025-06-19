@@ -1,20 +1,23 @@
 # Kriptografi-B-FP-Kelompok-4
 
-FP Kriptografi B Kelompok 4
 
 ## TLS Chat Server
 
 Implementasi chat server yang aman menggunakan TLS dengan fitur:
 
-- Server socket berbasis TLS (Python ssl + socket)
-- Konfigurasi SSL dengan sertifikat server & verifikasi klien
-- Dukungan multi-klien menggunakan threading
-- Validasi identitas klien berdasarkan sertifikat
+* Server socket berbasis TLS (Python ssl + socket)
+* Konfigurasi SSL dengan sertifikat server & verifikasi klien
+* Dukungan multi-klien menggunakan threading
+* Validasi identitas klien berdasarkan sertifikat
+* Whitelist pengguna berbasis sertifikat
+* Fingerprint server verification (MITM mitigation)
+* Automasi skenario uji dengan skrip `run_all.py`
 
 ### Persyaratan
 
-- Python 3.7+
-- pyOpenSSL
+* Python 3.7+
+* OpenSSL (dapat dijalankan dari terminal)
+* Tkinter (GUI klien)
 
 ### Instalasi
 
@@ -30,196 +33,117 @@ pip install -r requirements.txt
 python generate_certs.py
 ```
 
-### Penggunaan
+### Penggunaan Manual
 
-1. Jalankan server:
-
-```bash
-python server.py
-```
-
-2. Jalankan client (dalam terminal terpisah):
-
-```bash
-python client.py
-```
-
-Untuk menghubungkan ke server di host lain:
-
-```bash
-python client.py <host>
-```
-
-### Fitur
-
-- Koneksi aman menggunakan TLS
-- Verifikasi sertifikat dua arah (mutual TLS)
-- Broadcast pesan ke semua klien
-- Notifikasi ketika klien bergabung/meninggalkan chat
-- Logging untuk monitoring server
-
-### Struktur File
-
-- `server.py` - Implementasi server TLS
-- `client.py` - Implementasi client TLS
-- `generate_certs.py` - Script untuk menghasilkan sertifikat
-- `certs/` - Direktori untuk menyimpan sertifikat
-  - `ca.crt` - Sertifikat Certificate Authority
-  - `server.crt` - Sertifikat server
-  - `server.key` - Private key server
-  - `client.crt` - Sertifikat client
-  - `client.key` - Private key client
-
-## Dokumentasi
-
-![whitelist](/img/7-whitelist-server.png)
-![whitelist](/img/7-whitelist-client.png)
-![tampilan-GUI](/img/tampilan-GUI.png)
-
-### Setup Proyek Chat Terenkripsi TLS
-
-Proyek ini mengimplementasikan sebuah sistem chat client-server sederhana dengan enkripsi TLS, validasi sertifikat, dan fitur keamanan tambahan.
-
-#### Prasyarat
-
-1.  **Python**: Versi 3.7 atau lebih tinggi.
-2.  **OpenSSL**: Diperlukan untuk membuat sertifikat dan mendapatkan fingerprint. Pastikan `openssl` terinstall dan dapat diakses dari command line/terminal Anda.
-    - Untuk Windows, Anda bisa menginstall OpenSSL dari [slproweb.com/products/Win32OpenSSL.html](https://slproweb.com/products/Win32OpenSSL.html) atau melalui package manager seperti Chocolatey (`choco install openssl`). Pastikan direktori `bin` dari instalasi OpenSSL ditambahkan ke PATH environment variable.
-    - Untuk Linux (Debian/Ubuntu): `sudo apt-get update && sudo apt-get install openssl`
-    - Untuk macOS (menggunakan Homebrew): `brew install openssl`
-3.  **Modul Python**: Tidak ada modul eksternal selain yang ada di library standar Python yang diperlukan untuk fungsionalitas inti. Tkinter (biasanya disertakan dengan Python) diperlukan untuk GUI klien.
-
-#### Struktur Direktori
-
-```
-Kriptografi-B-FP-Kelompok-4/
-├── certs/                    # Direktori untuk menyimpan sertifikat dan kunci
-│   ├── ca.crt
-│   ├── ca.key
-│   ├── server.crt
-│   ├── server.key
-│   ├── client1.crt
-│   ├── client1.key
-│   ├── client2.crt
-│   ├── client2.key
-│   ├── ... (sertifikat klien lainnya)
-│   └── client_invalid.crt    # (Opsional, untuk testing - sertifikat tidak valid)
-│   └── client_invalid.key    # (Opsional, untuk testing)
-├── client.py                 # Skrip utama untuk klien chat
-├── server.py                 # Skrip utama untuk server chat
-├── generate_certs.py         # Skrip untuk membantu generate CA dan sertifikat (jika ada)
-├── run_all.py                # Skrip untuk menjalankan server dan beberapa klien (untuk demo/testing)
-├── test_chat.py              # Skrip unit test
-├── requirements.txt          # (Jika ada dependensi eksternal di masa depan)
-├── whitelist.txt             # Daftar Common Name (CN) klien yang diizinkan
-├── chat_server.log           # Log output dari server
-├── client.log                # Log output dari klien
-└── README.md                 # File ini
-```
-
-
-
-#### 1. Konfigurasi Whitelist
-
-Buat file `whitelist.txt` di direktori root proyek. Isi file ini dengan Common Name (CN) dari sertifikat klien yang diizinkan untuk terhubung, satu CN per baris. Contoh:
-
-```
-client1
-client2
-user_A
-```
-
-#### 2. Pembaruan Certs(Opsional
-
-```python
-rm certs/ca.key certs/ca.crt
-python generate_certs.py
-```
-
-
-
-#### 3. Menjalankan Server
-
-Buka terminal atau command prompt, navigasi ke direktori root proyek, dan jalankan:
+#### Jalankan Server Secara Manual
 
 ```bash
 python server.py
 ```
 
-Server akan mulai berjalan dan mendengarkan koneksi di `0.0.0.0:8443` (default). Log akan ditampilkan di konsol dan juga disimpan di `chat_server.log`.
+* Server akan berjalan di `localhost:8443`.
+* Server akan menunggu koneksi dari klien.
+* Hanya klien dengan sertifikat yang valid dan berada dalam whitelist yang bisa masuk.
 
-#### 4. Menjalankan Klien
+#### Jalankan Klien Secara Manual
 
-Setiap klien memerlukan sertifikat dan kunci yang sesuai.
+```bash
+python client.py --cert client1
+```
 
-- **Mode GUI (Default)**:
-  Buka terminal baru untuk setiap klien, navigasi ke direktori root, dan jalankan:
+* `--cert client1` menunjukkan sertifikat dan private key klien yang digunakan (client1.crt dan client1.key).
+* `--server_fingerprint` adalah fingerprint SHA-256 dari sertifikat server.
+* Jika fingerprint tidak diberikan, verifikasi fingerprint akan dilewati (kurang aman).
 
-  ```bash
-  # Untuk client1
-  python client.py --cert client1
+### Penggunaan Otomatis dengan Skrip `run_all.py`
 
-  # Untuk client2 (di terminal lain)
-  python client.py --cert client2
-  ```
+Skrip ini memudahkan proses demo/testing dengan cara:
 
-  Ganti `client1` atau `client2` dengan nama file sertifikat klien yang sesuai (tanpa ekstensi `.crt` atau `.key`).
-  Klien akan mencoba terhubung ke `localhost:8443` secara default.
+1. Otomatis membaca **fingerprint SHA-256** dari `server.crt` menggunakan `openssl`.
+2. Menjalankan **server** TLS (`server.py`).
+3. Menjalankan **tiga klien** (client1, client2, client3) dengan sertifikat masing-masing.
+4. Memberikan fingerprint server ke semua klien untuk verifikasi.
 
-
-#### 5. Menjalankan Skenario Uji (Server dan Beberapa Klien)
-
-Skrip `run_all.py` disediakan untuk memudahkan menjalankan server dan tiga klien (`client1`, `client2`, `client3`) secara otomatis dalam mode CLI. Skrip ini juga akan mencoba mendapatkan fingerprint server dan meneruskannya ke klien.
+#### Jalankan Skrip:
 
 ```bash
 python run_all.py
 ```
 
-Ini akan menjalankan proses di background atau di terminal yang sama (tergantung OS dan konfigurasi). Anda mungkin perlu menutupnya secara manual.
+#### Setelah dijalankan:
 
-#### 6. Menjalankan Unit Tests
+* Server dan klien akan berjalan di background.
+* Setiap klien akan langsung terhubung ke server menggunakan TLS.
+* Semua komunikasi akan dienkripsi dan diverifikasi.
+* Kamu bisa mengetik pesan dari masing-masing klien untuk melihat broadcast antar pengguna.
+* Di akhir, terminal akan menampilkan prompt: `Tekan Enter untuk mencoba menghentikan server dan klien...`
 
-Unit test ditulis menggunakan modul `unittest` Python dan berada di `test_chat.py`.
+  * Tekan Enter agar skrip mencoba menghentikan semua proses.
 
-1.  **Sertifikat Klien Tidak Valid (untuk testing)**:
-    Beberapa tes memerlukan sertifikat klien yang _tidak_ ditandatangani oleh CA Anda untuk memverifikasi penolakan koneksi. Buat sertifikat self-signed atau sertifikat yang ditandatangani oleh CA lain dan letakkan sebagai `certs/client_invalid.crt` dan `certs/client_invalid.key`. Contoh perintah untuk membuat sertifikat self-signed (yang akan dianggap tidak valid oleh server kita):
+> **Catatan**: Jika proses tidak berhenti otomatis, kamu bisa menutup terminal secara manual atau menghentikan proses dari task manager.
 
-    ```bash
-    openssl genrsa -out certs/client_invalid.key 2048
-    openssl req -new -key certs/client_invalid.key -out certs/client_invalid.csr -subj "/CN=invalid_client/O=Test/OU=TestUnit"
-    openssl x509 -req -days 365 -in certs/client_invalid.csr -signkey certs/client_invalid.key -out certs/client_invalid.crt
-    ```
+### Struktur Direktori
 
-2.  **Menjalankan Tes**:
-    Navigasi ke direktori root proyek dan jalankan:
-    ```bash
-    python test_chat.py
-    ```
-    Tes akan dijalankan, dan hasilnya akan ditampilkan di konsol.
+```
+Kriptografi-B-FP-Kelompok-4/
+├── certs/                    # Sertifikat dan kunci
+│   ├── ca.crt, ca.key
+│   ├── server.crt, server.key
+│   ├── client1.crt, client1.key
+│   ├── client2.crt, client2.key
+│   ├── client3.crt, client3.key
+│   └── client_invalid.*      # Sertifikat testing tidak valid (opsional)
+├── client.py                 # Skrip klien
+├── server.py                 # Skrip server
+├── generate_certs.py         # Generator sertifikat
+├── run_all.py                # Jalankan server & 3 klien otomatis
+├── whitelist.txt             # Daftar CN yang diizinkan (whitelist)
+├── test_chat.py              # Unit test
+├── requirements.txt          # Dependensi (opsional)
+├── *.log                     # Log aktivitas
+└── README.md                 # Dokumentasi
+```
 
-#### Fitur Utama
+### Konfigurasi Whitelist
 
-- Komunikasi terenkripsi TLS 1.2/1.3.
-- Verifikasi sertifikat dua arah (klien memverifikasi server, server memverifikasi klien).
-- Whitelist pengguna berdasarkan Common Name (CN) di sertifikat klien.
-- Ekstraksi dan logging detail sertifikat (CN, O, OU).
-- Verifikasi fingerprint sertifikat server di sisi klien (opsional, untuk mitigasi MITM).
-- Komunikasi non-blocking menggunakan threading.
-- Antarmuka pengguna grafis (GUI) dan mode baris perintah (CLI) untuk klien.
-- Logging aktivitas server dan klien.
-- Unit tests untuk fungsionalitas inti.
-- Skrip untuk automasi menjalankan beberapa instance.
+Isi `whitelist.txt` dengan Common Name (CN) dari sertifikat klien yang diperbolehkan:
 
-#### Troubleshooting
+```
+client1
+client2
+client3
+```
 
-- **Error `[SSL: CERTIFICATE_VERIFY_FAILED]`**: Ini biasanya berarti sertifikat yang diterima tidak dapat diverifikasi terhadap CA yang dipercaya.
-  - Pastikan `ca.crt` yang digunakan oleh klien sama dengan yang menandatangani `server.crt`.
-  - Pastikan `ca.crt` yang digunakan oleh server sama dengan yang menandatangani sertifikat klien.
-  - Pastikan Common Name (CN) di sertifikat server cocok dengan hostname yang coba dihubungi klien (jika `check_hostname=True`, meskipun saat ini `False` di kode).
-  - Pastikan sertifikat belum kedaluwarsa.
-- **Koneksi Ditolak (Connection Refused)**: Pastikan server sudah berjalan dan mendengarkan di host dan port yang benar.
-- **Klien Ditolak dari Whitelist**: Pastikan CN di sertifikat klien (misal, `client1`) ada di file `whitelist.txt`.
-- **`openssl` tidak ditemukan**: Pastikan OpenSSL terinstall dan path ke executable-nya ada di environment variable `PATH` sistem Anda.
-- **Masalah GUI Tkinter**: Jika ada error terkait Tkinter, pastikan modul `tkinter` terinstall dengan benar bersama instalasi Python Anda (biasanya sudah termasuk, tapi bisa jadi tidak pada instalasi minimal).
+### Unit Testing
+
+Unit test tersedia di `test_chat.py` atau `tests/tests_tls.py`. Untuk menjalankannya:
+
+```bash
+pytest tests/tests_tls.py
+```
+
+Untuk membuat sertifikat tidak valid (optional, untuk pengujian penolakan koneksi):
+
+```bash
+openssl genrsa -out certs/client_invalid.key 2048
+openssl req -new -key certs/client_invalid.key -out certs/client_invalid.csr -subj "/CN=invalid_client"
+openssl x509 -req -days 365 -in certs/client_invalid.csr -signkey certs/client_invalid.key -out certs/client_invalid.crt
+```
+
+### Troubleshooting
+
+* `openssl tidak ditemukan`: Pastikan sudah terinstall dan berada di PATH.
+* `CERTIFICATE_VERIFY_FAILED`: Cek apakah ca.crt sesuai, dan CN ada dalam whitelist.
+* GUI error: Pastikan Tkinter tersedia di Python.
+* Klien tidak konek: Cek apakah `server.py` sedang aktif.
+* Fingerprint mismatch: Pastikan fingerprint server yang digunakan sama dengan yang dimiliki klien.
+
+### Dokumentasi & Tampilan
+
+![whitelist](/img/7-whitelist-server.png)
+![whitelist](/img/7-whitelist-client.png)
+![tampilan-GUI](/img/tampilan-GUI.png)
 
 ---
+
+Dengan skrip `run_all.py`, proses simulasi server dan 3 klien dapat dijalankan sekaligus secara otomatis, mendemonstrasikan implementasi sistem chat berbasis TLS secara lengkap dan efisien.
