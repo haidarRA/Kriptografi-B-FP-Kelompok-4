@@ -213,6 +213,7 @@ class ChatGUI(tk.Frame):
 def main():
     parser = argparse.ArgumentParser(description='TLS Chat Client')
     parser.add_argument('--cert', required=True, help='Nama sertifikat (tanpa .crt)')
+    parser.add_argument('--server_fingerprint', help='Fingerprint SHA-256 server untuk verifikasi')
     args = parser.parse_args()
 
     cert_path = f'certs/{args.cert}.crt'
@@ -226,7 +227,7 @@ def main():
     client = TLSChatClient(
         host='localhost', port=8443,
         cert_path=cert_path, key_path=key_path,
-        gui_queue=gui_queue
+        gui_queue=gui_queue,
     )
 
     # Jalankan client di thread terpisah
