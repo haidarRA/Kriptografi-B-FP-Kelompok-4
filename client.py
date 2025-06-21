@@ -195,91 +195,70 @@ class ChatGUI(tk.Frame):
     def create_widgets(self):
         # Configure grid weights
         self.columnconfigure(0, weight=1)
-        self.rowconfigure(1, weight=3)
-        self.rowconfigure(3, weight=1)
+        self.rowconfigure(1, weight=3) # chat display
+        self.rowconfigure(2, weight=0) # input area
+        self.rowconfigure(3, weight=1) # log display
 
-        # Status Label with security indicator - LARGER FONT
+        # Status Label
         self.status_label = ttk.Label(self, text="Status: Menghubungkan...", font=('Helvetica', 16, 'bold'))
-        self.status_label.grid(row=0, column=0, sticky="ew", pady=(0,10))
-        
-        # Chat Display with better styling - LARGER FONT
+        self.status_label.grid(row=0, column=0, sticky="ew", pady=(0, 10))
+
+        # Chat Display
         self.chat_display = scrolledtext.ScrolledText(
-            self, 
-            state='disabled', 
-            wrap=tk.WORD,
-            font=('Helvetica', 14),  # Increased from 13 to 14
-            background='#f0f0f0',
-            foreground='#000000',
-            height=15
+            self, state='disabled', wrap=tk.WORD, font=('Helvetica', 14),
+            background='#f0f0f0', foreground='#000000', height=15
         )
-        self.chat_display.grid(row=1, column=0, sticky="nsew", pady=(0,10))
-        
-        # Input Frame with better styling
-        input_frame = ttk.Frame(self)
-        input_frame.grid(row=2, column=0, sticky="ew", pady=(0,10))
-        input_frame.columnconfigure(0, weight=1)
-        
-        # Message Input - LARGER FONT
-        self.message_input = ttk.Entry(
-            input_frame,
-            font=('Helvetica', 14)  # Increased from 13 to 14
-        )
-        self.message_input.grid(row=0, column=0, sticky="ew", padx=(0,10))
-        self.message_input.bind("<Return>", self.send_message_from_gui)
-        
-        # Send Button - LARGER FONT
+        self.chat_display.grid(row=1, column=0, sticky="nsew", pady=(0, 10))
+
+        # --- Main Input Frame (Buttons + Text Input) ---
+        main_input_frame = ttk.Frame(self)
+        main_input_frame.grid(row=2, column=0, sticky="ew", pady=(0, 10))
+        main_input_frame.columnconfigure(0, weight=1)
+
+        # --- Button Bar ---
+        button_frame = ttk.Frame(main_input_frame)
+        button_frame.grid(row=0, column=0, sticky="ew", pady=(0, 5))
+        # Buttons are packed into this frame
+
         send_text = "🔐 Kirim" if self.client.message_security else "Kirim"
         self.send_button = ttk.Button(
-            input_frame, 
-            text=send_text,
-            command=self.send_message_from_gui,
-            style='Accent.TButton'
+            button_frame, text=send_text, command=self.send_message_from_gui, style='Accent.TButton'
         )
-        self.send_button.grid(row=0, column=1)
+        self.send_button.pack(side=tk.RIGHT)
 
-        # File Upload Button (for sending images)
-        self.upload_button = ttk.Button(
-            input_frame, 
-            text="📎 Kirim Gambar", 
-            command=self.upload_file, 
-            style='Accent.TButton'
-        )
-        self.upload_button.grid(row=0, column=2, padx=10)
-        self.upload_button.config(state='disabled') # Nonaktifkan karena belum diimplementasikan
-        
-        # Add User button
-        self.add_user_button = ttk.Button(
-            input_frame,
-            text="➕ Tambah User",
-            command=self.add_user,
-            style='Accent.TButton'
-        )
-        self.add_user_button.grid(row=0, column=3, padx=(0, 10))
-
-        # Delete User button
         self.delete_user_button = ttk.Button(
-            input_frame,
-            text="➖ Hapus User",
-            command=self.delete_user,
-            style='Accent.TButton'
+            button_frame, text="➖ Hapus User", command=self.delete_user, style='Accent.TButton'
         )
-        self.delete_user_button.grid(row=0, column=4, padx=(0, 10))
+        self.delete_user_button.pack(side=tk.RIGHT, padx=5)
 
-        # Log Display with better styling - LARGER FONT
+        self.add_user_button = ttk.Button(
+            button_frame, text="➕ Tambah User", command=self.add_user, style='Accent.TButton'
+        )
+        self.add_user_button.pack(side=tk.RIGHT, padx=(0, 5))
+        
+        self.upload_button = ttk.Button(
+            button_frame, text="📎 Kirim Gambar", command=self.upload_file, style='Accent.TButton'
+        )
+        self.upload_button.pack(side=tk.LEFT)
+        self.upload_button.config(state='disabled')
+
+        # --- Message Input Area ---
+        self.message_input = tk.Text(
+            main_input_frame, font=('Helvetica', 14), height=3, wrap=tk.WORD
+        )
+        self.message_input.grid(row=1, column=0, sticky="nsew") # Sits below the button frame
+        self.message_input.bind("<Return>", self.send_message_from_gui)
+
+        # Log Display
         self.log_display = scrolledtext.ScrolledText(
-            self, 
-            state='disabled', 
-            wrap=tk.WORD, 
-            height=8,
-            font=('Helvetica', 12),  # Increased from 9 to 12
-            background='#f8f8f8',
-            foreground='#333333'
+            self, state='disabled', wrap=tk.WORD, height=8, font=('Helvetica', 12),
+            background='#f8f8f8', foreground='#333333'
         )
         self.log_display.grid(row=3, column=0, sticky="nsew")
         
-        # Configure custom styles with LARGER FONTS
+        # Styles
         style = ttk.Style()
-        style.configure('Accent.TButton', font=('Helvetica', 14))  # Increased from 13 to 14
+        style.configure('Accent.TButton', font=('Helvetica', 14))
         
         self.update_ui(False)
 
@@ -333,7 +312,7 @@ class ChatGUI(tk.Frame):
             self.status_label.config(foreground='red')
 
     def send_message_from_gui(self, event=None):
-        message = self.message_input.get().strip()
+        message = self.message_input.get("1.0", tk.END).strip()
         if message and self.client.is_running():
             # Pesan tidak lagi ditampilkan langsung ke GUI dari sini,
             # biarkan server yang mengirim balik untuk konsistensi (misal: PM, Grup)
@@ -348,7 +327,9 @@ class ChatGUI(tk.Frame):
             if not message.startswith('/'):
                 self.add_to_display(self.chat_display, my_message)
 
-            self.message_input.delete(0, tk.END)
+            self.message_input.delete("1.0", tk.END)
+        
+        return "break" # Mencegah tombol Return membuat baris baru di input
 
     def upload_file(self):
         # Fungsi ini dinonaktifkan sementara

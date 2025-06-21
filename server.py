@@ -638,9 +638,23 @@ Perintah Grup:
 
 if __name__ == "__main__":
     server = EnhancedTLSChatServer()
+    
+    # Jalankan server di thread terpisah agar tidak memblokir input
+    server_thread = threading.Thread(target=server.start)
+    server_thread.daemon = True  # Memastikan thread server berhenti jika program utama keluar
+    server_thread.start()
+
+    print("\nServer sedang berjalan. Tekan ENTER untuk menghentikan server.")
+    
     try:
-        server.start()
+        # Blokir thread utama di sini sampai pengguna menekan Enter
+        input()
     except KeyboardInterrupt:
+        # Jika pengguna menekan Ctrl+C, tetap tangani dengan baik
         print("\nCtrl+C terdeteksi. Menghentikan server.")
     finally:
-        server.stop()
+        # Hentikan server dengan bersih
+        if server.running:
+            server.stop()
+    
+    print("Server telah dihentikan.")
