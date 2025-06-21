@@ -7,7 +7,7 @@ import os
 import argparse
 import hashlib
 import tkinter as tk
-from tkinter import ttk, scrolledtext, messagebox
+from tkinter import ttk, scrolledtext, messagebox, simpledialog
 from datetime import datetime
 from typing import Optional
 import queue
@@ -37,6 +37,7 @@ class TLSChatClient:
         self.client_id = os.path.basename(cert_path).split('.')[0]
         self.ssl_socket: Optional[ssl.SSLSocket] = None
         self.stop_event = threading.Event()
+        self.history_file = f"history_{self.client_id}.log"
         
         # Initialize security components
         self.message_security = None
@@ -88,29 +89,35 @@ class TLSChatClient:
                     if not data:
                         break
                     
-                    # Try to decode and verify messages
                     raw_message = data.decode('utf-8').strip()
-                    if self.message_security:
-                        try:
-                            # Try to verify as signed message
-                            verified_data = self.message_security.verify_message(raw_message)
-                            if verified_data['verified']:
-                                formatted_message = f"🔐✅ [{verified_data['sender']}] {verified_data['content']}"
-                            else:
-                                formatted_message = f"⚠️ [{verified_data.get('sender', 'Unknown')}] {verified_data['content']}"
-                            self._update_gui('message', formatted_message)
-                        except:
-                            # Fallback: treat as regular message
-                            messages = raw_message.split('\n')
-                            for message in messages:
-                                if message: 
-                                    self._update_gui('message', message)
+                    
+                    # Coba periksa apakah ini pesan JSON (ditandatangani)
+                    try:
+                        json.loads(raw_message)
+                        is_json = True
+                    except json.JSONDecodeError:
+                        is_json = False
+
+                    if is_json and self.message_security:
+                        # Ini adalah pesan JSON, proses sebagai pesan yang ditandatangani
+                        verified_data = self.message_security.verify_message(raw_message)
+                        if verified_data['verified']:
+                            formatted_message = f"🔐✅ [{verified_data['sender']}] {verified_data['content']}"
+                        else:
+                            formatted_message = f"⚠️ [{verified_data.get('sender', 'Unknown')}] {verified_data['content']}"
+                        
+                        self._update_gui('message', formatted_message)
+                        self.save_message_to_history(formatted_message)
                     else:
-                        # No security - regular messages
+                        # Ini adalah pesan plaintext (sistem atau notifikasi)
                         messages = raw_message.split('\n')
                         for message in messages:
                             if message: 
                                 self._update_gui('message', message)
+                                # Hanya simpan ke riwayat jika ini benar-benar pesan chat
+                                if self._is_plaintext_chat_message(message):
+                                    self.save_message_to_history(message)
+
                 except socket.timeout:
                     continue
                 except (ConnectionResetError, BrokenPipeError, ssl.SSLError, OSError):
@@ -135,6 +142,31 @@ class TLSChatClient:
                 self._update_gui('log', f"ERROR saat mengirim: {e}")
                 self.stop()
 
+    def save_message_to_history(self, text: str):
+        """Menyimpan satu baris teks ke file riwayat lokal dengan timestamp."""
+        try:
+            timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            with open(self.history_file, 'a', encoding='utf-8') as f:
+                f.write(f"[{timestamp}] {text.strip()}\n")
+        except Exception as e:
+            self._update_gui('log', f"Gagal menyimpan riwayat: {e}")
+
+    def _is_plaintext_chat_message(self, message: str) -> bool:
+        """Mengecek apakah pesan plaintext dari server adalah pesan chat, bukan sistem/info."""
+        message = message.strip()
+        
+        # Pesan konfirmasi untuk diri sendiri (PM terkirim) tidak disimpan.
+        if message.startswith('[PM ke'):
+            return False
+            
+        # Pesan chat yang valid harus dimulai dengan '[' (dari grup, PM, atau broadcast)
+        # dan mengandung ']' untuk menghindari false positive.
+        if message.startswith('[') and ']' in message:
+            return True
+            
+        # Semua pesan lain (help text, notifikasi 📢, error) dianggap bukan chat.
+        return False
+
     def stop(self):
         if self.stop_event.is_set(): return
         self.stop_event.set()
@@ -158,6 +190,7 @@ class ChatGUI(tk.Frame):
         self.pack(fill="both", expand=True, padx=15, pady=15)
         self.create_widgets()
         self.process_gui_queue()
+        self.load_history()
 
     def create_widgets(self):
         # Configure grid weights
@@ -212,6 +245,25 @@ class ChatGUI(tk.Frame):
             style='Accent.TButton'
         )
         self.upload_button.grid(row=0, column=2, padx=10)
+        self.upload_button.config(state='disabled') # Nonaktifkan karena belum diimplementasikan
+        
+        # Add User button
+        self.add_user_button = ttk.Button(
+            input_frame,
+            text="➕ Tambah User",
+            command=self.add_user,
+            style='Accent.TButton'
+        )
+        self.add_user_button.grid(row=0, column=3, padx=(0, 10))
+
+        # Delete User button
+        self.delete_user_button = ttk.Button(
+            input_frame,
+            text="➖ Hapus User",
+            command=self.delete_user,
+            style='Accent.TButton'
+        )
+        self.delete_user_button.grid(row=0, column=4, padx=(0, 10))
 
         # Log Display with better styling - LARGER FONT
         self.log_display = scrolledtext.ScrolledText(
@@ -260,11 +312,14 @@ class ChatGUI(tk.Frame):
         # Configure tags for different message types
         display_widget.tag_configure('message', foreground='#000000')
         display_widget.tag_configure('log', foreground='#666666')
+        display_widget.tag_configure('history', foreground='#404040', lmargin1=10, lmargin2=10)
 
     def update_ui(self, connected: bool):
         state = 'normal' if connected else 'disabled'
         self.message_input.config(state=state)
         self.send_button.config(state=state)
+        self.add_user_button.config(state=state)
+        self.delete_user_button.config(state=state)
         self.upload_button.config(state=state)  # Enable/disable file upload button
 
         # Security indicator in status
@@ -280,22 +335,71 @@ class ChatGUI(tk.Frame):
     def send_message_from_gui(self, event=None):
         message = self.message_input.get().strip()
         if message and self.client.is_running():
-            security_indicator = "🔐" if self.client.message_security else ""
-            self.add_to_display(self.chat_display, f"{security_indicator}[You] {message}")
+            # Pesan tidak lagi ditampilkan langsung ke GUI dari sini,
+            # biarkan server yang mengirim balik untuk konsistensi (misal: PM, Grup)
             self.client.send_message(message)
+            
+            # Simpan pesan 'You' secara lokal ke history file
+            my_message = f"[You] {message}"
+            if not message.startswith('/'): # Jangan simpan command ke history
+                self.client.save_message_to_history(my_message)
+                
+            # Jika itu bukan command, tampilkan di GUI sebagai [You]
+            if not message.startswith('/'):
+                self.add_to_display(self.chat_display, my_message)
+
             self.message_input.delete(0, tk.END)
 
     def upload_file(self):
-        file_path = filedialog.askopenfilename(
-            title="Pilih Gambar untuk Dikirim", 
-            filetypes=(("Image Files", "*.png;*.jpg;*.jpeg;*.gif"), ("All Files", "*.*"))
-        )
+        # Fungsi ini dinonaktifkan sementara
+        messagebox.showinfo("Info", "Fitur kirim file belum diimplementasikan sepenuhnya.")
+        return
+
+    def delete_user(self):
+        """Meminta nama pengguna untuk dihapus dan mengirimkan perintah ke server."""
+        if not self.client.is_running():
+            return
         
-        if file_path:
-            file_name = os.path.basename(file_path)
-            self.add_to_display(self.chat_display, f"📎 [You] Mengirim file: {file_name}")
-            self.client.send_message(f"📎 {file_name}")
-            # Implement file sending functionality if needed
+        username_to_delete = simpledialog.askstring("Hapus Pengguna", "Masukkan nama pengguna yang akan dihapus:", parent=self.master)
+        
+        if username_to_delete and username_to_delete.strip():
+            # Tampilkan dialog konfirmasi yang tegas
+            if messagebox.askyesno("Konfirmasi Hapus", f"Apakah Anda yakin ingin menghapus pengguna '{username_to_delete.strip()}' secara permanen?\n\nSertifikat dan akses akan dicabut.\nTindakan ini tidak dapat diurungkan.", parent=self.master):
+                command = f"/delete-user {username_to_delete.strip()}"
+                self.client.send_message(command)
+                self.add_to_display(self.log_display, f"Mengirim permintaan untuk menghapus pengguna: {username_to_delete.strip()}")
+            else:
+                self.add_to_display(self.log_display, "Penghapusan pengguna dibatalkan.")
+        else:
+            # Tidak perlu menampilkan pesan jika dialog hanya ditutup
+            pass
+
+    def add_user(self):
+        """Meminta nama pengguna baru dan mengirimkan perintah ke server."""
+        if not self.client.is_running():
+            return
+        
+        new_username = simpledialog.askstring("Tambah Pengguna Baru", "Masukkan nama pengguna baru:", parent=self.master)
+        
+        if new_username and new_username.strip():
+            command = f"/add-user {new_username.strip()}"
+            self.client.send_message(command)
+            self.add_to_display(self.log_display, f"Mengirim permintaan untuk menambah pengguna: {new_username.strip()}")
+        else:
+            self.add_to_display(self.log_display, "Penambahan pengguna dibatalkan.")
+
+    def load_history(self):
+        """Memuat riwayat chat dari file lokal dan menampilkannya."""
+        try:
+            if os.path.exists(self.client.history_file):
+                with open(self.client.history_file, 'r', encoding='utf-8') as f:
+                    history_content = f.read().strip()
+                    if history_content:
+                        self.add_to_display(self.chat_display, "--- Riwayat Chat Sebelumnya ---")
+                        self.add_to_display(self.chat_display, history_content, 'history')
+                        self.add_to_display(self.chat_display, "---------------------------------")
+        except Exception as e:
+            self.add_to_display(self.log_display, f"Gagal memuat riwayat: {e}")
 
     def on_closing(self):
         if messagebox.askokcancel("Keluar", "Apakah Anda yakin ingin keluar?"):

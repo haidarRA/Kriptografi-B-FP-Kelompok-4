@@ -1,5 +1,4 @@
 *.key
 venv
-certs
-chat_server.log
-client.log
+certs/
+*.log
