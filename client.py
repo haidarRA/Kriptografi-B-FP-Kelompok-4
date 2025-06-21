@@ -25,7 +25,7 @@ except ImportError:
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(threadName)s - %(message)s')
 logger = logging.getLogger(__name__)
 
-
+# Definisikan kelas TLSChatClient terlebih dahulu
 class TLSChatClient:
     def __init__(self, host: str, port: int, cert_path: str, key_path: str, gui_queue: queue.Queue, expected_fingerprint: str = None):
         self.host = host
@@ -78,7 +78,7 @@ class TLSChatClient:
                     self._update_gui('log', "✅ Server identity verified successfully")
             elif self.expected_fingerprint:
                 self._update_gui('log', "⚠️ MITM detection disabled (missing security components)")
-            
+
             self.ssl_socket.settimeout(1.0)
             self._update_gui('connection_status', {'connected': True, 'client_id': self.client_id})
 
@@ -111,7 +111,6 @@ class TLSChatClient:
                         for message in messages:
                             if message: 
                                 self._update_gui('message', message)
-                                
                 except socket.timeout:
                     continue
                 except (ConnectionResetError, BrokenPipeError, ssl.SSLError, OSError):
@@ -150,12 +149,13 @@ class TLSChatClient:
         return not self.stop_event.is_set()
 
 
+# Definisikan kelas ChatGUI setelah TLSChatClient
 class ChatGUI(tk.Frame):
     def __init__(self, master: tk.Tk, client: TLSChatClient):
         super().__init__(master)
         self.master = master
         self.client = client
-        self.pack(fill="both", expand=True, padx=10, pady=10)
+        self.pack(fill="both", expand=True, padx=15, pady=15)
         self.create_widgets()
         self.process_gui_queue()
 
@@ -165,33 +165,36 @@ class ChatGUI(tk.Frame):
         self.rowconfigure(1, weight=3)
         self.rowconfigure(3, weight=1)
 
-        # Status Label with security indicator
-        self.status_label = ttk.Label(self, text="Status: Menghubungkan...", font=('Helvetica', 10, 'bold'))
-        self.status_label.grid(row=0, column=0, sticky="ew", pady=(0,5))
+        # Status Label with security indicator - LARGER FONT
+        self.status_label = ttk.Label(self, text="Status: Menghubungkan...", font=('Helvetica', 16, 'bold'))
+        self.status_label.grid(row=0, column=0, sticky="ew", pady=(0,10))
         
-        # Chat Display with better styling
+        # Chat Display with better styling - LARGER FONT
         self.chat_display = scrolledtext.ScrolledText(
             self, 
             state='disabled', 
             wrap=tk.WORD,
-            font=('Helvetica', 10),
+            font=('Helvetica', 14),  # Increased from 13 to 14
             background='#f0f0f0',
-            foreground='#000000'
+            foreground='#000000',
+            height=15
         )
-        self.chat_display.grid(row=1, column=0, sticky="nsew", pady=(0,5))
+        self.chat_display.grid(row=1, column=0, sticky="nsew", pady=(0,10))
         
         # Input Frame with better styling
         input_frame = ttk.Frame(self)
-        input_frame.grid(row=2, column=0, sticky="ew", pady=(0,5))
+        input_frame.grid(row=2, column=0, sticky="ew", pady=(0,10))
         input_frame.columnconfigure(0, weight=1)
         
+        # Message Input - LARGER FONT
         self.message_input = ttk.Entry(
             input_frame,
-            font=('Helvetica', 10)
+            font=('Helvetica', 14)  # Increased from 13 to 14
         )
-        self.message_input.grid(row=0, column=0, sticky="ew", padx=(0,5))
+        self.message_input.grid(row=0, column=0, sticky="ew", padx=(0,10))
         self.message_input.bind("<Return>", self.send_message_from_gui)
         
+        # Send Button - LARGER FONT
         send_text = "🔐 Kirim" if self.client.message_security else "Kirim"
         self.send_button = ttk.Button(
             input_frame, 
@@ -200,22 +203,31 @@ class ChatGUI(tk.Frame):
             style='Accent.TButton'
         )
         self.send_button.grid(row=0, column=1)
-        
-        # Log Display with better styling
+
+        # File Upload Button (for sending images)
+        self.upload_button = ttk.Button(
+            input_frame, 
+            text="📎 Kirim Gambar", 
+            command=self.upload_file, 
+            style='Accent.TButton'
+        )
+        self.upload_button.grid(row=0, column=2, padx=10)
+
+        # Log Display with better styling - LARGER FONT
         self.log_display = scrolledtext.ScrolledText(
             self, 
             state='disabled', 
             wrap=tk.WORD, 
             height=8,
-            font=('Helvetica', 9),
+            font=('Helvetica', 12),  # Increased from 9 to 12
             background='#f8f8f8',
             foreground='#333333'
         )
         self.log_display.grid(row=3, column=0, sticky="nsew")
         
-        # Configure custom styles
+        # Configure custom styles with LARGER FONTS
         style = ttk.Style()
-        style.configure('Accent.TButton', font=('Helvetica', 10))
+        style.configure('Accent.TButton', font=('Helvetica', 14))  # Increased from 13 to 14
         
         self.update_ui(False)
 
@@ -253,7 +265,8 @@ class ChatGUI(tk.Frame):
         state = 'normal' if connected else 'disabled'
         self.message_input.config(state=state)
         self.send_button.config(state=state)
-        
+        self.upload_button.config(state=state)  # Enable/disable file upload button
+
         # Security indicator in status
         security_indicator = "🔐" if self.client.message_security else "⚠️"
         status_text = f"Status: {security_indicator} Terhubung sebagai {self.client.client_id}" if connected else "Status: Terputus"
@@ -271,6 +284,18 @@ class ChatGUI(tk.Frame):
             self.add_to_display(self.chat_display, f"{security_indicator}[You] {message}")
             self.client.send_message(message)
             self.message_input.delete(0, tk.END)
+
+    def upload_file(self):
+        file_path = filedialog.askopenfilename(
+            title="Pilih Gambar untuk Dikirim", 
+            filetypes=(("Image Files", "*.png;*.jpg;*.jpeg;*.gif"), ("All Files", "*.*"))
+        )
+        
+        if file_path:
+            file_name = os.path.basename(file_path)
+            self.add_to_display(self.chat_display, f"📎 [You] Mengirim file: {file_name}")
+            self.client.send_message(f"📎 {file_name}")
+            # Implement file sending functionality if needed
 
     def on_closing(self):
         if messagebox.askokcancel("Keluar", "Apakah Anda yakin ingin keluar?"):
@@ -306,12 +331,13 @@ def main():
     root = tk.Tk()
     title = f"🔐 Secure Chat - {os.path.basename(cert_path).split('.')[0]}" if SECURITY_AVAILABLE else f"Chat Client - {os.path.basename(cert_path).split('.')[0]}"
     root.title(title)
-    root.geometry("800x600")
+    root.geometry("900x700")  # Increased window size to accommodate larger fonts
     
+    # Configure styles with LARGER FONTS
     style = ttk.Style()
-    style.configure("TLabel", padding=5)
-    style.configure("TButton", padding=5)
-    style.configure("TEntry", padding=5)
+    style.configure("TLabel", padding=8, font=('Helvetica', 14))  # Increased padding and font
+    style.configure("TButton", padding=8, font=('Helvetica', 14))  # Increased padding and font
+    style.configure("TEntry", padding=8, font=('Helvetica', 14))   # Increased padding and font
     
     app = ChatGUI(root, client)
     root.protocol("WM_DELETE_WINDOW", app.on_closing)
