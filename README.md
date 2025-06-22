@@ -1,6 +1,5 @@
 # Kriptografi-B-FP-Kelompok-4
 
-
 ## TLS Chat Server
 
 Implementasi chat server yang aman menggunakan TLS dengan fitur:
@@ -12,6 +11,89 @@ Implementasi chat server yang aman menggunakan TLS dengan fitur:
 * Whitelist pengguna berbasis sertifikat
 * Fingerprint server verification (MITM mitigation)
 * Automasi skenario uji dengan skrip `run_all.py`
+
+### Dasar Program TLS Chat
+
+TLS Chat Server ini merupakan aplikasi komunikasi berbasis teks yang mengimplementasikan protokol **Transport Layer Security (TLS)** untuk memastikan **kerahasiaan (confidentiality)**, **keaslian (authenticity)**, dan **integritas (integrity)** data antara server dan klien.
+
+TLS bekerja di atas TCP dan menyediakan saluran komunikasi yang aman menggunakan:
+
+* **Enkripsi simetris** untuk menyandikan pesan.
+* **Enkripsi asimetris** (RSA/ECDSA) untuk otentikasi dan negosiasi kunci.
+* **Hashing** untuk menjamin integritas data.
+
+Setiap klien wajib memiliki **sertifikat digital** yang ditandatangani oleh otoritas sertifikat (**CA**) internal untuk dapat bergabung ke server.
+
+### Teori Dasar Kriptografi yang Mendukung
+
+Sistem ini memanfaatkan prinsip-prinsip dasar dalam kriptografi sebagai berikut:
+
+1. **Kriptografi Simetris**
+
+   * Digunakan untuk mengenkripsi seluruh komunikasi setelah sesi TLS berhasil dibentuk.
+   * Algoritma seperti AES digunakan untuk menjaga efisiensi dan kecepatan.
+
+2. **Kriptografi Asimetris (RSA)**
+
+   * Digunakan saat proses handshake TLS untuk autentikasi dan pertukaran kunci.
+   * Setiap entitas memiliki *public key* dan *private key* yang digunakan untuk enkripsi dan tanda tangan digital.
+
+3. **Sertifikat Digital & PKI (Public Key Infrastructure)**
+
+   * Sertifikat digunakan untuk menjamin identitas entitas.
+   * CA (Certificate Authority) menjadi entitas tepercaya yang menandatangani sertifikat server dan klien.
+
+4. **TLS Handshake**
+
+   * Proses negosiasi antara klien dan server yang mencakup:
+
+     * Verifikasi sertifikat.
+     * Negosiasi algoritma enkripsi.
+     * Pertukaran kunci (Diffie-Hellman atau RSA).
+     * Autentikasi dua arah (mutual authentication).
+
+5. **Hash Function (SHA-256)**
+
+   * Digunakan untuk menghasilkan fingerprint sertifikat.
+   * Fingerprint memungkinkan klien memverifikasi bahwa sertifikat server tidak dimodifikasi (mitigasi MITM).
+
+6. **Whitelist Berbasis Sertifikat**
+
+   * Server hanya mengizinkan klien yang Common Name (CN)-nya terdapat dalam daftar whitelist.
+   * Menambah lapisan kontrol akses dan pencegahan penyusup.
+
+### Kriptografi dan Algoritma yang Digunakan
+
+TLS Chat ini menggunakan elemen-elemen kriptografi berikut:
+
+1. **Asymmetric Cryptography (RSA)**
+
+   * Digunakan untuk autentikasi awal dan pertukaran kunci.
+   * Setiap entitas (server dan klien) memiliki **keypair**: `private key` dan `public key` yang terdapat dalam sertifikat digital.
+
+2. **Digital Certificate**
+
+   * File `.crt` dan `.key` disiapkan untuk masing-masing entitas.
+   * Sertifikat ini memuat informasi identitas (CN) dan digunakan untuk **verifikasi mutual** antara server dan klien.
+
+3. **TLS Handshake**
+
+   * Proses awal saat koneksi dibangun, mencakup:
+
+     * Verifikasi identitas dengan sertifikat.
+     * Negosiasi cipher suite.
+     * Pertukaran kunci simetris.
+     * Pembuatan session key untuk komunikasi terenkripsi.
+
+4. **Server Fingerprint Verification**
+
+   * SHA-256 fingerprint dari sertifikat server digunakan untuk menghindari serangan **Man-In-The-Middle (MITM)**.
+   * Klien dapat memverifikasi bahwa sertifikat server benar sesuai fingerprint.
+
+5. **Whitelist Filtering**
+
+   * Server hanya menerima klien yang Common Name (CN) sertifikatnya tercantum dalam `whitelist.txt`.
+   * Ini menambah **kontrol akses berbasis identitas digital**.
 
 ### Persyaratan
 
