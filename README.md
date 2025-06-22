@@ -1,16 +1,105 @@
 # Kriptografi-B-FP-Kelompok-4
 
+## TLS Chat Infrastructure & Certificate Management
+
+## Anggota
+
+| Nama                     | NRP          |
+| ------------------------ | ------------ |
+| Maulana Ahmad Zahiri     | `5027231010` |
+| Furqon Aryadana          | `5027231024` |
+| Haidar Rafi Aqyla        | `5027231029` |
+| Raditya Hardian Santoso  | `5027231033` |
+| Dionisius Marcel         | `5027231044` |
+| Danendra Fidel Khansa    | `5027231063` |
+| Johanes Edward Nathanael | `5027231067` |
+| Almendo Kambu            | `5027221073` |
+| Farand Febriansyah       | `5027231084` |
+
+## Pembagian Tugas
+
+### _1. TLS Infrastructure & Certificate Management_
+
+_Haidar (5027231029) – TLS & CA Setup_
+
+- Membuat Certificate Authority (CA) lokal (OpenSSL)
+- Generate dan tanda tangani sertifikat server & client
+- Menyiapkan direktori certs/ dan dokumen panduan sertifikat
+- Testing validasi mutual TLS (handshake, kepercayaan, trust store)
+
+### _2. Server Side Development_
+
+_Fidel (5027231063) – TLS Chat Server_
+
+- Membuat server socket berbasis TLS (Python ssl + socket)
+- Konfigurasi ssl.SSLContext dengan sertifikat server & verifikasi klien
+- Menerima koneksi dari banyak klien (threading/asynchronous)
+- Validasi identitas klien berdasarkan sertifikat
+
+_Furqon (5027231024) – Server-side Chat Logic_
+
+- Menangani broadcast pesan dari satu klien ke semua klien lain
+- Manajemen daftar klien aktif
+- Logging pesan yang masuk (optional)
+- Sistem handling disconnect & error handling
+
+### _3. Client Side Development_
+
+_Radit (5027231033) – TLS Chat Client_
+
+- Mengimplementasikan koneksi TLS ke server menggunakan ssl
+- Menyediakan sertifikat & kunci privat untuk autentikasi
+- Implementasi pengiriman pesan
+
+_Almendo (5027221073) – Client UI (CLI/GUI)_
+
+- Membuat tampilan antarmuka (CLI: input/output; atau GUI sederhana dengan Tkinter)
+- Antarmuka untuk mengirim dan menampilkan pesan secara real-time
+- Menampilkan status koneksi, error, notifikasi
+
+### _4. Asynchronous Communication_
+
+_Marcel (5027231044) – Asynchronous I/O (Client & Server)_
+
+- Refactor komunikasi (client/server) agar tidak blocking
+- Menggunakan threading, select, atau asyncio agar komunikasi real-time
+- Sinkronisasi pengiriman & penerimaan pesan di sisi klien/server
+
+### _5. Message Security & Identity Verification_
+
+_Maulana (5027231010) – Sertifikat dan Validasi Identity_
+
+- Mengekstrak dan menampilkan identitas dari sertifikat digital klien (CN, O, OU)
+- Menolak koneksi klien yang sertifikatnya tidak valid
+- Menambahkan whitelist user (opsional)
+
+_Jo (5027231067) – End-to-End Security Enhancements_
+
+- Verifikasi fingerprint sertifikat
+- Implementasi layer keamanan tambahan (opsional: message signature atau integrity check)
+- Deteksi MITM basic
+
+### _6. Testing, Deployment & Documentation_
+
+_Farand (5027231084) – QA & DevOps_
+
+- Menulis unit test (e.g. unittest, pytest) untuk modul TLS & komunikasi
+- Menyusun instruksi setup (README)
+- Automasi testing TLS handshake & koneksi klien
+- Menyiapkan script run (run_server.py, run_client.py)
+- Deployment lokal dan skenario uji (3 klien, 1 server)
+
 ## TLS Chat Server
 
 Implementasi chat server yang aman menggunakan TLS dengan fitur:
 
-* Server socket berbasis TLS (Python ssl + socket)
-* Konfigurasi SSL dengan sertifikat server & verifikasi klien
-* Dukungan multi-klien menggunakan threading
-* Validasi identitas klien berdasarkan sertifikat
-* Whitelist pengguna berbasis sertifikat
-* Fingerprint server verification (MITM mitigation)
-* Automasi skenario uji dengan skrip `run_all.py`
+- Server socket berbasis TLS (Python ssl + socket)
+- Konfigurasi SSL dengan sertifikat server & verifikasi klien
+- Dukungan multi-klien menggunakan threading
+- Validasi identitas klien berdasarkan sertifikat
+- Whitelist pengguna berbasis sertifikat
+- Fingerprint server verification (MITM mitigation)
+- Automasi skenario uji dengan skrip `run_all.py`
 
 ### Dasar Program TLS Chat
 
@@ -18,9 +107,9 @@ TLS Chat Server ini merupakan aplikasi komunikasi berbasis teks yang mengimpleme
 
 TLS bekerja di atas TCP dan menyediakan saluran komunikasi yang aman menggunakan:
 
-* **Enkripsi simetris** untuk menyandikan pesan.
-* **Enkripsi asimetris** (RSA/ECDSA) untuk otentikasi dan negosiasi kunci.
-* **Hashing** untuk menjamin integritas data.
+- **Enkripsi simetris** untuk menyandikan pesan.
+- **Enkripsi asimetris** (RSA/ECDSA) untuk otentikasi dan negosiasi kunci.
+- **Hashing** untuk menjamin integritas data.
 
 Setiap klien wajib memiliki **sertifikat digital** yang ditandatangani oleh otoritas sertifikat (**CA**) internal untuk dapat bergabung ke server.
 
@@ -30,37 +119,37 @@ Sistem ini memanfaatkan prinsip-prinsip dasar dalam kriptografi sebagai berikut:
 
 1. **Kriptografi Simetris**
 
-   * Digunakan untuk mengenkripsi seluruh komunikasi setelah sesi TLS berhasil dibentuk.
-   * Algoritma seperti AES digunakan untuk menjaga efisiensi dan kecepatan.
+   - Digunakan untuk mengenkripsi seluruh komunikasi setelah sesi TLS berhasil dibentuk.
+   - Algoritma seperti AES digunakan untuk menjaga efisiensi dan kecepatan.
 
 2. **Kriptografi Asimetris (RSA)**
 
-   * Digunakan saat proses handshake TLS untuk autentikasi dan pertukaran kunci.
-   * Setiap entitas memiliki *public key* dan *private key* yang digunakan untuk enkripsi dan tanda tangan digital.
+   - Digunakan saat proses handshake TLS untuk autentikasi dan pertukaran kunci.
+   - Setiap entitas memiliki _public key_ dan _private key_ yang digunakan untuk enkripsi dan tanda tangan digital.
 
 3. **Sertifikat Digital & PKI (Public Key Infrastructure)**
 
-   * Sertifikat digunakan untuk menjamin identitas entitas.
-   * CA (Certificate Authority) menjadi entitas tepercaya yang menandatangani sertifikat server dan klien.
+   - Sertifikat digunakan untuk menjamin identitas entitas.
+   - CA (Certificate Authority) menjadi entitas tepercaya yang menandatangani sertifikat server dan klien.
 
 4. **TLS Handshake**
 
-   * Proses negosiasi antara klien dan server yang mencakup:
+   - Proses negosiasi antara klien dan server yang mencakup:
 
-     * Verifikasi sertifikat.
-     * Negosiasi algoritma enkripsi.
-     * Pertukaran kunci (Diffie-Hellman atau RSA).
-     * Autentikasi dua arah (mutual authentication).
+     - Verifikasi sertifikat.
+     - Negosiasi algoritma enkripsi.
+     - Pertukaran kunci (Diffie-Hellman atau RSA).
+     - Autentikasi dua arah (mutual authentication).
 
 5. **Hash Function (SHA-256)**
 
-   * Digunakan untuk menghasilkan fingerprint sertifikat.
-   * Fingerprint memungkinkan klien memverifikasi bahwa sertifikat server tidak dimodifikasi (mitigasi MITM).
+   - Digunakan untuk menghasilkan fingerprint sertifikat.
+   - Fingerprint memungkinkan klien memverifikasi bahwa sertifikat server tidak dimodifikasi (mitigasi MITM).
 
 6. **Whitelist Berbasis Sertifikat**
 
-   * Server hanya mengizinkan klien yang Common Name (CN)-nya terdapat dalam daftar whitelist.
-   * Menambah lapisan kontrol akses dan pencegahan penyusup.
+   - Server hanya mengizinkan klien yang Common Name (CN)-nya terdapat dalam daftar whitelist.
+   - Menambah lapisan kontrol akses dan pencegahan penyusup.
 
 ### Kriptografi dan Algoritma yang Digunakan
 
@@ -68,38 +157,38 @@ TLS Chat ini menggunakan elemen-elemen kriptografi berikut:
 
 1. **Asymmetric Cryptography (RSA)**
 
-   * Digunakan untuk autentikasi awal dan pertukaran kunci.
-   * Setiap entitas (server dan klien) memiliki **keypair**: `private key` dan `public key` yang terdapat dalam sertifikat digital.
+   - Digunakan untuk autentikasi awal dan pertukaran kunci.
+   - Setiap entitas (server dan klien) memiliki **keypair**: `private key` dan `public key` yang terdapat dalam sertifikat digital.
 
 2. **Digital Certificate**
 
-   * File `.crt` dan `.key` disiapkan untuk masing-masing entitas.
-   * Sertifikat ini memuat informasi identitas (CN) dan digunakan untuk **verifikasi mutual** antara server dan klien.
+   - File `.crt` dan `.key` disiapkan untuk masing-masing entitas.
+   - Sertifikat ini memuat informasi identitas (CN) dan digunakan untuk **verifikasi mutual** antara server dan klien.
 
 3. **TLS Handshake**
 
-   * Proses awal saat koneksi dibangun, mencakup:
+   - Proses awal saat koneksi dibangun, mencakup:
 
-     * Verifikasi identitas dengan sertifikat.
-     * Negosiasi cipher suite.
-     * Pertukaran kunci simetris.
-     * Pembuatan session key untuk komunikasi terenkripsi.
+     - Verifikasi identitas dengan sertifikat.
+     - Negosiasi cipher suite.
+     - Pertukaran kunci simetris.
+     - Pembuatan session key untuk komunikasi terenkripsi.
 
 4. **Server Fingerprint Verification**
 
-   * SHA-256 fingerprint dari sertifikat server digunakan untuk menghindari serangan **Man-In-The-Middle (MITM)**.
-   * Klien dapat memverifikasi bahwa sertifikat server benar sesuai fingerprint.
+   - SHA-256 fingerprint dari sertifikat server digunakan untuk menghindari serangan **Man-In-The-Middle (MITM)**.
+   - Klien dapat memverifikasi bahwa sertifikat server benar sesuai fingerprint.
 
 5. **Whitelist Filtering**
 
-   * Server hanya menerima klien yang Common Name (CN) sertifikatnya tercantum dalam `whitelist.txt`.
-   * Ini menambah **kontrol akses berbasis identitas digital**.
+   - Server hanya menerima klien yang Common Name (CN) sertifikatnya tercantum dalam `whitelist.txt`.
+   - Ini menambah **kontrol akses berbasis identitas digital**.
 
 ### Persyaratan
 
-* Python 3.7+
-* OpenSSL (dapat dijalankan dari terminal)
-* Tkinter (GUI klien)
+- Python 3.7+
+- OpenSSL (dapat dijalankan dari terminal)
+- Tkinter (GUI klien)
 
 ### Instalasi
 
@@ -123,9 +212,9 @@ python generate_certs.py
 python server.py
 ```
 
-* Server akan berjalan di `localhost:8443`.
-* Server akan menunggu koneksi dari klien.
-* Hanya klien dengan sertifikat yang valid dan berada dalam whitelist yang bisa masuk.
+- Server akan berjalan di `localhost:8443`.
+- Server akan menunggu koneksi dari klien.
+- Hanya klien dengan sertifikat yang valid dan berada dalam whitelist yang bisa masuk.
 
 #### Jalankan Klien Secara Manual
 
@@ -133,9 +222,9 @@ python server.py
 python client.py --cert client1
 ```
 
-* `--cert client1` menunjukkan sertifikat dan private key klien yang digunakan (client1.crt dan client1.key).
-* `--server_fingerprint` adalah fingerprint SHA-256 dari sertifikat server.
-* Jika fingerprint tidak diberikan, verifikasi fingerprint akan dilewati (kurang aman).
+- `--cert client1` menunjukkan sertifikat dan private key klien yang digunakan (client1.crt dan client1.key).
+- `--server_fingerprint` adalah fingerprint SHA-256 dari sertifikat server.
+- Jika fingerprint tidak diberikan, verifikasi fingerprint akan dilewati (kurang aman).
 
 ### Penggunaan Otomatis dengan Skrip `run_all.py`
 
@@ -154,13 +243,13 @@ python run_all.py
 
 #### Setelah dijalankan:
 
-* Server dan klien akan berjalan di background.
-* Setiap klien akan langsung terhubung ke server menggunakan TLS.
-* Semua komunikasi akan dienkripsi dan diverifikasi.
-* Kamu bisa mengetik pesan dari masing-masing klien untuk melihat broadcast antar pengguna.
-* Di akhir, terminal akan menampilkan prompt: `Tekan Enter untuk mencoba menghentikan server dan klien...`
+- Server dan klien akan berjalan di background.
+- Setiap klien akan langsung terhubung ke server menggunakan TLS.
+- Semua komunikasi akan dienkripsi dan diverifikasi.
+- Kamu bisa mengetik pesan dari masing-masing klien untuk melihat broadcast antar pengguna.
+- Di akhir, terminal akan menampilkan prompt: `Tekan Enter untuk mencoba menghentikan server dan klien...`
 
-  * Tekan Enter agar skrip mencoba menghentikan semua proses.
+  - Tekan Enter agar skrip mencoba menghentikan semua proses.
 
 > **Catatan**: Jika proses tidak berhenti otomatis, kamu bisa menutup terminal secara manual atau menghentikan proses dari task manager.
 
@@ -214,11 +303,11 @@ openssl x509 -req -days 365 -in certs/client_invalid.csr -signkey certs/client_i
 
 ### Troubleshooting
 
-* `openssl tidak ditemukan`: Pastikan sudah terinstall dan berada di PATH.
-* `CERTIFICATE_VERIFY_FAILED`: Cek apakah ca.crt sesuai, dan CN ada dalam whitelist.
-* GUI error: Pastikan Tkinter tersedia di Python.
-* Klien tidak konek: Cek apakah `server.py` sedang aktif.
-* Fingerprint mismatch: Pastikan fingerprint server yang digunakan sama dengan yang dimiliki klien.
+- `openssl tidak ditemukan`: Pastikan sudah terinstall dan berada di PATH.
+- `CERTIFICATE_VERIFY_FAILED`: Cek apakah ca.crt sesuai, dan CN ada dalam whitelist.
+- GUI error: Pastikan Tkinter tersedia di Python.
+- Klien tidak konek: Cek apakah `server.py` sedang aktif.
+- Fingerprint mismatch: Pastikan fingerprint server yang digunakan sama dengan yang dimiliki klien.
 
 ### Dokumentasi & Tampilan
 
