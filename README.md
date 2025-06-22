@@ -296,6 +296,7 @@ Kriptografi-B-FP-Kelompok-4/
 ├── run_all.py                # Jalankan server & 3 klien otomatis
 ├── whitelist.txt             # Daftar CN yang diizinkan (whitelist)
 ├── test_chat.py              # Unit test
+├── security_enhancements.py  # Skrip Keamanan
 ├── requirements.txt          # Dependensi (opsional)
 ├── *.log                     # Log aktivitas
 └── README.md                 # Dokumentasi
