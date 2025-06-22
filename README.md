@@ -190,6 +190,28 @@ TLS Chat ini menggunakan elemen-elemen kriptografi berikut:
 - OpenSSL (dapat dijalankan dari terminal)
 - Tkinter (GUI klien)
 
+### Struktur Direktori
+
+```
+Kriptografi-B-FP-Kelompok-4/
+├── certs/                    # Sertifikat dan kunci
+│   ├── ca.crt, ca.key
+│   ├── server.crt, server.key
+│   ├── client1.crt, client1.key
+│   ├── client2.crt, client2.key
+│   ├── client3.crt, client3.key
+│   └── client_invalid.*      # Sertifikat testing tidak valid (opsional)
+├── client.py                 # Skrip klien
+├── server.py                 # Skrip server
+├── generate_certs.py         # Generator sertifikat
+├── run_all.py                # Jalankan server & 3 klien otomatis
+├── whitelist.txt             # Daftar CN yang diizinkan (whitelist)
+├── test_chat.py              # Unit test
+├── requirements.txt          # Dependensi (opsional)
+├── *.log                     # Log aktivitas
+└── README.md                 # Dokumentasi
+```
+
 ### Instalasi
 
 1. Install dependensi:
@@ -253,28 +275,6 @@ python run_all.py
 
 > **Catatan**: Jika proses tidak berhenti otomatis, kamu bisa menutup terminal secara manual atau menghentikan proses dari task manager.
 
-### Struktur Direktori
-
-```
-Kriptografi-B-FP-Kelompok-4/
-├── certs/                    # Sertifikat dan kunci
-│   ├── ca.crt, ca.key
-│   ├── server.crt, server.key
-│   ├── client1.crt, client1.key
-│   ├── client2.crt, client2.key
-│   ├── client3.crt, client3.key
-│   └── client_invalid.*      # Sertifikat testing tidak valid (opsional)
-├── client.py                 # Skrip klien
-├── server.py                 # Skrip server
-├── generate_certs.py         # Generator sertifikat
-├── run_all.py                # Jalankan server & 3 klien otomatis
-├── whitelist.txt             # Daftar CN yang diizinkan (whitelist)
-├── test_chat.py              # Unit test
-├── requirements.txt          # Dependensi (opsional)
-├── *.log                     # Log aktivitas
-└── README.md                 # Dokumentasi
-```
-
 ### Konfigurasi Whitelist
 
 Isi `whitelist.txt` dengan Common Name (CN) dari sertifikat klien yang diperbolehkan:
@@ -301,6 +301,52 @@ openssl req -new -key certs/client_invalid.key -out certs/client_invalid.csr -su
 openssl x509 -req -days 365 -in certs/client_invalid.csr -signkey certs/client_invalid.key -out certs/client_invalid.crt
 ```
 
+### Command yang dapat digunakan dalam chat
+
+Berikut adalah daftar perintah (command) yang dapat digunakan pada aplikasi chat (GUI/CLI):
+
+- **/help**
+  - Menampilkan daftar semua perintah yang tersedia beserta penjelasannya.
+- **/list**
+  - Melihat daftar pengguna yang sedang online di server.
+- **/time**
+  - Melihat waktu server saat ini.
+- **/history**
+  - Melihat 10 pesan terakhir yang ada di server.
+- **/quit**
+  - Keluar dari chat dan memutuskan koneksi dengan server.
+- **/pm <user> <pesan>**
+  - Mengirim pesan pribadi (private message) ke pengguna tertentu.
+  - Contoh: `/pm client2 Halo, apa kabar?`
+- **/ghelp**
+  - Menampilkan bantuan khusus untuk perintah grup chat.
+- **/creategroup <nama_grup> <user1> <user2> ...**
+  - Membuat grup chat baru dengan nama tertentu dan anggota yang dipilih.
+  - Contoh: `/creategroup kelompok1 client1 client2`
+- **/gmsg <nama_grup> <pesan>**
+  - Mengirim pesan ke grup tertentu.
+  - Contoh: `/gmsg kelompok1 Halo semua!`
+- **/joingroup <nama_grup>**
+  - Bergabung ke grup chat yang sudah ada.
+  - Contoh: `/joingroup kelompok1`
+- **/leavegroup <nama_grup>**
+  - Keluar dari grup chat tertentu.
+  - Contoh: `/leavegroup kelompok1`
+- **/listgroups**
+  - Melihat daftar semua grup chat yang aktif beserta anggotanya.
+- **/add-user <nama_baru>**
+  - Menambah pengguna baru ke whitelist dan otomatis membuatkan sertifikatnya.
+  - Contoh: `/add-user client4`
+- **/delete-user <nama_user>**
+  - Menghapus pengguna dari whitelist dan menghapus sertifikatnya.
+  - Contoh: `/delete-user client3`
+
+> **Catatan:**
+>
+> - Semua perintah diawali dengan tanda `/` (slash).
+> - Untuk perintah yang membutuhkan parameter (seperti nama user atau grup), pastikan penulisannya benar.
+> - Fitur-fitur seperti grup chat, private message, dan manajemen user hanya dapat digunakan jika Anda memiliki hak akses yang sesuai dan user/grup yang dimaksud memang ada.
+
 ### Troubleshooting
 
 - `openssl tidak ditemukan`: Pastikan sudah terinstall dan berada di PATH.
@@ -309,11 +355,36 @@ openssl x509 -req -days 365 -in certs/client_invalid.csr -signkey certs/client_i
 - Klien tidak konek: Cek apakah `server.py` sedang aktif.
 - Fingerprint mismatch: Pastikan fingerprint server yang digunakan sama dengan yang dimiliki klien.
 
-### Dokumentasi & Tampilan
+### Dokumentasi & Tampilan dari Uji Coba Fiturnya
 
-![whitelist](/img/7-whitelist-server.png)
-![whitelist](/img/7-whitelist-client.png)
-![tampilan-GUI](/img/tampilan-GUI.png)
+- Menyalakan Server
+  ![whitelist](/img/7-whitelist-server.png)
+- Masuk menjadi Klien
+  ![whitelist](/img/7-whitelist-client.png)
+- Tampilan GUI
+  ![tampilan-GUI](/img/tampilan-GUI.png)
+- Chat Komunal
+  ![tampilan-GUI](/img/chatkomunal.png)
+- Personal Message
+  ![tampilan-GUI](/img/personalmessage.png)
+- Add User dan Cert
+  ![tampilan-GUI](/img/adduserdancert.png)
+  ![tampilan-GUI](/img/adduserdancert2.png)
+- Delete User dan Cert
+  ![tampilan-GUI](/img/deleteuserdancert.png)
+  ![tampilan-GUI](/img/deleteuserdancert2.png)
+- Create Group
+  ![tampilan-GUI](/img/creategroup.png)
+- List Anggota Group
+  ![tampilan-GUI](/img/listgroup.png)
+- Group Chat
+  ![tampilan-GUI](/img/groupchat.png)
+- Log Chat Client
+  ![tampilan-GUI](/img/logchatclient.png)
+- Join Group
+  ![tampilan-GUI](/img/joingroup.png)
+- List Anggota Group After Join
+  ![tampilan-GUI](/img/listgroupafterjoin.png)
 
 ---
 
