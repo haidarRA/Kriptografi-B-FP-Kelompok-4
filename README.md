@@ -227,6 +227,52 @@ TLS Chat ini menggunakan elemen-elemen kriptografi berikut:
 10. **Log Aktivitas dan Audit**
     - Semua aktivitas penting (login, logout, pembuatan grup, penghapusan user, error, dsb) dicatat dalam log file, sehingga dapat dilakukan audit keamanan dan troubleshooting.
 
+### Arsitektur Sistem & Workflow
+
+![workflow](/img/workflow-kripto.jpg)
+Diagram di atas menggambarkan alur kerja TLS Chat Server dari awal koneksi hingga pengelolaan pesan.
+
+---
+
+### Penjelasan Workflow
+
+1. **Client Connect via TLS**  
+   Klien mencoba terhubung ke server menggunakan protokol TLS.
+
+2. **TLS Handshake**  
+   Tahapan awal di mana server dan klien melakukan negosiasi algoritma enkripsi dan saling bertukar sertifikat digital.
+
+3. **Verify Sertifikat**
+
+   - Server memverifikasi keaslian sertifikat klien.
+   - Klien memverifikasi fingerprint SHA-256 dari sertifikat server untuk mencegah serangan _Man-in-the-Middle_ (MITM).
+   - Sertifikat klien dicek apakah `Common Name (CN)`-nya termasuk dalam file whitelist server.
+
+4. **TLS Encrypted Channel Established**  
+   Jika semua proses verifikasi berhasil, maka terbentuklah saluran komunikasi yang terenkripsi dan aman menggunakan kunci simetris yang dinegosiasikan.
+
+5. **Client Sends Message or Command**  
+   Klien dapat mengirim:
+
+   - Pesan pribadi (private message)
+   - Pesan grup (group message)
+   - Perintah sistem (misalnya `/add-user`, `/delete-user`, dll)
+
+6. **Server Routes Message**  
+   Server akan meneruskan pesan atau perintah ke penerima sesuai tujuan:
+
+   - Jika pesan pribadi, server akan meneruskan ke klien tujuan.
+   - Jika pesan grup, server akan broadcast ke semua anggota grup.
+
+7. **Logging**  
+   Semua aktivitas penting akan dicatat oleh server ke dalam file log, meliputi:
+   - Login / Logout
+   - Pengiriman pesan (PM dan grup)
+   - Aktivitas administrasi (penambahan/penghapusan user)
+   - Error atau event keamanan lainnya
+
+---
+
 ### Persyaratan
 
 - Python 3.7+
