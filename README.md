@@ -113,6 +113,14 @@ TLS bekerja di atas TCP dan menyediakan saluran komunikasi yang aman menggunakan
 
 Setiap klien wajib memiliki **sertifikat digital** yang ditandatangani oleh otoritas sertifikat (**CA**) internal untuk dapat bergabung ke server.
 
+#### Penambahan Fitur Kompleks untuk Program TLS Chat:
+
+- **Mutual TLS Authentication**: Setiap koneksi antara klien dan server menggunakan mutual TLS authentication, sehingga baik server maupun klien harus membuktikan identitasnya menggunakan sertifikat digital yang valid. Hal ini mencegah klien tidak sah dan server palsu.
+- **Kontrol Akses Dinamis**: Server dapat menambah/menghapus pengguna secara dinamis melalui command `/add-user` dan `/delete-user`, yang secara otomatis memperbarui whitelist dan sertifikat digital tanpa perlu restart server.
+- **Manajemen Grup dan Pesan Pribadi**: Sistem mendukung pembuatan grup chat, pesan grup, dan pesan pribadi (private message) dengan command khusus, serta sinkronisasi status anggota secara real-time.
+- **Digital Signature & Message Integrity**: Setiap pesan yang dikirimkan oleh klien dapat ditandatangani secara digital menggunakan private key milik klien. Server akan memverifikasi tanda tangan digital ini menggunakan public key dari sertifikat klien. Dengan demikian, keaslian dan integritas pesan dapat dipastikan, serta mencegah pemalsuan pesan oleh pihak lain.
+- **Log Aktivitas dan Audit**: Semua aktivitas penting (login, logout, pembuatan grup, penghapusan user, error, dsb) dicatat dalam log file, sehingga dapat dilakukan audit keamanan dan troubleshooting.
+
 ### Teori Dasar Kriptografi yang Mendukung
 
 Sistem ini memanfaatkan prinsip-prinsip dasar dalam kriptografi sebagai berikut:
@@ -151,6 +159,22 @@ Sistem ini memanfaatkan prinsip-prinsip dasar dalam kriptografi sebagai berikut:
    - Server hanya mengizinkan klien yang Common Name (CN)-nya terdapat dalam daftar whitelist.
    - Menambah lapisan kontrol akses dan pencegahan penyusup.
 
+7. **Digital Signature (Tanda Tangan Digital)**
+
+   - Setiap pesan yang dikirim klien dapat ditandatangani secara digital menggunakan private key milik klien. Server akan memverifikasi tanda tangan ini untuk memastikan keaslian dan integritas pesan.
+   - Tanda tangan digital mencegah pemalsuan pesan dan memastikan pesan benar-benar dikirim oleh pemilik sertifikat.
+
+8. **Man-in-the-Middle (MITM) Detection**
+
+   - Klien dapat memverifikasi fingerprint sertifikat server sebelum membangun koneksi, sehingga dapat mendeteksi jika ada pihak ketiga yang mencoba menyisipkan diri di antara komunikasi (MITM attack).
+
+9. **Asynchronous Communication**
+
+   - Komunikasi antara server dan klien diimplementasikan secara asynchronous (menggunakan threading dan thread pool), sehingga setiap pesan dapat diproses secara real-time tanpa blocking.
+
+10. **Certificate Revocation (Penghapusan Sertifikat)**
+    - Server dapat menghapus pengguna dari whitelist dan menghapus sertifikat digitalnya secara otomatis, sehingga akses dapat dicabut secara instan.
+
 ### Kriptografi dan Algoritma yang Digunakan
 
 TLS Chat ini menggunakan elemen-elemen kriptografi berikut:
@@ -183,6 +207,25 @@ TLS Chat ini menggunakan elemen-elemen kriptografi berikut:
 
    - Server hanya menerima klien yang Common Name (CN) sertifikatnya tercantum dalam `whitelist.txt`.
    - Ini menambah **kontrol akses berbasis identitas digital**.
+
+6. **Digital Signature (RSA-PSS + SHA-256)**
+
+   - Pesan dapat ditandatangani menggunakan algoritma RSA-PSS dengan hash SHA-256. Signature ini diverifikasi oleh server untuk memastikan pesan tidak diubah dan benar-benar berasal dari pengirim yang sah.
+
+7. **Hashing untuk Integrity Check**
+
+   - Setiap pesan yang ditandatangani juga disertai hash SHA-256 dari isi pesan, sehingga integritas pesan dapat diverifikasi secara independen.
+
+8. **Certificate Management Automation**
+
+   - Penambahan dan penghapusan user secara otomatis akan memicu pembuatan atau penghapusan sertifikat digital melalui skrip Python, sehingga manajemen identitas lebih aman dan efisien.
+
+9. **Thread Pool Executor**
+
+   - Untuk efisiensi pengiriman pesan broadcast, server menggunakan thread pool executor agar pengiriman ke banyak klien tetap responsif dan tidak bottleneck.
+
+10. **Log Aktivitas dan Audit**
+    - Semua aktivitas penting (login, logout, pembuatan grup, penghapusan user, error, dsb) dicatat dalam log file, sehingga dapat dilakukan audit keamanan dan troubleshooting.
 
 ### Persyaratan
 
